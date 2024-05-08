@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import { useElementBounding, usePointerSwipe } from '@vueuse/core'
 import { computed, ref } from 'vue';
-import type { Crop, Settings, Shape } from '../types'
+import type { Crop, Settings, Shape, Tool } from '../types'
 
 const emit = defineEmits<{
   (e: 'crop', crop: Crop | undefined): void
 }>()
 const settings = defineModel<Settings>("settings", { default: () => ({
     tool: "line",
-    crop: undefined,
     thickness: 5,
     color: "red"
 })})
@@ -18,9 +17,11 @@ const history = defineModel<Shape[]>("history", { default: []})
 const crop = defineModel<Crop>("crop", { default: undefined})
 
 const container = ref()
-const activeShape = computed<Shape | undefined>(() => {
+const svgRef = ref()
+const activeShape = ref<Shape | undefined>()
+function updateActiveShape() {
     if (settings.value.tool === 'rectangle') {
-        return {
+        activeShape.value = {
             type: settings.value.tool,
             x: minX.value,
             y: minY.value,
@@ -30,8 +31,8 @@ const activeShape = computed<Shape | undefined>(() => {
             color: settings.value.color
         }
     }
-    if (settings.value.tool === 'line') {
-        return {
+    else if (settings.value.tool === 'line') {
+        activeShape.value = {
             type: settings.value.tool,
             x1: posStart.x - left.value,
             y1: posStart.y - top.value,
@@ -41,15 +42,18 @@ const activeShape = computed<Shape | undefined>(() => {
             color: settings.value.color
         }
     }
-    return undefined
-})
+    else {
+        activeShape.value = undefined
+    }
+}
+
 const allShapes = computed(() => activeShape.value ? [
     activeShape.value,
     ...history.value
 ] : history.value)
 
 
-const { posStart, posEnd, distanceX, distanceY, isSwiping } = usePointerSwipe(container, { 
+const { posStart, posEnd, distanceX, distanceY, isSwiping } = usePointerSwipe(svgRef, { 
     threshold: 0,
     onSwipe(e) {
         if (settings.value.tool === 'crop') {
@@ -60,15 +64,18 @@ const { posStart, posEnd, distanceX, distanceY, isSwiping } = usePointerSwipe(co
                 height: (maxY.value - minY.value),
             }
         }
+        else {
+            updateActiveShape()
+        }
     },
     onSwipeEnd() {
         if (settings.value.tool === 'crop') {
             emit('crop', crop.value)
         }
         else {
-            console.log(activeShape.value)
             if (activeShape.value) {
                 history.value.push(activeShape.value)
+                activeShape.value === undefined
             }
         }
     }
@@ -80,17 +87,26 @@ const minY = computed(() => Math.min(posStart.y - top.value, posEnd.y - top.valu
 const maxX = computed(() => Math.max(posStart.x - left.value, posEnd.x - left.value))
 const maxY = computed(() => Math.max(posStart.y - top.value, posEnd.y - top.value))
 
+function setTool(tool: Tool) {
+    settings.value.tool = tool
+}
+
 </script>
 
 <template>
     <div ref="container" class="container">
         <svg
+            ref="svgRef"
             :width="width"
             :height="height"
             class="absolute inset-0"
             :viewBox="`0 0 ${width} ${height}`"
             xmlns="http://www.w3.org/2000/svg"
         >
+            <template v-for="shape, i in allShapes">
+                <rect :key="i" v-if="shape.type === 'rectangle'" :x="shape.x" :y="shape.y" :width="shape.width" :height="shape.height" :stroke="shape.color" :stroke-width="shape.thickness"  />
+                <line :key="i" v-if="shape.type === 'line'" :x1="shape.x1" :y1="shape.y1" :x2="shape.x2" :y2="shape.y2" :stroke="shape.color" :stroke-width="shape.thickness"  />
+            </template>
             <path
                 v-if="crop"
                 class="overlay"
@@ -99,15 +115,11 @@ const maxY = computed(() => Math.max(posStart.y - top.value, posEnd.y - top.valu
                     M ${crop.x},${crop.y} H ${crop.x + crop.width} V ${crop.y + crop.height} H ${crop.x} Z
                 `"
             />
-            <template v-for="shape, i in allShapes">
-                <rect :key="i" v-if="shape.type === 'rectangle'" :x="shape.x" :y="shape.y" :width="shape.width" :height="shape.height" :stroke="shape.color" :stroke-width="shape.thickness"  />
-                <line :key="i" v-if="shape.type === 'line'" :x1="shape.x1" :y1="shape.y1" :x2="shape.x2" :y2="shape.y2" :stroke="shape.color" :stroke-width="shape.thickness"  />
-            </template>
         </svg>
         <div class="toolbar">
-            <button @click="settings.tool = 'crop'">Crop</button>
-            <button @click="settings.tool = 'line'">Line</button>
-            <button @click="settings.tool = 'rectangle'">Rectangle</button>
+            <button @click="setTool('crop')">Crop</button>
+            <button @click="setTool('line')">Line</button>
+            <button @click="setTool('rectangle')">Rectangle</button>
         </div>
     </div>
 </template>
