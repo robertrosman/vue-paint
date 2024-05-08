@@ -14,7 +14,7 @@ function onCrop(crop: Crop | undefined) {
 
 <style scoped>
 .vue-draw {
-  border: 1px dashed #777;
+  outline: 1px dashed #777;
   border-radius: 5px;
   width: 500px;
   height: 300px;
