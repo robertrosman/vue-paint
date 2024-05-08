@@ -17,12 +17,3 @@ const props = defineProps<{
     <line v-if="shape.type === 'arrow'" :x1="shape.x1" :y1="shape.y1" :x2="shape.x2" :y2="shape.y2"
         :stroke="shape.color" :stroke-width="shape.thickness" :marker-end="`url(#${getArrowId(shape)})`" />
 </template>
-
-<style scoped>
-rect,
-line {
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    fill-opacity: 0;
-}
-</style>

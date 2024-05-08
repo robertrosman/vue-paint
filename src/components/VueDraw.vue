@@ -8,6 +8,7 @@ import SvgShape from './SvgShape.vue';
 const emit = defineEmits<{
     (e: 'crop', crop: Crop | undefined): void
 }>()
+
 const settings = defineModel<Settings>("settings", {
     default: () => ({
         tool: "line",
@@ -23,6 +24,12 @@ const crop = defineModel<Crop>("crop", { default: undefined })
 const container = ref()
 const svgRef = ref()
 const activeShape = ref<Shape | undefined>()
+
+defineExpose({
+    svgRef,
+    container
+})
+
 function updateActiveShape() {
     if (settings.value.tool === 'rectangle') {
         activeShape.value = {
@@ -130,6 +137,18 @@ const arrowMarkers = computed(() =>
                     <polygon points="0,5 1.7,2.5 0,0 5,2.5" :fill="marker.color"></polygon>
                 </marker>
             </defs>
+            <svg:style>
+                rect,
+                line {
+                stroke-linecap: round;
+                stroke-linejoin: round;
+                fill-opacity: 0;
+                }
+                .overlay {
+                opacity: 0.7;
+                fill: #020202;
+                }
+            </svg:style>
         </svg>
         <div class="toolbar">
             <button @click="setTool('crop')">Crop</button>
@@ -151,11 +170,6 @@ const arrowMarkers = computed(() =>
 
 svg {
     z-index: 100;
-}
-
-.overlay {
-    opacity: 0.7;
-    fill: #020202;
 }
 
 .toolbar {
