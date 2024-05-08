@@ -18,7 +18,7 @@ export interface Crop {
     width: number
 }
 
-export type Shape = Rectangle | Line
+export type Shape = Rectangle | Line | Arrow
 
 export interface Rectangle {
     type: "rectangle"
@@ -40,4 +40,8 @@ export interface Line {
     color: string
 }
 
-export type Tool = "crop" | "line" | "rectangle"
+export interface Arrow extends Line {
+    type: "arrow"
+}
+
+export type Tool = "crop" | "line" | "rectangle" | "arrow"
