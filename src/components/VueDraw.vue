@@ -1,38 +1,41 @@
 <script setup lang="ts">
 import { useElementBounding, usePointerSwipe } from '@vueuse/core'
-import { computed, ref, watchEffect } from 'vue';
-import type { State, Crop, Shape } from '../types'
+import { computed, ref } from 'vue';
+import type { Crop, Settings, Shape } from '../types'
 
 const emit = defineEmits<{
   (e: 'crop', crop: Crop | undefined): void
 }>()
-const state = defineModel<State>({ default: () => ({
+const settings = defineModel<Settings>("settings", { default: () => ({
     crop: undefined,
-    history: [],
     thickness: 3,
     color: "red"
 })})
+
+const history = defineModel<Shape[]>("history", { default: []})
+
+const crop = defineModel<Crop>("crop", { default: undefined})
+
 const container = ref()
-const crop = ref<Crop>()
 const activeShape = computed(() => ({
-    type: state.value.tool,
+    type: settings.value.tool,
     x: minX.value,
     y: minY.value,
     width: (maxX.value - minX.value),
     height: (maxY.value - minY.value),
-    thickness: state.value.thickness,
-    color: state.value.color
+    thickness: settings.value.thickness,
+    color: settings.value.color
 }))
 const allShapes = computed(() => [
     activeShape.value,
-    ...state.value.history
+    ...history.value
 ])
 
 
 const { posStart, posEnd, distanceX, distanceY, isSwiping } = usePointerSwipe(container, { 
     threshold: 0,
     onSwipe(e) {
-        if (state.value.tool === 'crop') {
+        if (settings.value.tool === 'crop') {
             crop.value = {
                 x: minX.value,
                 y: minY.value,
@@ -42,20 +45,16 @@ const { posStart, posEnd, distanceX, distanceY, isSwiping } = usePointerSwipe(co
         }
     },
     onSwipeEnd() {
-        if (state.value.tool === 'crop') {
-            emit('crop', state.value.crop)
+        if (settings.value.tool === 'crop') {
+            emit('crop', crop.value)
         }
         else {
             console.log(activeShape.value)
-            state.value.history.push(activeShape.value)
+            history.value.push(activeShape.value)
         }
     }
 })
 const { top, left, width, height } = useElementBounding(container)
-
-watchEffect(() => {
-    state.value.crop = crop.value
-})
 
 const minX = computed(() => Math.min(posStart.x - left.value, posEnd.x - left.value))
 const minY = computed(() => Math.min(posStart.y - top.value, posEnd.y - top.value))
@@ -86,9 +85,9 @@ const maxY = computed(() => Math.max(posStart.y - top.value, posEnd.y - top.valu
             </template>
         </svg>
         <div class="toolbar">
-            <button @click="state.tool = 'crop'">Crop</button>
-            <button @click="state.tool = 'line'">Line</button>
-            <button @click="state.tool = 'rectangle'">Rectangle</button>
+            <button @click="settings.tool = 'crop'">Crop</button>
+            <button @click="settings.tool = 'line'">Line</button>
+            <button @click="settings.tool = 'rectangle'">Rectangle</button>
         </div>
     </div>
 </template>

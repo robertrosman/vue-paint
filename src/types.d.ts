@@ -1,8 +1,12 @@
 
 export interface State {
     crop?: Crop
-    tool: Tool
     history: Shape[]
+    settings: Settings
+}
+
+export interface Settings {
+    tool: Tool
     thickness: number
     color: string
 }

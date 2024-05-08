@@ -1,16 +1,15 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import VueDraw, { type Crop } from './components/VueDraw.vue'
-import { type State} from './components/VueDraw.vue'
-const state = ref<State>()
-function onCrop(crop: Crop) {
+import VueDraw from './components/VueDraw.vue'
+import type { Settings, Crop } from './types'
+const settings = ref<Settings>()
+function onCrop(crop: Crop | undefined) {
   console.log(crop)
 }
 </script>
 
 <template>
-  <vue-draw v-model="state" class="vue-draw" @crop="onCrop"></vue-draw>
-    {{ state }}
+  <vue-draw v-model:settings="settings" class="vue-draw" @crop="onCrop"></vue-draw>
 </template>
 
 <style scoped>
