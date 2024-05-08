@@ -1,61 +1,37 @@
 <script setup lang="ts">
-import { useElementBounding, usePointer } from '@vueuse/core'
-import { computed, ref, watch } from 'vue';
-
-export interface State {
-    crop?: Crop
-}
-
-export interface Crop {
-    x: number
-    y: number
-    height: number
-    width: number
-}
+import { useElementBounding, usePointerSwipe } from '@vueuse/core'
+import { computed, ref } from 'vue';
+import type { State, Crop } from '../types'
 
 const emit = defineEmits<{
-  (e: 'crop', crop: Crop): void
+  (e: 'crop', crop: Crop | undefined): void
 }>()
 const container = ref()
 const state = defineModel<State>({ default: () => ({
     crop: undefined
 })})
 
-const { x, y, pressure } = usePointer({ target: container })
+const { posStart, posEnd, distanceX, distanceY, isSwiping } = usePointerSwipe(container, { 
+    threshold: 0,
+    onSwipe(e) {
+        state.value.crop = {
+            x: minX.value,
+            y: minY.value,
+            width: (maxX.value - minX.value),
+            height: (maxY.value - minY.value),
+        }
+    },
+    onSwipeEnd() {
+        emit('crop', state.value.crop)
+    }
+})
 const { top, left, width, height } = useElementBounding(container)
 
-const startX = ref()
-const startY = ref()
-const minX = computed(() => Math.min(startX.value, x.value - left.value))
-const minY = computed(() => Math.min(startY.value, y.value - top.value))
-const maxX = computed(() => Math.max(startX.value, x.value - left.value))
-const maxY = computed(() => Math.max(startY.value, y.value - top.value))
+const minX = computed(() => Math.min(posStart.x - left.value, posEnd.x - left.value))
+const minY = computed(() => Math.min(posStart.y - top.value, posEnd.y - top.value))
+const maxX = computed(() => Math.max(posStart.x - left.value, posEnd.x - left.value))
+const maxY = computed(() => Math.max(posStart.y - top.value, posEnd.y - top.value))
 
-
-
-watch(pressure, async () => {
-  if (pressure.value) {
-    startX.value = x.value - left.value
-    startY.value = y.value - top.value
-  }
-  else {
-    emit('crop', state.value.crop)
-    startX.value = undefined
-    startY.value = undefined
-  }
-})
-
-
-watch([pressure, x, y], async () => {
-  if (pressure.value) {
-    state.value.crop = {
-        x: minX.value,
-        y: minY.value,
-        width: (maxX.value - minX.value),
-        height: (maxY.value - minY.value),
-    }
-  }
-})
 </script>
 
 <template>
@@ -68,7 +44,7 @@ watch([pressure, x, y], async () => {
             xmlns="http://www.w3.org/2000/svg"
         >
             <path
-            v-if="pressure && state.crop"
+            v-if="isSwiping && state.crop"
             class="overlay"
             :d="`
                 M 0,0 V ${height} H ${width} V 0 Z
