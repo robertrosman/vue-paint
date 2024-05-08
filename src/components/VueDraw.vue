@@ -72,17 +72,17 @@ const maxY = computed(() => Math.max(posStart.y - top.value, posEnd.y - top.valu
             :viewBox="`0 0 ${width} ${height}`"
             xmlns="http://www.w3.org/2000/svg"
         >
-            <path
-            v-if="crop"
-            class="overlay"
-            :d="`
-                M 0,0 V ${height} H ${width} V 0 Z
-                M ${crop.x},${crop.y} H ${crop.x + crop.width} V ${crop.y + crop.height} H ${crop.x} Z
-            `"
-            />
             <template v-for="shape, i in allShapes">
                 <rect :key="i" v-if="shape.type === 'rectangle'" :x="shape.x" :y="shape.y" :width="shape.width" :height="shape.height" :stroke="shape.color" :stroke-width="`${shape.thickness}px;`"  />
             </template>
+            <path
+                v-if="crop"
+                class="overlay"
+                :d="`
+                    M 0,0 V ${height} H ${width} V 0 Z
+                    M ${crop.x},${crop.y} H ${crop.x + crop.width} V ${crop.y + crop.height} H ${crop.x} Z
+                `"
+            />
         </svg>
         <div class="toolbar">
             <button @click="settings.tool = 'crop'">Crop</button>
