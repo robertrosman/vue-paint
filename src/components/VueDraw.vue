@@ -7,8 +7,9 @@ const emit = defineEmits<{
   (e: 'crop', crop: Crop | undefined): void
 }>()
 const settings = defineModel<Settings>("settings", { default: () => ({
+    tool: "line",
     crop: undefined,
-    thickness: 3,
+    thickness: 5,
     color: "red"
 })})
 
@@ -17,19 +18,35 @@ const history = defineModel<Shape[]>("history", { default: []})
 const crop = defineModel<Crop>("crop", { default: undefined})
 
 const container = ref()
-const activeShape = computed(() => ({
-    type: settings.value.tool,
-    x: minX.value,
-    y: minY.value,
-    width: (maxX.value - minX.value),
-    height: (maxY.value - minY.value),
-    thickness: settings.value.thickness,
-    color: settings.value.color
-}))
-const allShapes = computed(() => [
+const activeShape = computed<Shape | undefined>(() => {
+    if (settings.value.tool === 'rectangle') {
+        return {
+            type: settings.value.tool,
+            x: minX.value,
+            y: minY.value,
+            width: (maxX.value - minX.value),
+            height: (maxY.value - minY.value),
+            thickness: settings.value.thickness,
+            color: settings.value.color
+        }
+    }
+    if (settings.value.tool === 'line') {
+        return {
+            type: settings.value.tool,
+            x1: posStart.x - left.value,
+            y1: posStart.y - top.value,
+            x2: posEnd.x - left.value,
+            y2: posEnd.y - top.value,
+            thickness: settings.value.thickness,
+            color: settings.value.color
+        }
+    }
+    return undefined
+})
+const allShapes = computed(() => activeShape.value ? [
     activeShape.value,
     ...history.value
-])
+] : history.value)
 
 
 const { posStart, posEnd, distanceX, distanceY, isSwiping } = usePointerSwipe(container, { 
@@ -50,7 +67,9 @@ const { posStart, posEnd, distanceX, distanceY, isSwiping } = usePointerSwipe(co
         }
         else {
             console.log(activeShape.value)
-            history.value.push(activeShape.value)
+            if (activeShape.value) {
+                history.value.push(activeShape.value)
+            }
         }
     }
 })
@@ -72,9 +91,6 @@ const maxY = computed(() => Math.max(posStart.y - top.value, posEnd.y - top.valu
             :viewBox="`0 0 ${width} ${height}`"
             xmlns="http://www.w3.org/2000/svg"
         >
-            <template v-for="shape, i in allShapes">
-                <rect :key="i" v-if="shape.type === 'rectangle'" :x="shape.x" :y="shape.y" :width="shape.width" :height="shape.height" :stroke="shape.color" :stroke-width="`${shape.thickness}px;`"  />
-            </template>
             <path
                 v-if="crop"
                 class="overlay"
@@ -83,6 +99,10 @@ const maxY = computed(() => Math.max(posStart.y - top.value, posEnd.y - top.valu
                     M ${crop.x},${crop.y} H ${crop.x + crop.width} V ${crop.y + crop.height} H ${crop.x} Z
                 `"
             />
+            <template v-for="shape, i in allShapes">
+                <rect :key="i" v-if="shape.type === 'rectangle'" :x="shape.x" :y="shape.y" :width="shape.width" :height="shape.height" :stroke="shape.color" :stroke-width="shape.thickness"  />
+                <line :key="i" v-if="shape.type === 'line'" :x1="shape.x1" :y1="shape.y1" :x2="shape.x2" :y2="shape.y2" :stroke="shape.color" :stroke-width="shape.thickness"  />
+            </template>
         </svg>
         <div class="toolbar">
             <button @click="settings.tool = 'crop'">Crop</button>
@@ -101,7 +121,8 @@ svg {
     z-index: 100;
 }
 
-rect {
+rect, line {
+    stroke-linecap: round;
     stroke-linejoin: round;
     fill-opacity: 0;
 }

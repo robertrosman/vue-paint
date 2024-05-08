@@ -18,7 +18,7 @@ export interface Crop {
     width: number
 }
 
-export type Shape = Rectangle 
+export type Shape = Rectangle | Line
 
 export interface Rectangle {
     type: "rectangle"
@@ -26,6 +26,16 @@ export interface Rectangle {
     y: number
     height: number
     width: number
+    thickness: number
+    color: string
+}
+
+export interface Line {
+    type: "line"
+    x1: number
+    y1: number
+    x2: number
+    y2: number
     thickness: number
     color: string
 }

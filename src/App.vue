@@ -9,7 +9,7 @@ function onCrop(crop: Crop | undefined) {
 </script>
 
 <template>
-  <vue-draw v-model:settings="settings" class="vue-draw" @crop="onCrop"></vue-draw>
+  <vue-draw class="vue-draw" @crop="onCrop"></vue-draw>
 </template>
 
 <style scoped>
