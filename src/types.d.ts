@@ -3,6 +3,8 @@ export interface State {
     crop?: Crop
     tool: Tool
     history: Shape[]
+    thickness: number
+    color: string
 }
 
 export interface Crop {
@@ -20,6 +22,8 @@ export interface Rectangle {
     y: number
     height: number
     width: number
+    thickness: number
+    color: string
 }
 
 export type Tool = "crop" | "line" | "rectangle"
