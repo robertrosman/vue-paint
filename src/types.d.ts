@@ -45,3 +45,8 @@ export interface Arrow extends Line {
 }
 
 export type Tool = "crop" | "line" | "rectangle" | "arrow"
+
+export interface SaveParameters {
+    svg: Ref<SVGElement>
+    crop: Ref<Crop | undefined>
+}

@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { useElementBounding, usePointerSwipe } from '@vueuse/core'
 import { computed, ref } from 'vue';
-import type { Crop, Settings, Shape, Tool } from '../types'
+import type { Crop, SaveParameters, Settings, Shape, Tool } from '../types'
 import { getArrowId } from '@/utils/getArrowId';
 import SvgShape from './SvgShape.vue';
 
 const emit = defineEmits<{
     (e: 'crop', crop: Crop | undefined): void
+    (e: 'save', { svg, crop }: SaveParameters): void
 }>()
 
 const settings = defineModel<Settings>("settings", {
@@ -108,6 +109,10 @@ function undo() {
     }
 }
 
+function save() {
+    emit('save', { svg: svgRef, crop })
+}
+
 const arrowMarkers = computed(() =>
     allShapes.value
         .filter(shape => shape.type === 'arrow')
@@ -158,6 +163,7 @@ const arrowMarkers = computed(() =>
             <input type="range" min="1" max="10" v-model="settings.thickness" />
             <input type="color" v-model="settings.color" />
             <button @click="undo">Undo</button>
+            <button @click="save">Save</button>
         </div>
     </div>
 </template>
