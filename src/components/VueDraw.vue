@@ -8,6 +8,7 @@ import SvgShape from './SvgShape.vue';
 const emit = defineEmits<{
     (e: 'crop', crop: Crop | undefined): void
     (e: 'save', { svg, crop }: SaveParameters): void
+    (e: 'clear'): void
 }>()
 
 const settings = defineModel<Settings>("settings", {
@@ -20,7 +21,7 @@ const settings = defineModel<Settings>("settings", {
 
 const history = defineModel<Shape[]>("history", { default: [] })
 
-const crop = defineModel<Crop>("crop", { default: undefined })
+const crop = defineModel<Crop | undefined>("crop", { default: undefined })
 
 const container = ref()
 const svgRef = ref()
@@ -113,6 +114,12 @@ function save() {
     emit('save', { svg: svgRef, crop })
 }
 
+function clear() {
+    history.value = []
+    crop.value = undefined
+    emit('clear')
+}
+
 const arrowMarkers = computed(() =>
     allShapes.value
         .filter(shape => shape.type === 'arrow')
@@ -163,6 +170,7 @@ const arrowMarkers = computed(() =>
             <input type="range" min="1" max="10" v-model="settings.thickness" />
             <input type="color" v-model="settings.color" />
             <button @click="undo">Undo</button>
+            <button @click="clear">Clear</button>
             <button @click="save">Save</button>
         </div>
     </div>
