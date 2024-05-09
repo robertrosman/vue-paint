@@ -11,7 +11,7 @@ const canvasRef = ref()
 const imgSrc = ref<string>()
 
 const { state: backgroundImage } = useAsyncState(
-  urlToBlob('/public/pexels-apasaric.jpg'),
+  urlToBlob('/pexels-apasaric.jpg'),
   undefined
 )
 
