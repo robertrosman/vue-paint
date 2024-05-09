@@ -11,19 +11,15 @@ const canvasRef = ref()
 const imgSrc = ref<string>()
 const vueDrawRef = ref()
 
-function onCrop(crop: Crop | undefined) {
-  console.log(crop)
-}
-
-async function save() {
-  imgSrc.value = await toImgSrc(vueDrawRef.value.svgRef, crop.value)
-  toCanvas(vueDrawRef.value.svgRef, canvasRef, crop.value)
+function save() {
+  imgSrc.value = toImgSrc({ svg: vueDrawRef.value.svgRef, crop })
+  toCanvas({ svg: vueDrawRef.value.svgRef, canvas: canvasRef, crop })
 }
 
 </script>
 
 <template>
-  <vue-draw ref="vueDrawRef" v-model:crop="crop" class="vue-draw" @crop="onCrop"></vue-draw>
+  <vue-draw ref="vueDrawRef" v-model:crop="crop" class="vue-draw" @crop="save"></vue-draw>
   <button @click="save">Save</button>
   <canvas ref="canvasRef"></canvas>
   <img v-if="imgSrc" :src="imgSrc" />
