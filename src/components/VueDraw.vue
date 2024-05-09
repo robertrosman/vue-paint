@@ -106,10 +106,10 @@ const { posStart, posEnd, distanceX, distanceY, isSwiping } = usePointerSwipe(sv
 })
 const { top, left, width, height } = useElementBounding(container)
 
-const minX = computed(() => Math.min(posStart.x - left.value, posEnd.x - left.value))
-const minY = computed(() => Math.min(posStart.y - top.value, posEnd.y - top.value))
-const maxX = computed(() => Math.max(posStart.x - left.value, posEnd.x - left.value))
-const maxY = computed(() => Math.max(posStart.y - top.value, posEnd.y - top.value))
+const minX = computed(() => Math.max(0, Math.min(posStart.x - left.value, posEnd.x - left.value)))
+const minY = computed(() => Math.max(0, Math.min(posStart.y - top.value, posEnd.y - top.value)))
+const maxX = computed(() => Math.min(width.value, Math.max(posStart.x - left.value, posEnd.x - left.value)))
+const maxY = computed(() => Math.min(height.value, Math.max(posStart.y - top.value, posEnd.y - top.value)))
 
 const backgroundSrc = ref()
 watchEffect(() => {
