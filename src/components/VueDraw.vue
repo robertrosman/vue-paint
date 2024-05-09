@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { useElementBounding, usePointerSwipe } from '@vueuse/core'
-import { computed, ref } from 'vue';
+import { computed, ref, unref, watchEffect, type MaybeRef } from 'vue';
 import type { Crop, SaveParameters, Settings, Shape, Tool } from '../types'
 import { getArrowId } from '@/utils/getArrowId';
 import SvgShape from './SvgShape.vue';
+import { createDataUrl } from '@/utils/createDataUrl';
 
 const emit = defineEmits<{
     (e: 'crop', crop: Crop | undefined): void
@@ -18,6 +19,16 @@ const settings = defineModel<Settings>("settings", {
         color: "#c82d2d"
     })
 })
+
+const props = defineProps<{
+    /**
+     * Use background prop to set a background image. There are several ways to create a blob, like these:
+     * @example
+     * const blob1 = await canvasToBlob(canvas)
+     * const blob2 = await urlToBlob(url)
+     */
+    background?: MaybeRef<Blob>
+}>()
 
 const history = defineModel<Shape[]>("history", { default: [] })
 
@@ -100,6 +111,15 @@ const minY = computed(() => Math.min(posStart.y - top.value, posEnd.y - top.valu
 const maxX = computed(() => Math.max(posStart.x - left.value, posEnd.x - left.value))
 const maxY = computed(() => Math.max(posStart.y - top.value, posEnd.y - top.value))
 
+const backgroundSrc = ref()
+watchEffect(() => {
+    const unreffed = unref(props.background)
+    if (!unreffed) {
+        return undefined
+    }
+    createDataUrl(unreffed).then(src => backgroundSrc.value = src)
+})
+
 function setTool(tool: Tool) {
     settings.value.tool = tool
 }
@@ -135,8 +155,9 @@ const arrowMarkers = computed(() =>
 
 <template>
     <div ref="container" class="container">
-        <svg ref="svgRef" :width="width" :height="height" class="absolute inset-0" :viewBox="`0 0 ${width} ${height}`"
+        <svg ref="svgRef" :width="width" :height="height" :viewBox="`0 0 ${width} ${height}`"
             xmlns="http://www.w3.org/2000/svg">
+            <image v-if="background" :xlink:href="backgroundSrc" :width="width" />
             <svg-shape v-for="shape, i in history" :key="i" :shape="shape" />
             <svg-shape v-if="activeShape" :shape="activeShape" />
             <path v-if="crop" class="overlay" :d="`
@@ -182,22 +203,8 @@ const arrowMarkers = computed(() =>
     cursor: crosshair;
 }
 
-svg {
-    z-index: 100;
-}
 
 .toolbar {
     position: absolute;
-}
-
-.dashed-line {
-    fill: none;
-    stroke: #ffffff;
-    stroke-width: 1;
-    stroke-linecap: round;
-    stroke-linejoin: miter;
-    stroke-opacity: 1;
-    stroke-dasharray: 4, 8;
-    stroke-dashoffset: 0;
 }
 </style>
