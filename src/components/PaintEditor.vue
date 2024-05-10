@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useElementBounding, usePointerSwipe } from '@vueuse/core'
-import { computed, ref, toRef, unref, watchEffect, type MaybeRef } from 'vue';
+import { computed, onMounted, ref, toRef, unref, watchEffect, type MaybeRef } from 'vue';
 import type { Crop, SaveParameters, Settings, Shape, Tool } from '../types'
 import PaintRenderer from './PaintRenderer.vue';
 import { createDataUrl } from '@/utils/createDataUrl';
@@ -110,6 +110,14 @@ watchEffect(() => {
     }
     createDataUrl(unreffed).then(src => backgroundSrc.value = src)
 })
+
+onMounted(() => {
+    if (!history.value?.length) {
+        clear()
+    }
+})
+
+
 
 function setTool(tool: Tool) {
     settings.value.tool = tool
