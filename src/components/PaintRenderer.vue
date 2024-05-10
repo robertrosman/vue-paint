@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { computed, ref, unref, watchEffect, type MaybeRef, type Ref } from 'vue';
-import type { Crop, SaveParameters, Shape } from '../types'
+import { computed, ref, toRef, unref, watchEffect, type MaybeRef, type Ref } from 'vue';
+import type { Arrow, Crop, SaveParameters, Shape } from '../types'
 import { getArrowId } from '@/utils/getArrowId';
 import SvgShape from './SvgShape.vue';
 import { createDataUrl } from '@/utils/createDataUrl';
+import { getCrop } from '@/utils/getCrop';
 
 const emit = defineEmits<{
     (e: 'crop', crop: Crop | undefined): void
@@ -22,7 +23,6 @@ const props = defineProps<{
 
     activeShape: Shape | undefined
     history: Shape[]
-    crop?: Crop
     width: number
     height: number
 }>()
@@ -32,6 +32,7 @@ const allShapes = computed(() => props.activeShape ? [
     ...props.history
 ] : props.history)
 
+const crop = computed(() => getCrop(props.history, props.activeShape))
 
 const backgroundSrc = ref()
 watchEffect(() => {
@@ -44,7 +45,7 @@ watchEffect(() => {
 
 const arrowMarkers = computed(() =>
     allShapes.value
-        .filter(shape => shape.type === 'arrow')
+        .filter<Arrow>((shape): shape is Arrow => shape.type === 'arrow')
         .filter((shape, index, self) => self.findIndex(s => getArrowId(s) === getArrowId(shape)) === index) // Unique matches only
         .map(shape => ({
             id: getArrowId(shape),

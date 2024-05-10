@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { useElementBounding, usePointerSwipe } from '@vueuse/core'
-import { computed, ref, unref, watchEffect, type MaybeRef } from 'vue';
+import { computed, ref, toRef, unref, watchEffect, type MaybeRef } from 'vue';
 import type { Crop, SaveParameters, Settings, Shape, Tool } from '../types'
 import PaintRenderer from './PaintRenderer.vue';
 import { createDataUrl } from '@/utils/createDataUrl';
+import { getCrop } from '@/utils/getCrop';
 
 const emit = defineEmits<{
     (e: 'crop', crop: Crop | undefined): void
@@ -31,8 +32,6 @@ const props = defineProps<{
 
 const history = defineModel<Shape[]>("history", { default: [] })
 
-const crop = defineModel<Crop | undefined>("crop", { default: undefined })
-
 const container = ref()
 const svgRef = ref()
 const activeShape = ref<Shape | undefined>()
@@ -43,7 +42,16 @@ defineExpose({
 })
 
 function updateActiveShape() {
-    if (settings.value.tool === 'rectangle') {
+    if (settings.value.tool === 'crop') {
+        activeShape.value = {
+            type: "crop",
+            x: minX.value,
+            y: minY.value,
+            width: (maxX.value - minX.value),
+            height: (maxY.value - minY.value),
+        }
+    }
+    else if (settings.value.tool === 'rectangle') {
         activeShape.value = {
             type: settings.value.tool,
             x: minX.value,
@@ -73,27 +81,15 @@ function updateActiveShape() {
 const { posStart, posEnd } = usePointerSwipe(svgRef, {
     threshold: 0,
     onSwipe(e) {
-        if (settings.value.tool === 'crop') {
-            crop.value = {
-                x: minX.value,
-                y: minY.value,
-                width: (maxX.value - minX.value),
-                height: (maxY.value - minY.value),
-            }
-        }
-        else {
-            updateActiveShape()
-        }
+        updateActiveShape()
     },
     onSwipeEnd() {
-        if (settings.value.tool === 'crop') {
-            emit('crop', crop.value)
-        }
-        else {
-            if (activeShape.value) {
-                history.value.push(activeShape.value)
-                activeShape.value = undefined
+        if (activeShape.value) {
+            if (settings.value.tool === 'crop') {
+                emit('crop', crop.value)
             }
+            history.value.push(activeShape.value)
+            activeShape.value = undefined
         }
     }
 })
@@ -103,6 +99,8 @@ const minX = computed(() => Math.max(0, Math.min(posStart.x - left.value, posEnd
 const minY = computed(() => Math.max(0, Math.min(posStart.y - top.value, posEnd.y - top.value)))
 const maxX = computed(() => Math.min(width.value, Math.max(posStart.x - left.value, posEnd.x - left.value)))
 const maxY = computed(() => Math.min(height.value, Math.max(posStart.y - top.value, posEnd.y - top.value)))
+
+const crop = computed(() => getCrop(history.value, activeShape.value))
 
 const backgroundSrc = ref()
 watchEffect(() => {
@@ -133,7 +131,6 @@ function save() {
 
 function clear() {
     history.value = []
-    crop.value = undefined
     emit('clear')
 }
 
@@ -141,7 +138,7 @@ function clear() {
 
 <template>
     <div ref="container" class="container">
-        <paint-renderer ref="svgRef" :activeShape :history :width :height :background :crop />
+        <paint-renderer ref="svgRef" :activeShape :history :width :height :background />
 
         <div class="toolbar">
             <button @click="setTool('crop')">Crop</button>

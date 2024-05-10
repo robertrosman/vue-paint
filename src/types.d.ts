@@ -11,14 +11,15 @@ export interface Settings {
     color: string
 }
 
+export type Shape = Crop | Rectangle | Line | Arrow
+
 export interface Crop {
+    type: "crop"
     x: number
     y: number
     height: number
     width: number
 }
-
-export type Shape = Rectangle | Line | Arrow
 
 export interface Rectangle {
     type: "rectangle"
