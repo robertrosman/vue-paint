@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import VueDraw from './components/VueDraw.vue'
+import PaintEditor from './components/PaintEditor.vue'
 import type { Settings, Crop, SaveParameters } from './types'
 import { toCanvas } from './utils/toCanvas';
 import { toImgSrc } from './utils/toImgSrc';
@@ -34,8 +34,8 @@ function save({ svg, crop }: SaveParameters) {
     </div>
   </div>
   <h1>Barebones example</h1>
-  <vue-draw class="vue-draw" @save="save"></vue-draw>
+  <paint-editor class="vue-draw" @save="save"></paint-editor>
 
   <h1>With background</h1>
-  <vue-draw v-if="backgroundImage" class="vue-draw" @save="save" :background="backgroundImage"></vue-draw>
+  <paint-editor v-if="backgroundImage" class="vue-draw" @save="save" :background="backgroundImage"></paint-editor>
 </template>
