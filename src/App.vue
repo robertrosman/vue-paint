@@ -6,9 +6,12 @@ import { toCanvas } from './utils/toCanvas';
 import { toImgSrc } from './utils/toImgSrc';
 import { useAsyncState, useStorage } from '@vueuse/core';
 import { urlToBlob } from './utils/urlToBlob';
+import { useAllTools } from '@/composables/tools/useAllTools'
 
 const canvasRef = ref()
 const imgSrc = ref<string>()
+
+const { tools } = useAllTools()
 
 const { state: backgroundImage } = useAsyncState(
   urlToBlob('/pexels-apasaric.jpg'),
@@ -43,14 +46,15 @@ const history = useStorage<Shape[]>("history", [
     </div>
   </div>
   <h1>Barebones example</h1>
-  <paint-editor class="vue-draw" @save="save"></paint-editor>
+  <paint-editor class="vue-draw" @save="save" :tools></paint-editor>
 
   <h1>With background</h1>
-  <paint-editor v-if="backgroundImage" class="vue-draw" @save="save" :background="backgroundImage"></paint-editor>
+  <paint-editor v-if="backgroundImage" class="vue-draw" @save="save" :background="backgroundImage"
+    :tools></paint-editor>
 
   <h1>With history v-model</h1>
   <p> Using <code>v-model:history</code> you can set initial state, modify the state programmatically, add shapes, save
     current state (like in localStorage or on a server). Try to draw something and reload the page to see localStorage
     in action. </p>
-  <paint-editor v-model:history="history" class="vue-draw" @save="save"></paint-editor>
+  <paint-editor v-model:history="history" class="vue-draw" @save="save" :tools></paint-editor>
 </template>

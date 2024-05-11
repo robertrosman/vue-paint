@@ -1,9 +1,7 @@
-
-export interface State {
-    crop?: Crop
-    history: Shape[]
-    settings: Settings
-}
+import { type Line } from '@/composables/tools/useLine'
+import { type Arrow } from '@/composables/tools/useArrow'
+import { type Rectangle } from '@/composables/tools/useRectangle'
+import { type Crop } from '@/composables/tools/useCrop'
 
 export interface Settings {
     tool: Tool
@@ -11,43 +9,43 @@ export interface Settings {
     color: string
 }
 
+export interface ToolComposable<T> {
+    type: string
+    toShape: (args: ToShapeArguments) => T
+    svgShape?: {
+        props: { shape: Object },
+        setup: (props: { shape: T }) => () => unknown
+    }
+    svgStyle?: string
+    svgDefs?: {
+        props: { history: Array, activeShape: Object },
+        setup: (props: { history: Shape[], activeShape?: Shape }) => () => unknown
+    }
+}
+
+export interface ToShapeArguments {
+    settings: Settings
+    posStart: Position
+    posEnd: Position
+    left: Ref<number>
+    right: Ref<number>
+    top: Ref<number>
+    bottom: Ref<number>
+    width: Ref<number>
+    height: Ref<number>
+    minX: Ref<number>
+    maxX: Ref<number>
+    minY: Ref<number>
+    maxY: Ref<number>
+}
+
 export type Shape = Crop | Rectangle | Line | Arrow
 
-export interface Crop {
-    type: "crop"
-    x: number
-    y: number
-    height: number
-    width: number
-}
-
-export interface Rectangle {
-    type: "rectangle"
-    x: number
-    y: number
-    height: number
-    width: number
-    thickness: number
-    color: string
-}
-
-export interface Line {
-    type: "line"
-    x1: number
-    y1: number
-    x2: number
-    y2: number
-    thickness: number
-    color: string
-}
-
-export interface Arrow extends Line {
-    type: "arrow"
-}
-
-export type Tool = "crop" | "line" | "rectangle" | "arrow"
+export type Tool = Shape["type"]
 
 export interface SaveParameters {
     svg: Ref<SVGElement>
     crop: Ref<Crop | undefined>
 }
+
+export { Crop }

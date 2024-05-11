@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useElementBounding, usePointerSwipe } from '@vueuse/core'
 import { computed, onMounted, ref, toRef, unref, watchEffect, type MaybeRef } from 'vue';
-import type { Crop, SaveParameters, Settings, Shape, Tool } from '../types'
+import type { Crop, SaveParameters, Settings, Shape, Tool, ToolComposable } from '../types'
 import PaintRenderer from './PaintRenderer.vue';
 import { createDataUrl } from '@/utils/createDataUrl';
 import { getCrop } from '@/utils/getCrop';
@@ -28,6 +28,8 @@ const props = defineProps<{
      * const blob2 = await urlToBlob(url)
      */
     background?: MaybeRef<Blob>
+
+    tools: ToolComposable<Unknown>[]
 }>()
 
 const history = defineModel<Shape[]>("history", { default: [] })
@@ -42,36 +44,15 @@ defineExpose({
 })
 
 function updateActiveShape() {
-    if (settings.value.tool === 'crop') {
-        activeShape.value = {
-            type: "crop",
-            x: minX.value,
-            y: minY.value,
-            width: (maxX.value - minX.value),
-            height: (maxY.value - minY.value),
-        }
-    }
-    else if (settings.value.tool === 'rectangle') {
-        activeShape.value = {
-            type: settings.value.tool,
-            x: minX.value,
-            y: minY.value,
-            width: (maxX.value - minX.value),
-            height: (maxY.value - minY.value),
-            thickness: settings.value.thickness,
-            color: settings.value.color
-        }
-    }
-    else if (settings.value.tool === 'line' || settings.value.tool === 'arrow') {
-        activeShape.value = {
-            type: settings.value.tool,
-            x1: posStart.x - left.value,
-            y1: posStart.y - top.value,
-            x2: posEnd.x - left.value,
-            y2: posEnd.y - top.value,
-            thickness: settings.value.thickness,
-            color: settings.value.color
-        }
+    const activeTool = props.tools?.find(tool => tool.type === settings.value.tool)
+    if (activeTool) {
+        activeShape.value = activeTool.toShape({
+            settings: settings.value,
+            posStart, posEnd,
+            left, right, top, bottom,
+            width, height,
+            minX, maxX, minY, maxY
+        })
     }
     else {
         activeShape.value = undefined
@@ -93,7 +74,7 @@ const { posStart, posEnd } = usePointerSwipe(svgRef, {
         }
     }
 })
-const { top, left, width, height } = useElementBounding(container)
+const { top, left, right, bottom, width, height } = useElementBounding(container)
 
 const minX = computed(() => Math.max(0, Math.min(posStart.x - left.value, posEnd.x - left.value)))
 const minY = computed(() => Math.max(0, Math.min(posStart.y - top.value, posEnd.y - top.value)))
@@ -116,8 +97,6 @@ onMounted(() => {
         clear()
     }
 })
-
-
 
 function setTool(tool: Tool) {
     settings.value.tool = tool
@@ -146,7 +125,7 @@ function clear() {
 
 <template>
     <div ref="container" class="container">
-        <paint-renderer ref="svgRef" :activeShape :history :width :height :background />
+        <paint-renderer ref="svgRef" :tools :activeShape :history :width :height :background />
 
         <div class="toolbar">
             <button @click="setTool('crop')">Crop</button>
