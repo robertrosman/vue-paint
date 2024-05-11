@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { useElementBounding, usePointerSwipe } from '@vueuse/core'
-import { computed, onMounted, ref, toRef, unref, watchEffect, type MaybeRef } from 'vue';
-import type { Crop, SaveParameters, Settings, Shape, Tool, ToolComposable } from '../types'
+import { computed, onMounted, ref, unref, watchEffect, type MaybeRef } from 'vue';
+import type { SaveParameters, Settings, Shape, Tool, ToolComposable } from '../types'
 import PaintRenderer from './PaintRenderer.vue';
 import { createDataUrl } from '@/utils/createDataUrl';
 
 const emit = defineEmits<{
-    (e: 'crop', crop: Crop | undefined): void
     (e: 'save', { svg, tools, history }: SaveParameters): void
     (e: 'clear'): void
 }>()
@@ -66,9 +65,6 @@ const { posStart, posEnd } = usePointerSwipe(svgRef, {
     },
     onSwipeEnd() {
         if (activeShape.value) {
-            if (settings.value.tool === 'crop') {
-                emit('crop', crop.value)
-            }
             history.value.push(activeShape.value)
             activeShape.value = undefined
         }

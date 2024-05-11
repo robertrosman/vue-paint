@@ -1,13 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, unref, watchEffect, type MaybeRef } from 'vue';
-import type { Crop, SaveParameters, Shape, ToolComposable } from '../types'
+import type { Shape, ToolComposable } from '../types'
 import { createDataUrl } from '@/utils/createDataUrl';
-
-const emit = defineEmits<{
-    (e: 'crop', crop: Crop | undefined): void
-    (e: 'save', { svg, crop }: SaveParameters): void
-    (e: 'clear'): void
-}>()
 
 const props = defineProps<{
     /**
@@ -50,8 +44,8 @@ const highLayers = computed(() => props.tools.filter(tool => tool.toolSvg && (to
     <svg :width="width" :height="height" :viewBox="`0 0 ${width} ${height}`" xmlns="http://www.w3.org/2000/svg">
         <image v-if="background" :xlink:href="backgroundSrc" :width="width" />
         <component v-for="tool in lowLayers" :key="tool.type" :is="tool.toolSvg" :history :activeShape :width :height />
-        <component v-for="shape, i in history" :key="i" :is="getTool(shape.type).shapeSvg" :shape :history />
-        <component v-if="activeShape" :is="getTool(activeShape.type).shapeSvg" :shape="activeShape" :history :width
+        <component v-for="shape, i in history" :key="i" :is="getTool(shape.type)?.shapeSvg" :shape :history />
+        <component v-if="activeShape" :is="getTool(activeShape.type)?.shapeSvg" :shape="activeShape" :history :width
             :height />
         <component v-for="tool in highLayers" :key="tool.type" :is="tool.toolSvg" :history :activeShape :width
             :height />

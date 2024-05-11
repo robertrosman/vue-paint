@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import PaintEditor from './components/PaintEditor.vue'
-import type { Settings, Crop, SaveParameters, Shape } from './types'
+import type { SaveParameters, Shape } from './types'
 import { toCanvas } from './utils/toCanvas';
 import { exportSvg } from './utils/exportSvg';
 import { useAsyncState, useStorage } from '@vueuse/core';
