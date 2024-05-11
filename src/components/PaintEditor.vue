@@ -4,11 +4,10 @@ import { computed, onMounted, ref, toRef, unref, watchEffect, type MaybeRef } fr
 import type { Crop, SaveParameters, Settings, Shape, Tool, ToolComposable } from '../types'
 import PaintRenderer from './PaintRenderer.vue';
 import { createDataUrl } from '@/utils/createDataUrl';
-import { getCrop } from '@/utils/getCrop';
 
 const emit = defineEmits<{
     (e: 'crop', crop: Crop | undefined): void
-    (e: 'save', { svg, crop }: SaveParameters): void
+    (e: 'save', { svg, tools, history }: SaveParameters): void
     (e: 'clear'): void
 }>()
 
@@ -29,7 +28,7 @@ const props = defineProps<{
      */
     background?: MaybeRef<Blob>
 
-    tools: ToolComposable<Unknown>[]
+    tools: ToolComposable<unknown>[]
 }>()
 
 const history = defineModel<Shape[]>("history", { default: [] })
@@ -48,6 +47,7 @@ function updateActiveShape() {
     if (activeTool) {
         activeShape.value = activeTool.toShape({
             settings: settings.value,
+            tools: props.tools,
             posStart, posEnd,
             left, right, top, bottom,
             width, height,
@@ -81,8 +81,6 @@ const minY = computed(() => Math.max(0, Math.min(posStart.y - top.value, posEnd.
 const maxX = computed(() => Math.min(width.value, Math.max(posStart.x - left.value, posEnd.x - left.value)))
 const maxY = computed(() => Math.min(height.value, Math.max(posStart.y - top.value, posEnd.y - top.value)))
 
-const crop = computed(() => getCrop(history.value, activeShape.value))
-
 const backgroundSrc = ref()
 watchEffect(() => {
     const unreffed = unref(props.background)
@@ -113,7 +111,7 @@ function save() {
     if (!svg) {
         throw new Error("Couldn't find the svg")
     }
-    emit('save', { svg, crop })
+    emit('save', { svg, tools: props.tools, history: history.value })
 }
 
 function clear() {

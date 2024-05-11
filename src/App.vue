@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import PaintEditor from './components/PaintEditor.vue'
 import type { Settings, Crop, SaveParameters, Shape } from './types'
 import { toCanvas } from './utils/toCanvas';
-import { toImgSrc } from './utils/toImgSrc';
+import { exportSvg } from './utils/exportSvg';
 import { useAsyncState, useStorage } from '@vueuse/core';
 import { urlToBlob } from './utils/urlToBlob';
 import { useAllTools } from '@/composables/tools/useAllTools'
@@ -18,19 +18,18 @@ const { state: backgroundImage } = useAsyncState(
   undefined
 )
 
-function save({ svg, crop }: SaveParameters) {
-  imgSrc.value = toImgSrc({ svg, crop })
-  toCanvas({ svg, canvas: canvasRef, crop })
+function save({ svg, tools, history }: SaveParameters) {
+  imgSrc.value = exportSvg({ svg, tools, history })
+  toCanvas({ svg, canvas: canvasRef, tools, history })
 }
 
-const history = useStorage<Shape[]>("history", [
-  {
-    type: "crop",
-    x: 50,
-    y: 50,
-    width: 150,
-    height: 150
-  },
+const history = useStorage<Shape[]>("history", [{
+  type: "crop",
+  x: 50,
+  y: 50,
+  width: 150,
+  height: 150
+},
 ])
 </script>
 
@@ -40,7 +39,7 @@ const history = useStorage<Shape[]>("history", [
       Exported to image
       <img v-if="imgSrc" :src="imgSrc" />
     </div>
-    <div class="bg-white hidden">
+    <div class="bg-white">
       Exported to canvas
       <canvas ref="canvasRef"></canvas>
     </div>

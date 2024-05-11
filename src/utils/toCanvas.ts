@@ -1,15 +1,13 @@
-import type { Crop } from "@/types";
+import type { Crop, ExportParameters } from "@/types";
 import { unref, type MaybeRef } from "vue";
-import { toImgSrc } from "./toImgSrc";
+import { exportSvg } from "./exportSvg";
 
-interface Options {
-    svg: MaybeRef<SVGGraphicsElement>
+interface Options extends ExportParameters {
     canvas: MaybeRef<HTMLCanvasElement>
-    crop?: MaybeRef<Crop | undefined>
 }
 
-export async function toCanvas({ svg, canvas, crop }: Options) {
-    const image64 = toImgSrc({ svg, crop })
+export async function toCanvas({ svg, canvas, tools, history }: Options) {
+    const image64 = exportSvg({ svg, tools, history })
 
     const img = new Image()
     img.src = image64;

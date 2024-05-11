@@ -1,5 +1,4 @@
-import type { ToolSvgProps, ToShapeArguments, ToolComposable } from "@/types"
-import { getCrop } from "@/utils/getCrop"
+import type { ToolSvgProps, ToShapeArguments, ToolComposable, ExportParameters, Shape } from "@/types"
 import { computed, h } from "vue"
 
 export interface Crop {
@@ -8,6 +7,16 @@ export interface Crop {
     y: number
     height: number
     width: number
+}
+
+function getCrop (history: Shape[], activeShape: Shape | undefined) {
+    if (activeShape?.type === "crop") {
+        return activeShape
+    }
+    const cropShapes = history.filter<Crop>((shape): shape is Crop => shape.type === 'crop')
+    if (cropShapes.length > 0) {
+        return cropShapes.reverse()[0]
+    }
 }
 
 export function useCrop(): ToolComposable<Crop> {
@@ -44,5 +53,16 @@ export function useCrop(): ToolComposable<Crop> {
         }
     `
 
-    return { type, toShape, svgStyle, toolSvg }
+    function beforeExport({ svg, history}: ExportParameters) {
+        const crop = getCrop(history, undefined)
+        if (crop) {
+            const { x, y, width, height } = crop
+            svg.setAttribute('width', String(width))
+            svg.setAttribute('height', String(height))
+            svg.setAttribute('viewBox', `${x} ${y} ${width} ${height}`)
+            svg.querySelector(".overlay")?.remove()
+        }
+    }
+
+    return { type, toShape, svgStyle, toolSvg, beforeExport }
 }

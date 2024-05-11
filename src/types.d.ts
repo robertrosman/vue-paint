@@ -9,7 +9,6 @@ export interface Settings {
     color: string
 }
 
-
 export interface SvgComponentProps {
     history: Shape[]
     width: number
@@ -36,10 +35,12 @@ export interface ToolComposable<T> {
         setup: (props: ToolSvgProps) => () => unknown,
         layer?: number
     }
+    beforeExport?: (args: ExportParameters) => void
 }
 
 export interface ToShapeArguments {
     settings: Settings
+    tools: ToolComposable<unknown>[]
     posStart: Position
     posEnd: Position
     left: Ref<number>
@@ -59,8 +60,11 @@ export type Shape = Crop | Rectangle | Line | Arrow
 export type Tool = Shape["type"]
 
 export interface SaveParameters {
-    svg: Ref<SVGElement>
-    crop: Ref<Crop | undefined>
+    svg: SVGElement
+    tools: ToolComposable<unknown>[]
+    history: Shape[]
 }
+
+export interface ExportParameters extends SaveParameters { }
 
 export { Crop }

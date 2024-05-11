@@ -2,7 +2,6 @@
 import { computed, ref, unref, watchEffect, type MaybeRef } from 'vue';
 import type { Crop, SaveParameters, Shape, ToolComposable } from '../types'
 import { createDataUrl } from '@/utils/createDataUrl';
-import { getCrop } from '@/utils/getCrop';
 
 const emit = defineEmits<{
     (e: 'crop', crop: Crop | undefined): void
