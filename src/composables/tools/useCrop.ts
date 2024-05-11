@@ -33,7 +33,8 @@ export function useCrop(): ToolComposable<Crop> {
                     M ${crop.value.x},${crop.value.y} H ${crop.value.x + crop.value.width} V ${crop.value.y + crop.value.height} H ${crop.value.x} Z
                 `
             }) : undefined
-        }
+        },
+        layer: 1_000_000,
     }
 
     const svgStyle = `

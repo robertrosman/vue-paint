@@ -41,7 +41,8 @@ export interface ToolComposable<T> {
     }
     svgOnce?: {
         props: unknown,
-        setup: (props: SvgOnceProps) => () => unknown
+        setup: (props: SvgOnceProps) => () => unknown,
+        layer?: number
     }
 }
 
