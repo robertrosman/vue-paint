@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { useElementBounding, usePointerSwipe } from '@vueuse/core'
-import { computed, onMounted, ref, unref, watchEffect, type MaybeRef } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import type { SaveParameters, Settings, Shape, Tool, ToolComposable } from '../types'
 import PaintRenderer from './PaintRenderer.vue';
-import { createDataUrl } from '@/utils/createDataUrl';
 
 const emit = defineEmits<{
     (e: 'save', { svg, tools, history }: SaveParameters): void
@@ -19,14 +18,6 @@ const settings = defineModel<Settings>("settings", {
 })
 
 const props = defineProps<{
-    /**
-     * Use background prop to set a background image. There are several ways to create a blob, like these:
-     * @example
-     * const blob1 = await canvasToBlob(canvas)
-     * const blob2 = await urlToBlob(url)
-     */
-    background?: MaybeRef<Blob>
-
     tools: ToolComposable<unknown>[]
 }>()
 
@@ -43,7 +34,7 @@ defineExpose({
 
 function updateActiveShape() {
     const activeTool = props.tools?.find(tool => tool.type === settings.value.tool)
-    if (activeTool) {
+    if (activeTool?.toShape) {
         activeShape.value = activeTool.toShape({
             settings: settings.value,
             tools: props.tools,
@@ -77,15 +68,6 @@ const minY = computed(() => Math.max(0, Math.min(posStart.y - top.value, posEnd.
 const maxX = computed(() => Math.min(width.value, Math.max(posStart.x - left.value, posEnd.x - left.value)))
 const maxY = computed(() => Math.min(height.value, Math.max(posStart.y - top.value, posEnd.y - top.value)))
 
-const backgroundSrc = ref()
-watchEffect(() => {
-    const unreffed = unref(props.background)
-    if (!unreffed) {
-        return undefined
-    }
-    createDataUrl(unreffed).then(src => backgroundSrc.value = src)
-})
-
 onMounted(() => {
     if (!history.value?.length) {
         clear()
@@ -112,6 +94,10 @@ function save() {
 
 function clear() {
     history.value = []
+    Promise.all(props.tools
+        .filter(tool => "initialize" in tool)
+        .flatMap(async tool => await tool.initialize?.({ tools: props.tools }))
+    ).then(shapes => history.value = [...(shapes as Shape[]), ...history.value])
     emit('clear')
 }
 
@@ -119,7 +105,7 @@ function clear() {
 
 <template>
     <div ref="container" class="container">
-        <paint-renderer ref="svgRef" :tools :activeShape :history :width :height :background />
+        <paint-renderer ref="svgRef" :tools :activeShape :history :width :height />
 
         <div class="toolbar">
             <button @click="setTool('crop')">Crop</button>

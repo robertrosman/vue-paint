@@ -4,7 +4,7 @@ import PaintEditor from './components/PaintEditor.vue'
 import type { SaveParameters, Shape } from './types'
 import { toCanvas } from './utils/toCanvas';
 import { exportSvg } from './utils/exportSvg';
-import { useAsyncState, useStorage } from '@vueuse/core';
+import { useStorage } from '@vueuse/core';
 import { urlToBlob } from './utils/urlToBlob';
 import { useAllTools } from '@/composables/tools/useAllTools'
 
@@ -12,11 +12,7 @@ const canvasRef = ref()
 const imgSrc = ref<string>()
 
 const { tools } = useAllTools()
-
-const { state: backgroundImage } = useAsyncState(
-  urlToBlob('/pexels-apasaric.jpg'),
-  undefined
-)
+const { tools: toolsWithBackground } = useAllTools({ background: urlToBlob('/pexels-apasaric.jpg') })
 
 function save({ svg, tools, history }: SaveParameters) {
   imgSrc.value = exportSvg({ svg, tools, history })
@@ -48,8 +44,7 @@ const history = useStorage<Shape[]>("history", [{
   <paint-editor class="vue-draw" @save="save" :tools></paint-editor>
 
   <h1>With background</h1>
-  <paint-editor v-if="backgroundImage" class="vue-draw" @save="save" :background="backgroundImage"
-    :tools></paint-editor>
+  <paint-editor class="vue-draw" @save="save" :tools="toolsWithBackground"></paint-editor>
 
   <h1>With history v-model</h1>
   <p> Using <code>v-model:history</code> you can set initial state, modify the state programmatically, add shapes, save

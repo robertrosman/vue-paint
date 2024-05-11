@@ -2,6 +2,7 @@ import { type Line } from '@/composables/tools/useLine'
 import { type Arrow } from '@/composables/tools/useArrow'
 import { type Rectangle } from '@/composables/tools/useRectangle'
 import { type Crop } from '@/composables/tools/useCrop'
+import type { Background } from './composables/tools/useBackground'
 
 export interface Settings {
     tool: Tool
@@ -24,7 +25,8 @@ export interface ToolSvgProps extends SvgComponentProps {
 
 export interface ToolComposable<T> {
     type: string
-    toShape: (args: ToShapeArguments) => T
+    initialize?: (args: InitializeOptions) => Promise<T | T[] | void>
+    toShape?: (args: ToShapeArguments) => T
     shapeSvg?: {
         props: unknown,
         setup: (props: ShapeSvgProps) => () => unknown
@@ -55,7 +57,11 @@ export interface ToShapeArguments {
     maxY: Ref<number>
 }
 
-export type Shape = Crop | Rectangle | Line | Arrow
+export interface InitializeOptions {
+    tools: ToolComposable<unknown>[]
+}
+
+export type Shape = Crop | Rectangle | Line | Arrow | Background
 
 export type Tool = Shape["type"]
 
@@ -66,5 +72,3 @@ export interface SaveParameters {
 }
 
 export interface ExportParameters extends SaveParameters { }
-
-export { Crop }
