@@ -1,6 +1,6 @@
-import type { SvgDefsProps, ToShapeArguments, ToolComposable } from "@/types"
+import type { ToolSvgProps, ToShapeArguments, ToolComposable } from "@/types"
 import { getArrowId } from "@/utils/getArrowId"
-import { svgShapeComponent } from "@/utils/svgShapeComponent"
+import { shapeSvgComponent } from "@/utils/shapeSvgComponent"
 import { computed, h } from "vue"
 
 export interface Arrow {
@@ -28,7 +28,7 @@ export function useArrow(): ToolComposable<Arrow> {
         }
     }
 
-    const svgShape = svgShapeComponent<Arrow>(arrow => h('line', {
+    const shapeSvg = shapeSvgComponent<Arrow>(arrow => h('line', {
         x1: arrow.x1,
         y1: arrow.y1,
         x2: arrow.x2,
@@ -38,9 +38,9 @@ export function useArrow(): ToolComposable<Arrow> {
         'marker-end': `url(#${getArrowId(arrow)})`
     }))
 
-    const svgDefs = {
+    const toolSvg = {
         props: { history: Array, activeShape: Object },
-        setup(props: SvgDefsProps) {
+        setup(props: ToolSvgProps) {
             const arrowMarkers = computed(() => {
                 return [...props.history, props.activeShape]
                 .filter<Arrow>((shape): shape is Arrow => shape?.type === 'arrow')
@@ -51,7 +51,7 @@ export function useArrow(): ToolComposable<Arrow> {
                 }))
             })
             
-            return () => arrowMarkers.value.map(marker => h('marker', {
+            return () => arrowMarkers.value.map(marker => h('defs', h('marker', {
                 id: marker.id,
                 key: marker.id,
                 viewBox: "0 0 10 10",
@@ -64,9 +64,10 @@ export function useArrow(): ToolComposable<Arrow> {
                 points: "0,5 1.7,2.5 0,0 5,2.5",
                 fill: marker.color
             })]))
+        )
         }
     }
 
-    return { type, toShape, svgShape, svgDefs }
+    return { type, toShape, shapeSvg, toolSvg }
 }
 

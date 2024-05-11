@@ -1,5 +1,5 @@
 import type { ToShapeArguments, ToolComposable } from "@/types"
-import { svgShapeComponent } from "@/utils/svgShapeComponent"
+import { shapeSvgComponent } from "@/utils/shapeSvgComponent"
 import { h } from "vue"
 
 export interface Rectangle {
@@ -27,7 +27,7 @@ export function useRectangle(): ToolComposable<Rectangle> {
         }
     }
 
-    const svgShape = svgShapeComponent<Rectangle>(rectangle => h('rect', {
+    const shapeSvg = shapeSvgComponent<Rectangle>(rectangle => h('rect', {
         x: rectangle.x,
         y: rectangle.y,
         width: rectangle.width,
@@ -44,5 +44,5 @@ export function useRectangle(): ToolComposable<Rectangle> {
         }
     `
 
-    return { type, toShape, svgShape, svgStyle }
+    return { type, toShape, shapeSvg, svgStyle }
 }

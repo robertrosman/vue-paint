@@ -1,4 +1,4 @@
-import type { SvgOnceProps, ToShapeArguments, ToolComposable } from "@/types"
+import type { ToolSvgProps, ToShapeArguments, ToolComposable } from "@/types"
 import { getCrop } from "@/utils/getCrop"
 import { computed, h } from "vue"
 
@@ -23,9 +23,9 @@ export function useCrop(): ToolComposable<Crop> {
         }
     }
 
-    const svgOnce  = {
+    const toolSvg  = {
         props: { history: Array, activeShape: Object, width: Number, height: Number },
-        setup(props: SvgOnceProps) {
+        setup(props: ToolSvgProps) {
             const crop = computed(() => getCrop(props.history, props.activeShape))
             return () => crop.value ? h('path', {
                 class: "overlay",
@@ -44,5 +44,5 @@ export function useCrop(): ToolComposable<Crop> {
         }
     `
 
-    return { type, toShape, svgStyle, svgOnce }
+    return { type, toShape, svgStyle, toolSvg }
 }

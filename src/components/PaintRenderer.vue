@@ -42,22 +42,20 @@ function getTool(toolType: string) {
 
 const style = computed(() => props.tools.map(tool => tool.svgStyle ?? '').join("\n"))
 
-const lowLayers = computed(() => props.tools.filter(tool => tool.svgOnce && (tool.svgOnce.layer ?? 0) <= 0))
-const highLayers = computed(() => props.tools.filter(tool => tool.svgOnce && (tool.svgOnce.layer ?? 0) > 0))
+const lowLayers = computed(() => props.tools.filter(tool => tool.toolSvg && (tool.toolSvg.layer ?? 0) <= 0))
+const highLayers = computed(() => props.tools.filter(tool => tool.toolSvg && (tool.toolSvg.layer ?? 0) > 0))
 
 </script>
 
 <template>
     <svg :width="width" :height="height" :viewBox="`0 0 ${width} ${height}`" xmlns="http://www.w3.org/2000/svg">
         <image v-if="background" :xlink:href="backgroundSrc" :width="width" />
-        <component v-for="tool in lowLayers" :key="tool.type" :is="tool.svgOnce" :history :activeShape :width :height />
-        <component v-for="shape, i in history" :key="i" :is="getTool(shape.type).svgShape" :shape :history />
-        <component v-if="activeShape" :is="getTool(activeShape.type).svgShape" :shape="activeShape" :history :width
+        <component v-for="tool in lowLayers" :key="tool.type" :is="tool.toolSvg" :history :activeShape :width :height />
+        <component v-for="shape, i in history" :key="i" :is="getTool(shape.type).shapeSvg" :shape :history />
+        <component v-if="activeShape" :is="getTool(activeShape.type).shapeSvg" :shape="activeShape" :history :width
             :height />
-        <component v-for="tool in highLayers" :key="tool.type" :is="tool.svgOnce" :history :activeShape :width :height />
-        <defs>
-            <component v-for="tool in tools" :key="tool.type" :is="tool.svgDefs" :history :activeShape />
-        </defs>
+        <component v-for="tool in highLayers" :key="tool.type" :is="tool.toolSvg" :history :activeShape :width
+            :height />
         <svg:style>{{ style }}</svg:style>
     </svg>
 </template>

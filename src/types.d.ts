@@ -16,32 +16,24 @@ export interface SvgComponentProps {
     height: number 
 }
 
-export interface SvgShapeProps<T> extends SvgComponentProps {
+export interface ShapeSvgProps<T> extends SvgComponentProps {
     shape: T
 }
-export interface SvgOnceProps extends SvgComponentProps {
-    activeShape?: Shape
-}
-
-export interface SvgDefsProps extends SvgComponentProps {
+export interface ToolSvgProps extends SvgComponentProps {
     activeShape?: Shape
 }
 
 export interface ToolComposable<T> {
     type: string
     toShape: (args: ToShapeArguments) => T
-    svgShape?: {
+    shapeSvg?: {
         props: unknown,
-        setup: (props: SvgShapeProps) => () => unknown
+        setup: (props: ShapeSvgProps) => () => unknown
     }
     svgStyle?: string
-    svgDefs?: {
+    toolSvg?: {
         props: unknown,
-        setup: (props: SvaDefsProps) => () => unknown
-    }
-    svgOnce?: {
-        props: unknown,
-        setup: (props: SvgOnceProps) => () => unknown,
+        setup: (props: ToolSvgProps) => () => unknown,
         layer?: number
     }
 }

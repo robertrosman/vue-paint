@@ -1,5 +1,5 @@
 import type { ToShapeArguments, ToolComposable } from "@/types"
-import { svgShapeComponent } from "@/utils/svgShapeComponent"
+import { shapeSvgComponent } from "@/utils/shapeSvgComponent"
 import { h } from "vue"
 
 export interface Line {
@@ -27,7 +27,7 @@ export function useLine(): ToolComposable<Line> {
         }
     }
 
-    const svgShape = svgShapeComponent<Line>(line => h('line', {
+    const shapeSvg = shapeSvgComponent<Line>(line => h('line', {
         x1: line.x1,
         y1: line.y1,
         x2: line.x2,
@@ -44,5 +44,5 @@ export function useLine(): ToolComposable<Line> {
         }
     `
 
-    return { type, toShape, svgShape, svgStyle }
+    return { type, toShape, shapeSvg, svgStyle }
 }
