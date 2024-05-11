@@ -1,4 +1,4 @@
-import type { Shape, ToShapeArguments, ToolComposable } from "@/types"
+import type { SvgDefsProps, ToShapeArguments, ToolComposable } from "@/types"
 import { getArrowId } from "@/utils/getArrowId"
 import { svgShapeComponent } from "@/utils/svgShapeComponent"
 import { computed, h } from "vue"
@@ -40,7 +40,7 @@ export function useArrow(): ToolComposable<Arrow> {
 
     const svgDefs = {
         props: { history: Array, activeShape: Object },
-        setup(props: { history: Shape[], activeShape?: Shape }) {
+        setup(props: SvgDefsProps) {
             const arrowMarkers = computed(() => {
                 return [...props.history, props.activeShape]
                 .filter<Arrow>((shape): shape is Arrow => shape?.type === 'arrow')

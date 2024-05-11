@@ -9,17 +9,39 @@ export interface Settings {
     color: string
 }
 
+
+export interface SvgComponentProps {
+    history: Shape[]
+    width: number
+    height: number 
+}
+
+export interface SvgShapeProps<T> extends SvgComponentProps {
+    shape: T
+}
+export interface SvgOnceProps extends SvgComponentProps {
+    activeShape?: Shape
+}
+
+export interface SvgDefsProps extends SvgComponentProps {
+    activeShape?: Shape
+}
+
 export interface ToolComposable<T> {
     type: string
     toShape: (args: ToShapeArguments) => T
     svgShape?: {
-        props: { shape: Object },
-        setup: (props: { shape: T }) => () => unknown
+        props: unknown,
+        setup: (props: SvgShapeProps) => () => unknown
     }
     svgStyle?: string
     svgDefs?: {
-        props: { history: Array, activeShape: Object },
-        setup: (props: { history: Shape[], activeShape?: Shape }) => () => unknown
+        props: unknown,
+        setup: (props: SvaDefsProps) => () => unknown
+    }
+    svgOnce?: {
+        props: unknown,
+        setup: (props: SvgOnceProps) => () => unknown
     }
 }
 

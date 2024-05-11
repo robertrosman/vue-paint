@@ -26,7 +26,6 @@ const props = defineProps<{
     height: number
 }>()
 
-const crop = computed(() => getCrop(props.history, props.activeShape))
 
 const backgroundSrc = ref()
 watchEffect(() => {
@@ -48,12 +47,10 @@ const style = computed(() => props.tools.map(tool => tool.svgStyle ?? '').join("
 <template>
     <svg :width="width" :height="height" :viewBox="`0 0 ${width} ${height}`" xmlns="http://www.w3.org/2000/svg">
         <image v-if="background" :xlink:href="backgroundSrc" :width="width" />
-        <component v-for="shape, i in history" :key="i" :is="getTool(shape.type).svgShape" :shape="shape" />
-        <component v-if="activeShape" :is="getTool(activeShape.type).svgShape" :shape="activeShape" />
-        <path v-if="crop" class="overlay" :d="`
-                M 0,0 V ${height} H ${width} V 0 Z
-                M ${crop.x},${crop.y} H ${crop.x + crop.width} V ${crop.y + crop.height} H ${crop.x} Z
-            `" />
+        <component v-for="shape, i in history" :key="i" :is="getTool(shape.type).svgShape" :shape :history />
+        <component v-if="activeShape" :is="getTool(activeShape.type).svgShape" :shape="activeShape" :history :width
+            :height />
+        <component v-for="tool in tools" :key="tool.type" :is="tool.svgOnce" :history :activeShape :width :height />
         <defs>
             <component v-for="tool in tools" :key="tool.type" :is="tool.svgDefs" :history :activeShape />
         </defs>
