@@ -39,7 +39,7 @@ export function useArrow(): ToolComposable<Arrow> {
     }))
 
     const toolSvg = {
-        props: { history: Array, activeShape: Object },
+        props: { history: Array, activeShape: Object, width: Number, height: Number },
         setup(props: ToolSvgProps) {
             const arrowMarkers = computed(() => {
                 return [...props.history, props.activeShape]
