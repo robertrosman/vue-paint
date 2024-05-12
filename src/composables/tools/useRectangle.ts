@@ -1,4 +1,4 @@
-import type { ToShapeArguments, ToolComposable } from "@/types"
+import type { DrawEvent, ToolComposable } from "@/types"
 import { shapeSvgComponent } from "@/utils/shapeSvgComponent"
 import { h } from "vue"
 
@@ -15,7 +15,7 @@ export interface Rectangle {
 export function useRectangle(): ToolComposable<Rectangle> {
     const type = "rectangle"
 
-    function toShape({ settings, minX, minY, maxX, maxY }: ToShapeArguments): Rectangle {
+    function onDraw({ settings, minX, minY, maxX, maxY }: DrawEvent): Rectangle {
         return {
             type,
             x: minX.value,
@@ -44,5 +44,5 @@ export function useRectangle(): ToolComposable<Rectangle> {
         }
     `
 
-    return { type, toShape, shapeSvg, svgStyle }
+    return { type, onDraw, shapeSvg, svgStyle }
 }

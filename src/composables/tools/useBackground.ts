@@ -1,6 +1,6 @@
-import type { ToolSvgProps, ToShapeArguments, ToolComposable, InitializeOptions } from "@/types"
+import type { ToolSvgProps, ToolComposable, InitializeOptions } from "@/types"
 import { createDataUrl } from "@/utils/createDataUrl"
-import { computed, h } from "vue"
+import { h } from "vue"
 
 export interface Background {
     type: "background"

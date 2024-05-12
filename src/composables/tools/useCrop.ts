@@ -1,4 +1,4 @@
-import type { ToolSvgProps, ToShapeArguments, ToolComposable, ExportParameters, Shape } from "@/types"
+import type { ToolSvgProps, DrawEvent, ToolComposable, ExportParameters, Shape } from "@/types"
 import { computed, h } from "vue"
 
 export interface Crop {
@@ -22,7 +22,7 @@ function getCrop (history: Shape[], activeShape: Shape | undefined) {
 export function useCrop(): ToolComposable<Crop> {
     const type = "crop"
 
-    function toShape({ minX, minY, maxX, maxY }: ToShapeArguments): Crop {
+    function onDraw({ minX, minY, maxX, maxY }: DrawEvent): Crop {
         return {
             type,
             x: minX.value,
@@ -64,5 +64,5 @@ export function useCrop(): ToolComposable<Crop> {
         }
     }
 
-    return { type, toShape, svgStyle, toolSvg, beforeExport }
+    return { type, onDraw, svgStyle, toolSvg, beforeExport }
 }

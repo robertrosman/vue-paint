@@ -1,4 +1,4 @@
-import type { ToolSvgProps, ToShapeArguments, ToolComposable } from "@/types"
+import type { ToolSvgProps, DrawEvent, ToolComposable } from "@/types"
 import { getArrowId } from "@/utils/getArrowId"
 import { shapeSvgComponent } from "@/utils/shapeSvgComponent"
 import { computed, h } from "vue"
@@ -16,7 +16,7 @@ export interface Arrow {
 export function useArrow(): ToolComposable<Arrow> {
     const type = "arrow"
 
-    function toShape({ settings, posStart, posEnd, left, top}: ToShapeArguments): Arrow {
+    function onDraw({ settings, posStart, posEnd, left, top}: DrawEvent): Arrow {
         return {
             type,
             x1: posStart.x - left.value,
@@ -68,6 +68,6 @@ export function useArrow(): ToolComposable<Arrow> {
         }
     }
 
-    return { type, toShape, shapeSvg, toolSvg }
+    return { type, onDraw, shapeSvg, toolSvg }
 }
 

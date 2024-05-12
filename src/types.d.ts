@@ -26,7 +26,9 @@ export interface ToolSvgProps extends SvgComponentProps {
 export interface ToolComposable<T> {
     type: string
     initialize?: (args: InitializeOptions) => Promise<T | T[] | void>
-    toShape?: (args: ToShapeArguments) => T
+    onDrawStart?: (args: DrawEvent) => T | undefined
+    onDraw?: (args: DrawEvent) => T | undefined
+    onDrawEnd?: (args: DrawEvent) => T | undefined
     shapeSvg?: {
         props: unknown,
         setup: (props: ShapeSvgProps) => () => unknown
@@ -40,11 +42,13 @@ export interface ToolComposable<T> {
     beforeExport?: (args: ExportParameters) => void
 }
 
-export interface ToShapeArguments {
+export interface DrawEvent {
     settings: Settings
     tools: ToolComposable<unknown>[]
+    activeShape: Ref<Shape | undefined>
     posStart: Position
     posEnd: Position
+    isDrawing: Ref<boolean>
     left: Ref<number>
     right: Ref<number>
     top: Ref<number>

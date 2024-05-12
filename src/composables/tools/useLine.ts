@@ -1,4 +1,4 @@
-import type { ToShapeArguments, ToolComposable } from "@/types"
+import type { DrawEvent, ToolComposable } from "@/types"
 import { shapeSvgComponent } from "@/utils/shapeSvgComponent"
 import { h } from "vue"
 
@@ -15,7 +15,7 @@ export interface Line {
 export function useLine(): ToolComposable<Line> {
     const type = "line"
 
-    function toShape({ settings, posStart, posEnd, left, top}: ToShapeArguments): Line {
+    function onDraw({ settings, posStart, posEnd, left, top}: DrawEvent): Line {
         return {
             type,
             x1: posStart.x - left.value,
@@ -44,5 +44,5 @@ export function useLine(): ToolComposable<Line> {
         }
     `
 
-    return { type, toShape, shapeSvg, svgStyle }
+    return { type, onDraw, shapeSvg, svgStyle }
 }
