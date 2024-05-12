@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import PaintEditor from './components/PaintEditor.vue'
-import type { SaveParameters, Shape } from './types'
+import type { DrawEvent, SaveParameters, Shape } from './types'
 import { toCanvas } from './utils/toCanvas';
 import { exportSvg } from './utils/exportSvg';
 import { useStorage } from '@vueuse/core';
@@ -17,6 +17,10 @@ const { tools: toolsWithBackground } = useAllTools({ background: urlToBlob('/pex
 function save({ svg, tools, history }: SaveParameters) {
   imgSrc.value = exportSvg({ svg, tools, history })
   toCanvas({ svg, canvas: canvasRef, tools, history })
+}
+
+function logEvent(event: DrawEvent) {
+  console.log(event)
 }
 
 const history = useStorage<Shape[]>("history", [{
@@ -51,4 +55,9 @@ const history = useStorage<Shape[]>("history", [{
     current state (like in localStorage or on a server). Try to draw something and reload the page to see localStorage
     in action. </p>
   <paint-editor v-model:history="history" class="vue-draw" @save="save" :tools></paint-editor>
+
+  <h1>Using events</h1>
+  <p>You can hook into events that are emitted from the component. Watch the console while drawing to see it in action.
+  </p>
+  <paint-editor class="vue-draw" @save="save" :tools @draw-start="logEvent" @draw-end="logEvent"></paint-editor>
 </template>

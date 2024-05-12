@@ -6,6 +6,9 @@ import PaintRenderer from './PaintRenderer.vue';
 
 const emit = defineEmits<{
     (e: 'save', { svg, tools, history }: SaveParameters): void
+    (e: 'drawStart', event: DrawEvent): void
+    (e: 'draw', event: DrawEvent): void
+    (e: 'drawEnd', event: DrawEvent): void
     (e: 'clear'): void
 }>()
 
@@ -51,12 +54,15 @@ const { posStart, posEnd, isSwiping } = usePointerSwipe(svgRef, {
     threshold: 0,
     onSwipeStart(e) {
         activeShape.value = getActiveTool()?.onDrawStart?.(drawEvent.value) ?? activeShape.value
+        emit('drawStart', drawEvent.value)
     },
     onSwipe(e) {
         activeShape.value = getActiveTool()?.onDraw?.(drawEvent.value) ?? activeShape.value
+        emit('draw', drawEvent.value)
     },
     onSwipeEnd() {
         activeShape.value = getActiveTool()?.onDrawEnd?.(drawEvent.value) ?? activeShape.value
+        emit('drawEnd', drawEvent.value)
         if (activeShape.value) {
             history.value.push(activeShape.value)
             activeShape.value = undefined
