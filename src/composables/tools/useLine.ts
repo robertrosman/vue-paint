@@ -15,13 +15,13 @@ export interface Line {
 export function useLine(): ToolComposable<Line> {
     const type = "line"
 
-    function onDraw({ settings, posStart, posEnd, left, top}: DrawEvent): Line {
+    function onDraw({ settings, posStart, x, y, left, top}: DrawEvent): Line {
         return {
             type,
             x1: posStart.x - left.value,
             y1: posStart.y - top.value,
-            x2: posEnd.x - left.value,
-            y2: posEnd.y - top.value,
+            x2: x.value,
+            y2: y.value,
             thickness: settings.thickness,
             color: settings.color
         }

@@ -16,13 +16,13 @@ export interface Arrow {
 export function useArrow(): ToolComposable<Arrow> {
     const type = "arrow"
 
-    function onDraw({ settings, posStart, posEnd, left, top}: DrawEvent): Arrow {
+    function onDraw({ settings, posStart, x, y, left, top}: DrawEvent): Arrow {
         return {
             type,
             x1: posStart.x - left.value,
             y1: posStart.y - top.value,
-            x2: posEnd.x - left.value,
-            y2: posEnd.y - top.value,
+            x2: x.value,
+            y2: y.value,
             thickness: settings.thickness,
             color: settings.color
         }
