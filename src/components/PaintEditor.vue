@@ -36,35 +36,27 @@ function getActiveTool() {
     return props.tools?.find(tool => tool.type === settings.value.tool)
 }
 
-function getDrawEvent(): DrawEvent {
-    return {
-        settings: settings.value,
-        activeShape,
-        isDrawing: isSwiping,
-        tools: props.tools,
-        posStart, posEnd,
-        left, right, top, bottom,
-        width, height,
-        minX, maxX, minY, maxY
-    }
-}
+const drawEvent = computed<DrawEvent>(() => ({
+    settings: settings.value,
+    activeShape,
+    isDrawing: isSwiping,
+    tools: props.tools,
+    posStart, posEnd,
+    left, right, top, bottom,
+    width, height,
+    minX, maxX, minY, maxY
+}))
 
 const { posStart, posEnd, isSwiping } = usePointerSwipe(svgRef, {
     threshold: 0,
     onSwipeStart(e) {
-        const activeTool = getActiveTool()
-        const drawEvent = getDrawEvent()
-        activeShape.value = activeTool?.onDrawStart?.(drawEvent) ?? activeShape.value
+        activeShape.value = getActiveTool()?.onDrawStart?.(drawEvent.value) ?? activeShape.value
     },
     onSwipe(e) {
-        const activeTool = getActiveTool()
-        const drawEvent = getDrawEvent()
-        activeShape.value = activeTool?.onDraw?.(drawEvent) ?? activeShape.value
+        activeShape.value = getActiveTool()?.onDraw?.(drawEvent.value) ?? activeShape.value
     },
     onSwipeEnd() {
-        const activeTool = getActiveTool()
-        const drawEvent = getDrawEvent()
-        activeShape.value = activeTool?.onDrawEnd?.(drawEvent) ?? activeShape.value
+        activeShape.value = getActiveTool()?.onDrawEnd?.(drawEvent.value) ?? activeShape.value
         if (activeShape.value) {
             history.value.push(activeShape.value)
             activeShape.value = undefined
