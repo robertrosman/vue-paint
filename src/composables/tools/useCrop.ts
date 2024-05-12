@@ -22,6 +22,8 @@ function getCrop (history: Shape[], activeShape: Shape | undefined) {
 export function useCrop(): ToolComposable<Crop> {
     const type = "crop"
 
+    const icon = `<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M17 23v-4H7q-.825 0-1.412-.587T5 17V7H1V5h4V1h2v16h16v2h-4v4zm0-8V7H9V5h8q.825 0 1.413.588T19 7v8z"/></svg>`
+
     function onDraw({ minX, minY, maxX, maxY }: DrawEvent): Crop {
         return {
             type,
@@ -64,5 +66,5 @@ export function useCrop(): ToolComposable<Crop> {
         }
     }
 
-    return { type, onDraw, svgStyle, toolSvg, beforeExport }
+    return { type, icon, onDraw, svgStyle, toolSvg, beforeExport }
 }

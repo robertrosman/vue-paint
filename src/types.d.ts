@@ -26,6 +26,7 @@ export interface ToolSvgProps extends SvgComponentProps {
 
 export interface ToolComposable<T> {
     type: string
+    icon?: string
     initialize?: (args: InitializeOptions) => Promise<T | T[] | void>
     onDrawStart?: (args: DrawEvent) => T | void | undefined
     onDraw?: (args: DrawEvent) => T | void | undefined

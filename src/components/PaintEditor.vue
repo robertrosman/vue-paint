@@ -114,12 +114,12 @@ function clear() {
     <div ref="container" class="container">
         <paint-renderer ref="svgRef" :tools :activeShape :history :width :height />
 
-
-        <div class="toolbar">
-            <slot name="toolbar" :undo :save :clear :settings>
-                <DefaultToolbar v-model:settings="settings" @undo="undo" @save="save" @clear="clear" :tools />
-            </slot>
-        </div>
+        <slot name="toolbar" :undo :save :clear :settings>
+            <DefaultToolbar v-model:settings="settings" @undo="undo" @save="save" @clear="clear" :tools
+                v-model:active-tool="settings.tool" />
+            <!-- :settings="settings"
+                @update:settings="$emit('update:settings', $event)" -->
+        </slot>
     </div>
 </template>
 
@@ -129,7 +129,7 @@ function clear() {
     cursor: crosshair;
 }
 
-.toolbar {
+:deep .toolbar {
     position: absolute;
 }
 </style>

@@ -65,6 +65,6 @@ const history = useStorage<Shape[]>("history", [{
 
   <h1>With less tools</h1>
   <p>The editor will only support the tools you provide it</p>
-  <paint-editor class="vue-draw" @save="save" :tools="[useArrow(), useRectangle()]" @draw-start="logEvent"
+  <paint-editor class="vue-draw" @save="save" :tools="[useRectangle(), useArrow()]" @draw-start="logEvent"
     @draw-end="logEvent"></paint-editor>
 </template>

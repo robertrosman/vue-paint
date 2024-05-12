@@ -15,6 +15,8 @@ export interface Arrow {
 
 export function useArrow(): ToolComposable<Arrow> {
     const type = "arrow"
+    
+    const icon = `<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 15 15"><path fill="currentColor" d="M4.5 0h-4a.5.5 0 0 0-.5.5v4a.5.5 0 0 0 .854.354L2.5 3.207l11.646 11.647l.708-.708L3.207 2.5L4.854.854A.5.5 0 0 0 4.5 0"/></svg>`
 
     function onDraw({ settings, posStart, x, y, left, top}: DrawEvent): Arrow {
         return {
@@ -68,6 +70,6 @@ export function useArrow(): ToolComposable<Arrow> {
         }
     }
 
-    return { type, onDraw, shapeSvg, toolSvg }
+    return { type, icon, onDraw, shapeSvg, toolSvg }
 }
 

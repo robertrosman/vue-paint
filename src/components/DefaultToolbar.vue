@@ -19,21 +19,47 @@ const settings = defineModel<Settings>("settings", {
     })
 })
 
-function hasTool(tool: Tool) {
-    return props.tools.some(t => t.type === tool)
-}
+// Why is it not updating immediately? Is a separate model really needed at all, or can we make the settings.tool reactive too?
+const activeTool = defineModel<Tool>("activeTool")
 
 </script>
 
 <template>
-    <button v-if="hasTool('freehand')" @click="settings.tool = 'freehand'">Freehand</button>
-    <button v-if="hasTool('line')" @click="settings.tool = 'line'">Line</button>
-    <button v-if="hasTool('arrow')" @click="settings.tool = 'arrow'">Arrow</button>
-    <button v-if="hasTool('rectangle')" @click="settings.tool = 'rectangle'">Rectangle</button>
-    <button v-if="hasTool('crop')" @click="settings.tool = 'crop'">Crop</button>
-    <input type="range" min="1" max="10" v-model="settings.thickness" />
-    <input type="color" v-model="settings.color" />
-    <button @click="emit('undo')">Undo</button>
-    <button @click="emit('clear')">Clear</button>
-    <button @click="emit('save')">Save</button>
+    <div class="toolbar">
+        <button v-for="tool in tools.filter(tool => tool.icon)" :key="tool.type"
+            :class="{ active: activeTool === tool.type }" @click="activeTool = tool.type"
+            :title="tool.type"
+            v-html="tool.icon"></button>
+        <input type="range" min="1" max="10" v-model="settings.thickness" />
+        <input type="color" v-model="settings.color" />
+        <button @click="emit('undo')"><img src="/src/assets/icons/undo.svg" /></button>
+        <button @click="emit('clear')"><img src="/src/assets/icons/clear.svg" /></button>
+        <button @click="emit('save')"><img src="/src/assets/icons/save.svg" /></button>
+    </div>
 </template>
+
+<style scoped>
+.toolbar {
+    display: flex;
+    gap: 0.25em;
+}
+
+.toolbar button, .toolbar input[type=color] {
+    background: #eee;
+    outline: none;
+    width: 2.5em;
+    height: 2.5em;
+    border-radius: 50%;
+    border: 1px solid #aaa;
+    box-shadow: 0 0.2em 0.3em #ccc;
+    cursor: pointer;
+}
+
+.toolbar input[type=color]:hover,
+.toolbar button:hover,
+.toolbar button.active {
+    background: #ddd;
+    border: 1px solid #999;
+    box-shadow: 0 0.2em 0.3em #bbb;
+}
+</style>
