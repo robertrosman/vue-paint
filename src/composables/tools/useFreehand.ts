@@ -15,6 +15,7 @@ export interface Options {
 }
 
 // This code is originally based on the excellent answer here: https://stackoverflow.com/a/40700068/829505
+// TODO: Add some more smoothness with bezier magic: https://francoisromain.medium.com/smooth-a-svg-path-with-cubic-bezier-curves-e37b49d46c74
 export function useFreehand(options?: Options): ToolComposable<Freehand> {
     const type = "freehand"
 
