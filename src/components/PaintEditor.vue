@@ -3,6 +3,7 @@ import { useElementBounding, usePointerSwipe } from '@vueuse/core'
 import { computed, onMounted, ref } from 'vue';
 import type { DrawEvent, SaveParameters, Settings, Shape, Tool, ToolComposable } from '../types'
 import PaintRenderer from './PaintRenderer.vue';
+import DefaultToolbar from './DefaultToolbar.vue';
 
 const emit = defineEmits<{
     (e: 'save', { svg, tools, history }: SaveParameters): void
@@ -84,10 +85,6 @@ onMounted(() => {
     }
 })
 
-function setTool(tool: Tool) {
-    settings.value.tool = tool
-}
-
 function undo() {
     if (history.value.length) {
         history.value = history.value.slice(0, -1)
@@ -117,17 +114,11 @@ function clear() {
     <div ref="container" class="container">
         <paint-renderer ref="svgRef" :tools :activeShape :history :width :height />
 
+
         <div class="toolbar">
-            <button @click="setTool('freehand')">Freehand</button>
-            <button @click="setTool('line')">Line</button>
-            <button @click="setTool('arrow')">Arrow</button>
-            <button @click="setTool('rectangle')">Rectangle</button>
-            <button @click="setTool('crop')">Crop</button>
-            <input type="range" min="1" max="10" v-model="settings.thickness" />
-            <input type="color" v-model="settings.color" />
-            <button @click="undo">Undo</button>
-            <button @click="clear">Clear</button>
-            <button @click="save">Save</button>
+            <slot name="toolbar" :undo :save :clear :settings>
+                <DefaultToolbar v-model:settings="settings" @undo="undo" @save="save" @clear="clear" :tools />
+            </slot>
         </div>
     </div>
 </template>

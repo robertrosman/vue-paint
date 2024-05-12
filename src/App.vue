@@ -7,6 +7,8 @@ import { exportSvg } from './utils/exportSvg';
 import { useStorage } from '@vueuse/core';
 import { urlToBlob } from './utils/urlToBlob';
 import { useAllTools } from '@/composables/tools/useAllTools'
+import { useArrow } from '@/composables/tools/useArrow'
+import { useRectangle } from '@/composables/tools/useRectangle'
 
 const canvasRef = ref()
 const imgSrc = ref<string>()
@@ -60,4 +62,9 @@ const history = useStorage<Shape[]>("history", [{
   <p>You can hook into events that are emitted from the component. Watch the console while drawing to see it in action.
   </p>
   <paint-editor class="vue-draw" @save="save" :tools @draw-start="logEvent" @draw-end="logEvent"></paint-editor>
+
+  <h1>With less tools</h1>
+  <p>The editor will only support the tools you provide it</p>
+  <paint-editor class="vue-draw" @save="save" :tools="[useArrow(), useRectangle()]" @draw-start="logEvent"
+    @draw-end="logEvent"></paint-editor>
 </template>
