@@ -1,7 +1,8 @@
-import { useLine } from '@/composables/tools/useLine';
-import { useArrow } from '@/composables/tools/useArrow';
-import { useRectangle } from '@/composables/tools/useRectangle';
-import { useCrop } from '@/composables/tools/useCrop';
+import { useFreehand } from './useFreehand';
+import { useLine } from './useLine';
+import { useArrow } from './useArrow';
+import { useRectangle } from './useRectangle';
+import { useCrop } from './useCrop';
 import { useBackground } from './useBackground';
 
 export interface Options {
@@ -10,6 +11,7 @@ export interface Options {
 
 export function useAllTools(options?: Options) {
     const tools = [
+        useFreehand(),
         useLine(),
         useArrow(),
         useRectangle(),

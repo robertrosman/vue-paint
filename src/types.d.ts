@@ -1,3 +1,4 @@
+import { type Freehand } from '@/composables/tools/useFreehand'
 import { type Line } from '@/composables/tools/useLine'
 import { type Arrow } from '@/composables/tools/useArrow'
 import { type Rectangle } from '@/composables/tools/useRectangle'
@@ -26,9 +27,9 @@ export interface ToolSvgProps extends SvgComponentProps {
 export interface ToolComposable<T> {
     type: string
     initialize?: (args: InitializeOptions) => Promise<T | T[] | void>
-    onDrawStart?: (args: DrawEvent) => T | undefined
-    onDraw?: (args: DrawEvent) => T | undefined
-    onDrawEnd?: (args: DrawEvent) => T | undefined
+    onDrawStart?: (args: DrawEvent) => T | void | undefined
+    onDraw?: (args: DrawEvent) => T | void | undefined
+    onDrawEnd?: (args: DrawEvent) => T | void | undefined
     shapeSvg?: {
         props: unknown,
         setup: (props: ShapeSvgProps) => () => unknown
@@ -46,6 +47,8 @@ export interface DrawEvent {
     settings: Settings
     tools: ToolComposable<unknown>[]
     activeShape: Ref<Shape | undefined>
+    x: Ref<number>,
+    y: Ref<number>,
     posStart: Position
     posEnd: Position
     isDrawing: Ref<boolean>
@@ -65,7 +68,7 @@ export interface InitializeOptions {
     tools: ToolComposable<unknown>[]
 }
 
-export type Shape = Crop | Rectangle | Line | Arrow | Background
+export type Shape = Freehand | Crop | Rectangle | Line | Arrow | Background
 
 export type Tool = Shape["type"]
 

@@ -14,7 +14,7 @@ const emit = defineEmits<{
 
 const settings = defineModel<Settings>("settings", {
     default: () => ({
-        tool: "line",
+        tool: "freehand",
         thickness: 5,
         color: "#c82d2d"
     })
@@ -47,7 +47,7 @@ const drawEvent = computed<DrawEvent>(() => ({
     posStart, posEnd,
     left, right, top, bottom,
     width, height,
-    minX, maxX, minY, maxY
+    x, y, minX, maxX, minY, maxY
 }))
 
 const { posStart, posEnd, isSwiping } = usePointerSwipe(svgRef, {
@@ -71,10 +71,12 @@ const { posStart, posEnd, isSwiping } = usePointerSwipe(svgRef, {
 })
 const { top, left, right, bottom, width, height } = useElementBounding(container)
 
-const minX = computed(() => Math.max(0, Math.min(posStart.x - left.value, posEnd.x - left.value)))
-const minY = computed(() => Math.max(0, Math.min(posStart.y - top.value, posEnd.y - top.value)))
-const maxX = computed(() => Math.min(width.value, Math.max(posStart.x - left.value, posEnd.x - left.value)))
-const maxY = computed(() => Math.min(height.value, Math.max(posStart.y - top.value, posEnd.y - top.value)))
+const x = computed(() => posEnd.x - left.value)
+const y = computed(() => posEnd.y - top.value)
+const minX = computed(() => Math.max(0, Math.min(posStart.x - left.value, x.value)))
+const minY = computed(() => Math.max(0, Math.min(posStart.y - top.value, y.value)))
+const maxX = computed(() => Math.min(width.value, Math.max(posStart.x - left.value, x.value)))
+const maxY = computed(() => Math.min(height.value, Math.max(posStart.y - top.value, y.value)))
 
 onMounted(() => {
     if (!history.value?.length) {
@@ -116,10 +118,11 @@ function clear() {
         <paint-renderer ref="svgRef" :tools :activeShape :history :width :height />
 
         <div class="toolbar">
-            <button @click="setTool('crop')">Crop</button>
+            <button @click="setTool('freehand')">Freehand</button>
             <button @click="setTool('line')">Line</button>
             <button @click="setTool('arrow')">Arrow</button>
             <button @click="setTool('rectangle')">Rectangle</button>
+            <button @click="setTool('crop')">Crop</button>
             <input type="range" min="1" max="10" v-model="settings.thickness" />
             <input type="color" v-model="settings.color" />
             <button @click="undo">Undo</button>
