@@ -71,12 +71,12 @@ const { posStart, posEnd, isSwiping } = usePointerSwipe(svgRef, {
 })
 const { top, left, right, bottom, width, height } = useElementBounding(container)
 
-const x = computed(() => posEnd.x - left.value)
-const y = computed(() => posEnd.y - top.value)
-const minX = computed(() => Math.max(0, Math.min(posStart.x - left.value, x.value)))
-const minY = computed(() => Math.max(0, Math.min(posStart.y - top.value, y.value)))
-const maxX = computed(() => Math.min(width.value, Math.max(posStart.x - left.value, x.value)))
-const maxY = computed(() => Math.min(height.value, Math.max(posStart.y - top.value, y.value)))
+const x = computed(() => Math.round(posEnd.x - left.value))
+const y = computed(() => Math.round(posEnd.y - top.value))
+const minX = computed(() => Math.max(0, Math.min(Math.round(posStart.x) - left.value, x.value)))
+const minY = computed(() => Math.max(0, Math.min(Math.round(posStart.y) - top.value, y.value)))
+const maxX = computed(() => Math.min(width.value, Math.max(Math.round(posStart.x - left.value), x.value)))
+const maxY = computed(() => Math.min(height.value, Math.max(Math.round(posStart.y - top.value), y.value)))
 
 onMounted(() => {
     if (!history.value?.length) {
