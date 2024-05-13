@@ -5,6 +5,7 @@ import { useAllTools } from '@/composables/tools/useAllTools'
 import type { DrawEvent } from '@/types';
 
 const { tools } = useAllTools()
+defineEmits(['save'])
 
 function logEvent(event: DrawEvent) {
   console.log(event)

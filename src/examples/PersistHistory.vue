@@ -14,6 +14,7 @@ const history = useStorage<Shape[]>("history", [{
 }])
 
 const { tools } = useAllTools()
+defineEmits(['save'])
 
 </script>
 

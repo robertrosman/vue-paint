@@ -5,6 +5,7 @@ import { useAllTools } from '@/composables/tools/useAllTools';
 import { urlToBlob } from '@/utils/urlToBlob';
 
 const { tools } = useAllTools({ background: urlToBlob('/pexels-apasaric.jpg') })
+defineEmits(['save'])
 </script>
 
 <template>

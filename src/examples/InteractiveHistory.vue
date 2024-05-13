@@ -13,6 +13,7 @@ const settings = ref<Settings>({
 })
 
 const { tools } = useAllTools()
+defineEmits(['save'])
 
 const historyJson = computed({
     get() {
@@ -50,7 +51,7 @@ function addRandomLine() {
     <h1>Interactive history</h1>
     <p>You can inspect and modify the history and settings objects down below to see it update automatically. This can
         of course be done programmatically as well.</p>
-    <paint-editor class="vue-draw" v-model:settings="settings" v-model:history="history" :tools />
+    <paint-editor class="vue-draw" @save="$emit('save', $event)" v-model:settings="settings" v-model:history="history" :tools />
     <button @click="addRandomLine">Add random line</button>
     <textarea v-model="historyJson"></textarea>
     <textarea v-model="settingsJson"></textarea>
