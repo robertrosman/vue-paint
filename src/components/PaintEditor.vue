@@ -28,11 +28,9 @@ const props = defineProps<{
 const history = defineModel<Shape[]>("history", { default: [] })
 
 const container = ref()
-const svgRef = ref<HTMLElement>()
 const activeShape = ref<Shape | undefined>()
 
 defineExpose({
-    svgRef,
     container
 })
 
@@ -51,15 +49,14 @@ const drawEvent = computed<DrawEvent>(() => ({
     x, y, minX, maxX, minY, maxY
 }))
 
-const { 
-    x, y, 
+const {
+    x, y,
     minX, minY, maxX, maxY,
     top, left, bottom, right, width, height,
     posStart, posEnd,
     isDrawing
 } = useDraw({
     container,
-    target: svgRef,
     onDrawStart() {
         activeShape.value = getActiveTool()?.onDrawStart?.(drawEvent.value) ?? activeShape.value
         emit('drawStart', drawEvent.value)
@@ -111,7 +108,7 @@ function clear() {
 
 <template>
     <div ref="container" class="container">
-        <paint-renderer ref="svgRef" :tools :activeShape :history :width :height />
+        <paint-renderer :tools :activeShape :history :width :height />
 
         <slot name="toolbar" :undo :save :clear :settings>
             <DefaultToolbar v-model:settings="settings" @undo="undo" @save="save" @clear="clear" :tools

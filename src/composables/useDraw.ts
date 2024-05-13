@@ -2,16 +2,18 @@ import { type Position, usePointer, useElementBounding, tryOnMounted } from "@vu
 import { computed, reactive, ref, unref, watchEffect, type MaybeRef } from "vue";
 
 export interface UseDrawOptions {
-    target: MaybeRef<HTMLElement | undefined>
     container: MaybeRef<HTMLElement | undefined>
     onDrawStart?: () => void
     onDraw?: () => void
     onDrawEnd?: () => void
 }
 
-export function useDraw({ container, target, onDrawStart, onDraw, onDrawEnd }: UseDrawOptions) {
+/** Without this variable you can start drawing in one editor and continue in another (with it's potentially other tool). */
+let isDrawingSomewhere = false
 
-    const { x: absoluteX, y: absoluteY, pressure } = usePointer({ target })
+export function useDraw({ container, onDrawStart, onDraw, onDrawEnd }: UseDrawOptions) {
+
+    const { x: absoluteX, y: absoluteY, pressure } = usePointer()
     const { top, left, right, bottom, width, height } = useElementBounding(container)
     const isDrawing = ref(false)
     const posStart = reactive<Position>({x: 0, y: 0})
@@ -22,18 +24,22 @@ export function useDraw({ container, target, onDrawStart, onDraw, onDrawEnd }: U
     const minY = computed(() => Math.max(0, Math.min(posStart.y, y.value)))
     const maxX = computed(() => Math.min(width.value, Math.max(posStart.x, x.value)))
     const maxY = computed(() => Math.min(height.value, Math.max(posStart.y, y.value)))
-
+    const isInside = computed(() => 
+        absoluteX.value >= left.value
+        && absoluteX.value <= right.value
+        && absoluteY.value >= top.value
+        && absoluteY.value <= bottom.value
+    )
 
     tryOnMounted(() => {
-        unref(target)?.style?.setProperty('touch-action', 'none')
         unref(container)?.style?.setProperty('touch-action', 'none')
-        unref(target)?.style?.setProperty('user-select', 'none')
         unref(container)?.style?.setProperty('user-select', 'none')
     })
 
     watchEffect(() => {
-        if (pressure.value && !isDrawing.value) {
+        if (pressure.value && !isDrawing.value && isInside.value && !isDrawingSomewhere) {
             isDrawing.value = true
+            isDrawingSomewhere = true
             posStart.x = x.value
             posStart.y = y.value
             posEnd.x = x.value
@@ -47,6 +53,7 @@ export function useDraw({ container, target, onDrawStart, onDraw, onDrawEnd }: U
         }
         else if (!pressure.value && isDrawing.value) {
             isDrawing.value = false
+            isDrawingSomewhere = false
             onDrawEnd?.()
         }
     })
@@ -56,6 +63,6 @@ export function useDraw({ container, target, onDrawStart, onDraw, onDrawEnd }: U
         minX, minY, maxX, maxY,
         top, left, bottom, right, width, height,
         posStart, posEnd,
-        isDrawing
+        isDrawing, isInside
     }
 }
