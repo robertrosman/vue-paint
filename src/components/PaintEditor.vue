@@ -129,7 +129,7 @@ function clear() {
     cursor: crosshair;
 }
 
-:deep .toolbar {
+:deep(.toolbar) {
     position: absolute;
 }
 </style>
