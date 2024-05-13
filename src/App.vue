@@ -9,6 +9,7 @@ import { urlToBlob } from './utils/urlToBlob';
 import { useAllTools } from '@/composables/tools/useAllTools'
 import { useArrow } from '@/composables/tools/useArrow'
 import { useRectangle } from '@/composables/tools/useRectangle'
+import InteractiveHistory from '@/examples/InteractiveHistory.vue'
 
 const canvasRef = ref()
 const imgSrc = ref<string>()
@@ -67,4 +68,6 @@ const history = useStorage<Shape[]>("history", [{
   <p>The editor will only support the tools you provide it</p>
   <paint-editor class="vue-draw" @save="save" :tools="[useRectangle(), useArrow()]" @draw-start="logEvent"
     @draw-end="logEvent"></paint-editor>
+
+  <InteractiveHistory />
 </template>
