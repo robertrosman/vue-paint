@@ -29,3 +29,4 @@ coverage
 
 *.tsbuildinfo
 stats.html
+demo/*
