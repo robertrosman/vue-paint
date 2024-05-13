@@ -1,0 +1,27 @@
+<script setup lang="ts">
+
+import PaintEditor from '@/components/PaintEditor.vue'
+import { useAllTools } from '@/composables/tools/useAllTools'
+import type { Shape } from '@/types';
+import { useStorage } from '@vueuse/core';
+
+const history = useStorage<Shape[]>("history", [{
+  type: "crop",
+  x: 50,
+  y: 50,
+  width: 150,
+  height: 150
+}])
+
+const { tools } = useAllTools()
+
+</script>
+
+<template>
+  <h1>Persist history</h1>
+  <p> Using <code>v-model:history</code> you can set initial state, modify the state programmatically, add shapes, save
+    current state (like in localStorage or on a server). Try to draw something and reload the page to see localStorage
+    in action. </p>
+  <paint-editor v-model:history="history" class="vue-draw" @save="$emit('save', $event)" :tools></paint-editor>
+
+</template>
