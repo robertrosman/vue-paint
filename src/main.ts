@@ -1,6 +1,11 @@
-import './assets/main.css'
+import PaintEditor from "./components/PaintEditor.vue";
+import PaintRenderer from "./components/PaintRenderer.vue";
+export { useAllTools } from "./composables/tools/useAllTools";
+export { useArrow } from "./composables/tools/useArrow";
+export { useBackground } from "./composables/tools/useBackground";
+export { useCrop } from "./composables/tools/useCrop";
+export { useFreehand } from "./composables/tools/useFreehand";
+export { useLine } from "./composables/tools/useLine";
+export { useRectangle } from "./composables/tools/useRectangle";
 
-import { createApp } from 'vue'
-import App from './App.vue'
-
-createApp(App).mount('#app')
+export { PaintEditor, PaintRenderer }

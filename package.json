@@ -1,8 +1,17 @@
 {
   "name": "vue-paint",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "type": "module",
+  "files": ["dist"],
+  "main": "./dist/vue-paint.umd.js",
+  "module": "./dist/vue-paint.js",
+  "exports": {
+    ".": {
+      "import": "./dist/vue-paint.js",
+      "require": "./dist/vue-paint.umd.cjs"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
