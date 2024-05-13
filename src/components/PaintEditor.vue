@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { useElementBounding, usePointerSwipe } from '@vueuse/core'
 import { computed, onMounted, ref } from 'vue';
-import type { DrawEvent, SaveParameters, Settings, Shape, Tool, ToolComposable } from '../types'
+import type { DrawEvent, SaveParameters, Settings, Shape, ToolComposable } from '../types'
 import PaintRenderer from './PaintRenderer.vue';
 import DefaultToolbar from './DefaultToolbar.vue';
+import { useDraw } from '@/composables/useDraw';
 
 const emit = defineEmits<{
     (e: 'save', { svg, tools, history }: SaveParameters): void
@@ -28,7 +28,7 @@ const props = defineProps<{
 const history = defineModel<Shape[]>("history", { default: [] })
 
 const container = ref()
-const svgRef = ref()
+const svgRef = ref<HTMLElement>()
 const activeShape = ref<Shape | undefined>()
 
 defineExpose({
@@ -43,7 +43,7 @@ function getActiveTool() {
 const drawEvent = computed<DrawEvent>(() => ({
     settings: settings.value,
     activeShape,
-    isDrawing: isSwiping,
+    isDrawing,
     tools: props.tools,
     posStart, posEnd,
     left, right, top, bottom,
@@ -51,17 +51,24 @@ const drawEvent = computed<DrawEvent>(() => ({
     x, y, minX, maxX, minY, maxY
 }))
 
-const { posStart, posEnd, isSwiping } = usePointerSwipe(svgRef, {
-    threshold: 0,
-    onSwipeStart(e) {
+const { 
+    x, y, 
+    minX, minY, maxX, maxY,
+    top, left, bottom, right, width, height,
+    posStart, posEnd,
+    isDrawing
+} = useDraw({
+    container,
+    target: svgRef,
+    onDrawStart() {
         activeShape.value = getActiveTool()?.onDrawStart?.(drawEvent.value) ?? activeShape.value
         emit('drawStart', drawEvent.value)
     },
-    onSwipe(e) {
+    onDraw() {
         activeShape.value = getActiveTool()?.onDraw?.(drawEvent.value) ?? activeShape.value
         emit('draw', drawEvent.value)
     },
-    onSwipeEnd() {
+    onDrawEnd() {
         activeShape.value = getActiveTool()?.onDrawEnd?.(drawEvent.value) ?? activeShape.value
         emit('drawEnd', drawEvent.value)
         if (activeShape.value) {
@@ -70,14 +77,6 @@ const { posStart, posEnd, isSwiping } = usePointerSwipe(svgRef, {
         }
     }
 })
-const { top, left, right, bottom, width, height } = useElementBounding(container)
-
-const x = computed(() => Math.round(posEnd.x - left.value))
-const y = computed(() => Math.round(posEnd.y - top.value))
-const minX = computed(() => Math.max(0, Math.min(Math.round(posStart.x) - left.value, x.value)))
-const minY = computed(() => Math.max(0, Math.min(Math.round(posStart.y) - top.value, y.value)))
-const maxX = computed(() => Math.min(width.value, Math.max(Math.round(posStart.x - left.value), x.value)))
-const maxY = computed(() => Math.min(height.value, Math.max(Math.round(posStart.y - top.value), y.value)))
 
 onMounted(() => {
     if (!history.value?.length) {

@@ -17,11 +17,11 @@ export function useLine(): ToolComposable<Line> {
 
     const icon = `<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M21.71 3.29a1 1 0 0 0-1.42 0l-18 18a1 1 0 0 0 0 1.42a1 1 0 0 0 1.42 0l18-18a1 1 0 0 0 0-1.42"/></svg>`
 
-    function onDraw({ settings, posStart, x, y, left, top}: DrawEvent): Line {
+    function onDraw({ settings, posStart, x, y }: DrawEvent): Line {
         return {
             type,
-            x1: posStart.x - left.value,
-            y1: posStart.y - top.value,
+            x1: posStart.x,
+            y1: posStart.y,
             x2: x.value,
             y2: y.value,
             thickness: settings.thickness,

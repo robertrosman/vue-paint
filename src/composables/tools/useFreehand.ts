@@ -65,7 +65,7 @@ export function useFreehand(options?: Options): ToolComposable<Freehand> {
 
         if (pos) {
             // Get the smoothed part of the path that will not change
-            path += " L" + pos.x + " " + pos.y
+            path += ` L${pos.x} ${pos.y}`
 
             // Get the last part of the path (close to the current mouse position)
             // This part will change if the mouse moves again
@@ -73,7 +73,7 @@ export function useFreehand(options?: Options): ToolComposable<Freehand> {
             for (let offset = 2; offset < buffer.length; offset += 2) {
                 pos = getAveragePoint(offset)
                 if (pos) {
-                    tmpPath += " L" + pos.x + " " + pos.y
+                    tmpPath += ` L${pos.x} ${pos.y}`
                 }
             }
             return path + tmpPath
@@ -82,10 +82,16 @@ export function useFreehand(options?: Options): ToolComposable<Freehand> {
     };
 
     /** Initiates the draw by cleaning up previous state and starting a new path */
-    function onDrawStart({ x, y }: DrawEvent) {
+    function onDrawStart({ settings, x, y }: DrawEvent): Freehand {
         buffer.length = 0
         appendToBuffer({ x: x.value, y: y.value })
-        path = "M" + x.value + " " + y.value
+        path = `M${x.value} ${y.value}`
+        return {
+            type,
+            path: getSmoothPath(),
+            thickness: settings.thickness,
+            color: settings.color
+        }
     }
 
     /** Adds new point to path and returns complete Freehand object */

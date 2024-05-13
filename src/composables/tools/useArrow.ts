@@ -21,11 +21,11 @@ export function useArrow(): ToolComposable<Arrow> {
         return `arrow-${arrow.color.replace(/[^a-z0-9]/gi, '')}`
     }
 
-    function onDraw({ settings, posStart, x, y, left, top}: DrawEvent): Arrow {
+    function onDraw({ settings, posStart, x, y }: DrawEvent): Arrow {
         return {
             type,
-            x1: posStart.x - left.value,
-            y1: posStart.y - top.value,
+            x1: posStart.x,
+            y1: posStart.y,
             x2: x.value,
             y2: y.value,
             thickness: settings.thickness,
