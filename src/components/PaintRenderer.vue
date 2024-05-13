@@ -27,6 +27,7 @@ const highLayers = computed(() => props.tools.filter(tool => tool.toolSvg && (to
         <component v-for="shape, i in history" :key="i" :is="getTool(shape.type)?.shapeSvg" :shape :history />
         <component v-if="activeShape" :is="getTool(activeShape.type)?.shapeSvg" :shape="activeShape" :history :width
             :height />
+        <slot></slot>
         <component v-for="tool in highLayers" :key="tool.type" :is="tool.toolSvg" :history :activeShape :width
             :height />
         <svg:style>{{ style }}</svg:style>

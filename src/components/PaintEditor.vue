@@ -54,7 +54,7 @@ const {
     minX, minY, maxX, maxY,
     top, left, bottom, right, width, height,
     posStart, posEnd,
-    isDrawing
+    isDrawing, isInside
 } = useDraw({
     container,
     onDrawStart() {
@@ -104,11 +104,26 @@ function clear() {
     emit('clear')
 }
 
+const crosshairPath = computed(() => {
+    const offset = Number(settings.value.thickness)
+    return `
+        M${x.value - 8 - offset} ${y.value} L${x.value - 2 - offset} ${y.value}
+        M${x.value + 8 + offset} ${y.value} L${x.value + 2 + offset} ${y.value}
+        M${x.value} ${y.value - 8 - offset} L${x.value} ${y.value - 2 - offset}
+        M${x.value} ${y.value + 8 + offset} L${x.value} ${y.value + 2 + offset}
+    `
+})
+
 </script>
 
 <template>
     <div ref="container" class="container">
-        <paint-renderer :tools :activeShape :history :width :height />
+        <paint-renderer :tools :activeShape :history :width :height>
+            <slot name="cursor">
+                <path v-if="isInside" :d="`M${x} ${y} L${x} ${y}`" class="freehand" :stroke="settings.color" :stroke-width="settings.thickness" />
+                <path v-if="isInside" :d="crosshairPath" class="freehand" stroke="gray" stroke-width="1" />
+            </slot>
+        </paint-renderer>
 
         <slot name="toolbar" :undo :save :clear :settings>
             <DefaultToolbar v-model:settings="settings" @undo="undo" @save="save" @clear="clear" :tools
@@ -122,7 +137,7 @@ function clear() {
 <style scoped>
 .container {
     position: relative;
-    cursor: crosshair;
+    cursor: none;
 }
 
 :deep(.toolbar) {
