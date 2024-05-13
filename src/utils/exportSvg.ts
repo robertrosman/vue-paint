@@ -5,8 +5,7 @@ import { unref } from "vue";
 export function exportSvg({ svg, history, tools }: ExportParameters) {
     // get svg data
     const clone = unref(svg).cloneNode(true) as SVGElement
-    tools.filter(tool => tool.beforeExport)
-        .forEach(tool => tool.beforeExport({ svg: clone, history, tools}))
+    tools.forEach(tool => tool.beforeExport?.({ svg: clone, history, tools}))
     const xml = new XMLSerializer().serializeToString(clone);
 
     // make it base64

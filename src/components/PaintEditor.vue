@@ -22,7 +22,7 @@ const settings = defineModel<Settings>("settings", {
 })
 
 const props = defineProps<{
-    tools: ToolComposable<unknown>[]
+    tools: ToolComposable<Shape>[]
 }>()
 
 const history = defineModel<Shape[]>("history", { default: [] })

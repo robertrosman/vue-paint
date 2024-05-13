@@ -3,7 +3,7 @@ import { computed } from 'vue';
 import type { Shape, ToolComposable } from '../types'
 
 const props = defineProps<{
-    tools: ToolComposable<unknown>[]
+    tools: ToolComposable<Shape>[]
     activeShape?: Shape
     history: Shape[]
     width: number

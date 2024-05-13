@@ -1,4 +1,4 @@
-import type { Crop, ExportParameters } from "@/types";
+import type { ExportParameters } from "@/types";
 import { unref, type MaybeRef } from "vue";
 import { exportSvg } from "./exportSvg";
 

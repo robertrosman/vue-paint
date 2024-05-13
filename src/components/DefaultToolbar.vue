@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { Settings, Tool, ToolComposable } from '@/types';
+import type { Settings, Shape, Tool, ToolComposable } from '@/types';
 
 const props = defineProps<{
-    tools: ToolComposable<unknown>[]
+    tools: ToolComposable<Shape>[]
 }>()
 
 const emit = defineEmits<{
@@ -27,8 +27,7 @@ const activeTool = defineModel<Tool>("activeTool")
 <template>
     <div class="toolbar">
         <button v-for="tool in tools.filter(tool => tool.icon)" :key="tool.type"
-            :class="{ active: activeTool === tool.type }" @click="activeTool = tool.type"
-            :title="tool.type"
+            :class="{ active: activeTool === tool.type }" @click="activeTool = tool.type as Tool" :title="tool.type"
             v-html="tool.icon"></button>
         <input type="range" min="1" max="10" v-model="settings.thickness" />
         <input type="color" v-model="settings.color" />
@@ -44,7 +43,8 @@ const activeTool = defineModel<Tool>("activeTool")
     gap: 0.25em;
 }
 
-.toolbar button, .toolbar input[type=color] {
+.toolbar button,
+.toolbar input[type=color] {
     background: #eee;
     outline: none;
     width: 2.5em;

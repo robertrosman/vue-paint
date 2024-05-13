@@ -46,7 +46,7 @@ export interface ToolComposable<T> {
 
 export interface DrawEvent {
     settings: Settings
-    tools: ToolComposable<unknown>[]
+    tools: ToolComposable<Shape>[]
     activeShape: Ref<Shape | undefined>
     x: Ref<number>,
     y: Ref<number>,
@@ -66,7 +66,7 @@ export interface DrawEvent {
 }
 
 export interface InitializeOptions {
-    tools: ToolComposable<unknown>[]
+    tools: ToolComposable<Shape>[]
 }
 
 export type Shape = Freehand | Crop | Rectangle | Line | Arrow | Background
@@ -75,7 +75,7 @@ export type Tool = Shape["type"]
 
 export interface SaveParameters {
     svg: SVGElement
-    tools: ToolComposable<unknown>[]
+    tools: ToolComposable<Shape>[]
     history: Shape[]
 }
 
