@@ -4,7 +4,7 @@ import PaintEditor from '@/components/PaintEditor.vue'
 import { useAllTools } from '@/composables/tools/useAllTools';
 import { urlToBlob } from '@/utils/urlToBlob';
 
-const { tools } = useAllTools({ background: urlToBlob('/pexels-apasaric.jpg') })
+const { tools } = useAllTools({ background: urlToBlob('./pexels-apasaric.jpg') })
 defineEmits(['save'])
 </script>
 
