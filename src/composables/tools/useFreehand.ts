@@ -1,21 +1,29 @@
 import type { DrawEvent, ToolComposable } from "@/types"
 import { shapeSvgComponent } from "@/utils/shapeSvgComponent"
 import type { Position } from "@vueuse/core"
-import { h, ref } from "vue"
+import { h } from "vue"
 
 export interface Freehand {
     type: "freehand"
+
+    /** The path is svg formatted, but can be a bit daunting at first for human people. It is basically a collection of all points
+     * to connect where every point is notated like `L${x} ${y}`, but the first one starts with M instead of L. */
     path: string
+
+    /** How thick the freehand line is. */
     thickness: number
+
+    /** The color of the freehand line. */
     color: string
 }
 
 export interface Options {
+    /** The smoothness defines how sharp the edges will be. A higher number means more smoothness. Defaults to 4. */
     smoothness?: number
 }
 
-// This code is originally based on the excellent answer here: https://stackoverflow.com/a/40700068/829505
 // TODO: Add some more smoothness with bezier magic: https://francoisromain.medium.com/smooth-a-svg-path-with-cubic-bezier-curves-e37b49d46c74
+/** useFreehand is like a pencil. You can draw whatever shapes you want wihout boundaries. It tries to smoothen out sharp edges with an algorithm found here originally: https://stackoverflow.com/a/40700068/829505 */
 export function useFreehand(options?: Options): ToolComposable<Freehand> {
     const type = "freehand"
 
@@ -32,23 +40,21 @@ export function useFreehand(options?: Options): ToolComposable<Freehand> {
         }
     }
 
-    // Calculate the average point, starting at offset in the buffer
+    /** Calculate the average point, starting at offset in the buffer */
     function getAveragePoint (offset: number) {
         const len = buffer.length
         if (len % 2 === 1 || len >= bufferSize) {
             let totalX = 0
             let totalY = 0
             let pt, i
-            let count = 0
             for (i = offset; i < len; i++) {
-                count++
                 pt = buffer[i]
                 totalX += pt.x
                 totalY += pt.y
             }
             return {
-                x: totalX / count,
-                y: totalY / count
+                x: totalX / (len - offset),
+                y: totalY / (len - offset)
             }
         }
         return null;
@@ -75,12 +81,14 @@ export function useFreehand(options?: Options): ToolComposable<Freehand> {
         return path
     };
 
+    /** Initiates the draw by cleaning up previous state and starting a new path */
     function onDrawStart({ x, y }: DrawEvent) {
         buffer.length = 0
         appendToBuffer({ x: x.value, y: y.value })
         path = "M" + x.value + " " + y.value
     }
 
+    /** Adds new point to path and returns complete Freehand object */
     function onDraw({ settings, x, y }: DrawEvent): Freehand | undefined {
         appendToBuffer({ x: x.value, y: y.value })
         if (path) {
@@ -93,6 +101,7 @@ export function useFreehand(options?: Options): ToolComposable<Freehand> {
         }
     }
 
+    /** Render an [svg path](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/path) with the given settings.  */
     const shapeSvg = shapeSvgComponent<Freehand>(freehand => h('path', {
         d: freehand.path,
         class: 'freehand',
