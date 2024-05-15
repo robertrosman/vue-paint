@@ -8,6 +8,7 @@ const props = defineProps<{
 const emit = defineEmits<{
     (e: 'save'): void
     (e: 'undo'): void
+    (e: 'redo'): void
     (e: 'clear'): void
 }>()
 
@@ -35,8 +36,9 @@ const activeTool = defineModel<Tool>("activeTool")
             <input type="range" min="1" max="10" v-model="settings.thickness" />
             <input type="color" v-model="settings.color" />
         </div>
-        <div class="events">
+        <div class="actions">
             <button @click="emit('undo')"><img src="/src/assets/icons/undo.svg" /></button>
+            <button @click="emit('redo')"><img src="/src/assets/icons/redo.svg" /></button>
             <button @click="emit('clear')"><img src="/src/assets/icons/clear.svg" /></button>
             <button @click="emit('save')"><img src="/src/assets/icons/save.svg" /></button>
         </div>

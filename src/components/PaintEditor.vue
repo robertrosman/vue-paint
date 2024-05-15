@@ -35,6 +35,7 @@ const props = defineProps<{
 }>()
 
 const history = defineModel<Shape[]>("history", { default: [] })
+const redoHistory = ref<Shape[]>([])
 
 const container = ref()
 const activeShape = ref<Shape | undefined>()
@@ -82,6 +83,7 @@ const {
         emit('drawEnd', drawEvent.value)
         if (activeShape.value) {
             history.value.push(activeShape.value)
+            redoHistory.value = []
             activeShape.value = undefined
         }
     }
@@ -97,7 +99,15 @@ onMounted(() => {
 
 function undo() {
     if (history.value.length) {
+        redoHistory.value.push(...history.value.slice(-1))
         history.value = history.value.slice(0, -1)
+    }
+}
+
+function redo() {
+    if (redoHistory.value.length) {
+        history.value.push(...redoHistory.value.slice(-1))
+        redoHistory.value = redoHistory.value.slice(0, -1)
     }
 }
 
@@ -110,6 +120,7 @@ function save() {
 }
 
 function clear() {
+    redoHistory.value = history.value.reverse()
     history.value = []
     Promise.all(props.tools
         .filter(tool => "initialize" in tool)
@@ -126,10 +137,8 @@ const widthPx = computed(() => `${width}px`)
         <paint-renderer :tools :activeShape :history :width="width" :height="height" />
 
         <slot name="toolbar" :undo :save :clear :settings>
-            <DefaultToolbar v-model:settings="settings" @undo="undo" @save="save" @clear="clear" :tools
+            <DefaultToolbar v-model:settings="settings" @undo="undo" @redo="redo" @save="save" @clear="clear" :tools
                 v-model:active-tool="settings.tool" />
-            <!-- :settings="settings"
-                @update:settings="$emit('update:settings', $event)" -->
         </slot>
     </div>
 </template>
