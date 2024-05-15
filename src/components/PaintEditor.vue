@@ -143,8 +143,4 @@ const widthPx = computed(() => `${width}px`)
     display: flex;
 }
 
-:deep(.toolbar) {
-    position: absolute;
-    bottom: -3em;
-}
 </style>
