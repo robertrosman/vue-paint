@@ -1,7 +1,7 @@
 {
   "name": "vue-paint",
   "version": "0.0.1",
-  "private": true,
+  "private": false,
   "type": "module",
   "files": [
     "dist"
