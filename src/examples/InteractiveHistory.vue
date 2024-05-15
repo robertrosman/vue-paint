@@ -9,7 +9,9 @@ const history = ref<Shape[]>([])
 const settings = ref<Settings>({
     tool: 'line',
     thickness: 3,
-    color: "#cf7520"
+    color: "#cf7520",
+    width: 500,
+    height: 300
 })
 
 const { tools } = useAllTools()

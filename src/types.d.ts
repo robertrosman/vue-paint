@@ -9,6 +9,8 @@ export interface Settings {
     tool: Tool
     thickness: number
     color: string
+    width: number
+    height: number
 }
 
 export interface SvgComponentProps {

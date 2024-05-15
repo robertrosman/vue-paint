@@ -1,3 +1,16 @@
+<script lang="ts">
+
+const defaultSettings: Settings = {
+    tool: "freehand",
+    thickness: 5,
+    color: "#c82d2d",
+    width: 3000,
+    height: 1500
+}
+
+</script>
+
+
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import type { DrawEvent, SaveParameters, Settings, Shape, ToolComposable } from '../types'
@@ -14,11 +27,7 @@ const emit = defineEmits<{
 }>()
 
 const settings = defineModel<Settings>("settings", {
-    default: () => ({
-        tool: "freehand",
-        thickness: 5,
-        color: "#c82d2d"
-    })
+    default: () => defaultSettings
 })
 
 const props = defineProps<{
@@ -45,18 +54,21 @@ const drawEvent = computed<DrawEvent>(() => ({
     tools: props.tools,
     posStart, posEnd,
     left, right, top, bottom,
-    width, height,
+    width: settings.value.width, height: settings.value.height,
     x, y, minX, maxX, minY, maxY
 }))
 
 const {
     x, y,
     minX, minY, maxX, maxY,
-    top, left, bottom, right, width, height,
+    top, left, bottom, right,
     posStart, posEnd,
+    width, height,
     isDrawing
 } = useDraw({
     container,
+    width: settings.value.width,
+    height: settings.value.height,
     onDrawStart() {
         activeShape.value = getActiveTool()?.onDrawStart?.(drawEvent.value) ?? activeShape.value
         emit('drawStart', drawEvent.value)
@@ -76,6 +88,8 @@ const {
 })
 
 onMounted(() => {
+    settings.value.width ??= defaultSettings.width
+    settings.value.height ??= defaultSettings.height
     if (!history.value?.length) {
         clear()
     }
@@ -104,11 +118,12 @@ function clear() {
     emit('clear')
 }
 
+const widthPx = computed(() => `${width}px`)
 </script>
 
 <template>
     <div ref="container" class="container">
-        <paint-renderer :tools :activeShape :history :width :height />
+        <paint-renderer :tools :activeShape :history :width="width" :height="height" />
 
         <slot name="toolbar" :undo :save :clear :settings>
             <DefaultToolbar v-model:settings="settings" @undo="undo" @save="save" @clear="clear" :tools
@@ -123,9 +138,13 @@ function clear() {
 .container {
     position: relative;
     cursor: crosshair;
+    height: auto;
+    max-width: v-bind(widthPx);
+    display: flex;
 }
 
 :deep(.toolbar) {
     position: absolute;
+    bottom: -3em;
 }
 </style>

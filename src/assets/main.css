@@ -7,24 +7,10 @@
   font-weight: normal;
 }
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
-
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
-}
-
 .vue-draw {
   outline: 1px dashed #777;
   border-radius: 5px;
-  width: 500px;
-  height: 300px;
+  padding: 0;
   margin-bottom: 70px;
 }
 
