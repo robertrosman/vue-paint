@@ -25,14 +25,14 @@ function save({ svg, tools, history }: SaveParameters) {
 
 <template>
   <div v-if="imgSrc" class="save-modal" @click="imgSrc = ''">
-    <div class="bg-white">
+    <section>
       Exported to image
       <img v-if="imgSrc" :src="imgSrc" />
-    </div>
-    <div class="bg-white">
+    </section>
+    <section>
       Exported to canvas
       <canvas ref="canvasRef"></canvas>
-    </div>
+    </section>
   </div>
   <h1>Barebones example</h1>
   <paint-editor class="vue-draw" @save="save" :tools></paint-editor>

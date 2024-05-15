@@ -27,12 +27,17 @@
   align-items: flex-start;
 }
 
-.bg-white {
+.save-modal section {
   background: white;
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 10px;
+}
+
+.save-modal section img, .save-modal section canvas {
+  min-width: 300px;
+  max-width: 100%;
 }
 
 .hidden {
