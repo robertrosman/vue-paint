@@ -45,5 +45,5 @@ function save({ svg, tools, history }: SaveParameters) {
 
   <LessTools @save="save" />
 
-  <InteractiveHistory />
+  <InteractiveHistory @save="save" />
 </template>
