@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import PaintEditor from './components/PaintEditor.vue'
+import VpEditor from './components/VpEditor.vue'
 import type { SaveParameters } from './types'
 import { toCanvas } from './utils/toCanvas';
 import { exportSvg } from './utils/exportSvg';
@@ -35,7 +35,7 @@ function save({ svg, tools, history }: SaveParameters) {
     </section>
   </div>
   <h1>Barebones example</h1>
-  <paint-editor class="vue-draw" @save="save" :tools></paint-editor>
+  <vp-editor class="vue-draw" @save="save" :tools></vp-editor>
 
   <WithBackground @save="save" />
 

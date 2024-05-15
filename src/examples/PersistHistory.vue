@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import PaintEditor from '@/components/PaintEditor.vue'
+import VpEditor from '@/components/VpEditor.vue'
 import { useAllTools } from '@/composables/tools/useAllTools'
 import type { Shape } from '@/types';
 import { useStorage } from '@vueuse/core';
@@ -23,6 +23,6 @@ defineEmits(['save'])
   <p> Using <code>v-model:history</code> you can set initial state, modify the state programmatically, add shapes, save
     current state (like in localStorage or on a server). Try to draw something and reload the page to see localStorage
     in action. </p>
-  <paint-editor v-model:history="history" class="vue-draw" @save="$emit('save', $event)" :tools></paint-editor>
+  <vp-editor v-model:history="history" class="vue-draw" @save="$emit('save', $event)" :tools></vp-editor>
 
 </template>

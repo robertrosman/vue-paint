@@ -14,8 +14,8 @@ const defaultSettings: Settings = {
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import type { DrawEvent, SaveParameters, Settings, Shape, ToolComposable } from '../types'
-import PaintRenderer from './PaintRenderer.vue';
-import DefaultToolbar from './DefaultToolbar.vue';
+import VpImage from './VpImage.vue';
+import VpToolbar from './VpToolbar.vue';
 import { useDraw } from '@/composables/useDraw';
 
 const emit = defineEmits<{
@@ -134,10 +134,10 @@ const widthPx = computed(() => `${width}px`)
 
 <template>
     <div ref="container" class="container">
-        <paint-renderer :tools :activeShape :history :width="width" :height="height" />
+        <vp-image :tools :activeShape :history :width="width" :height="height" />
 
         <slot name="toolbar" :undo :save :clear :settings>
-            <DefaultToolbar v-model:settings="settings" @undo="undo" @redo="redo" @save="save" @clear="clear" :tools
+            <vp-toolbar v-model:settings="settings" @undo="undo" @redo="redo" @save="save" @clear="clear" :tools
                 v-model:active-tool="settings.tool" />
         </slot>
     </div>
@@ -151,5 +151,4 @@ const widthPx = computed(() => `${width}px`)
     max-width: v-bind(widthPx);
     display: flex;
 }
-
 </style>
