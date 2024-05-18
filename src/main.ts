@@ -1,6 +1,9 @@
-import VpEditor from "./components/VpEditor.vue";
-import VpImage from "./components/VpImage.vue";
-import VpToolbar from "./components/VpToolbar.vue";
+// Components
+export { default as VpEditor } from "./components/VpEditor.vue";
+export { default as VpImage } from "./components/VpImage.vue";
+export { default as VpToolbar } from "./components/VpToolbar.vue";
+
+// Tools
 export { useAllTools } from "./composables/tools/useAllTools";
 export { useArrow } from "./composables/tools/useArrow";
 export { useBackground } from "./composables/tools/useBackground";
@@ -9,4 +12,12 @@ export { useFreehand } from "./composables/tools/useFreehand";
 export { useLine } from "./composables/tools/useLine";
 export { useRectangle } from "./composables/tools/useRectangle";
 
-export { VpEditor, VpImage, VpToolbar }
+// Utils
+
+export { exportSvg } from './utils/exportSvg'
+export { createDataUrl } from './utils/createDataUrl'
+export { toCanvas } from './utils/toCanvas'
+export { urlToBlob } from './utils/urlToBlob'
+
+// Types
+export * from "./types"

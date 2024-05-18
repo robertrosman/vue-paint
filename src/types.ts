@@ -4,6 +4,8 @@ import { type Arrow } from '@/composables/tools/useArrow'
 import { type Rectangle } from '@/composables/tools/useRectangle'
 import { type Crop } from '@/composables/tools/useCrop'
 import type { Background } from './composables/tools/useBackground'
+import type { Ref } from 'vue'
+import type { Position } from '@vueuse/core'
 
 export interface Settings {
     tool: Tool
@@ -35,7 +37,7 @@ export interface ToolComposable<T> {
     onDrawEnd?: (args: DrawEvent) => T | void | undefined
     shapeSvg?: {
         props: unknown,
-        setup: (props: ShapeSvgProps) => () => unknown
+        setup: (props: ShapeSvgProps<T>) => () => unknown
     }
     svgStyle?: string
     toolSvg?: {

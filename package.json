@@ -8,10 +8,15 @@
   ],
   "main": "./dist/vue-paint.umd.js",
   "module": "./dist/vue-paint.js",
+  "types": "./dist/types.d.ts",
   "exports": {
     ".": {
       "import": "./dist/vue-paint.js",
       "require": "./dist/vue-paint.umd.cjs"
+    },
+    "./style.css": {
+      "import": "./dist/style.css",
+      "require": "./dist/style.css"
     }
   },
   "scripts": {
@@ -48,6 +53,7 @@
     "rollup-plugin-visualizer": "^5.12.0",
     "typescript": "~5.4.0",
     "vite": "^5.2.8",
+    "vite-plugin-dts": "^3.9.1",
     "vitest": "^1.4.0",
     "vue-tsc": "^2.0.11"
   }
