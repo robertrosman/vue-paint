@@ -22,7 +22,7 @@ const highLayers = computed(() => props.tools.filter(tool => tool.toolSvg && (to
 </script>
 
 <template>
-    <svg :viewBox="`0 0 ${width} ${height}`" xmlns="http://www.w3.org/2000/svg">
+    <svg :viewBox="`0 0 ${width} ${height}`" xmlns="http://www.w3.org/2000/svg" class="vp-image">
         <component v-for="tool in lowLayers" :key="tool.type" :is="tool.toolSvg" :history :activeShape :width :height />
         <component v-for="shape, i in history" :key="i" :is="getTool(shape.type)?.shapeSvg" :shape :history />
         <component v-if="activeShape" :is="getTool(activeShape.type)?.shapeSvg" :shape="activeShape" :history :width
@@ -35,7 +35,7 @@ const highLayers = computed(() => props.tools.filter(tool => tool.toolSvg && (to
 
 <style scoped>
 
-svg {
+.vp-image {
     margin: 0;
     max-width: 100%;
 }

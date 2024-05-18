@@ -26,7 +26,7 @@ const activeTool = defineModel<Tool>("activeTool")
 </script>
 
 <template>
-    <div class="toolbar">
+    <div class="vp-toolbar">
         <div class="tools">
             <button v-for="tool in tools.filter(tool => tool.icon)" :key="tool.type"
                 :class="[activeTool === tool.type ? 'active' : '', `tool-${tool.type}`]"
@@ -46,7 +46,7 @@ const activeTool = defineModel<Tool>("activeTool")
 </template>
 
 <style scoped>
-.toolbar {
+.vp-toolbar {
     position: absolute;
     top: 100%;
     width: 100%;
@@ -57,13 +57,13 @@ const activeTool = defineModel<Tool>("activeTool")
     gap: 0.25em 2em;
 }
 
-.toolbar div {
+.vp-toolbar div {
     display: flex;
     gap: 0.25em;
 }
 
-.toolbar button,
-.toolbar input[type=color] {
+.vp-toolbar button,
+.vp-toolbar input[type=color] {
     background: #eee;
     outline: none;
     width: 2.5em;
@@ -72,11 +72,14 @@ const activeTool = defineModel<Tool>("activeTool")
     border: 1px solid #aaa;
     box-shadow: 0 0.2em 0.3em rgba(0, 0, 0, 0.2);
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.toolbar input[type=color]:hover,
-.toolbar button:hover,
-.toolbar button.active {
+.vp-toolbar input[type=color]:hover,
+.vp-toolbar button:hover,
+.vp-toolbar button.active {
     background: #ddd;
     border: 1px solid #999;
     box-shadow: 0 0.2em 0.3em #bbb;

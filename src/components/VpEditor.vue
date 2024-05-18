@@ -133,7 +133,7 @@ const widthPx = computed(() => `${width}px`)
 </script>
 
 <template>
-    <div ref="container" class="container">
+    <div ref="container" class="vp-container">
         <vp-image :tools :activeShape :history :width="width" :height="height" />
 
         <slot name="toolbar" :undo :save :clear :settings>
@@ -144,7 +144,7 @@ const widthPx = computed(() => `${width}px`)
 </template>
 
 <style scoped>
-.container {
+.vp-container {
     position: relative;
     cursor: crosshair;
     height: auto;
