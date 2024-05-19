@@ -8,11 +8,17 @@
   ],
   "main": "./dist/vue-paint.umd.js",
   "module": "./dist/vue-paint.js",
-  "types": "./dist/types.d.ts",
+  "types": "./dist/main.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/vue-paint.js",
-      "require": "./dist/vue-paint.umd.cjs"
+      "import": {
+        "types": "./dist/main.d.ts",
+        "default": "./dist/vue-paint.js"
+      },
+      "require": {
+        "types": "./dist/main.d.ts",
+        "default": "./dist/vue-paint.umd.cjs"
+      }
     },
     "./style.css": {
       "import": "./dist/style.css",
