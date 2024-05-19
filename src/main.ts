@@ -18,6 +18,7 @@ export { exportSvg } from './utils/exportSvg'
 export { createDataUrl } from './utils/createDataUrl'
 export { toCanvas } from './utils/toCanvas'
 export { urlToBlob } from './utils/urlToBlob'
+export { canvasToBlob } from './utils/canvasToBlob'
 
 // Types
 export * from './types'
