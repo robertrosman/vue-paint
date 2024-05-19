@@ -35,7 +35,8 @@
   margin: 10px;
 }
 
-.save-modal section img, .save-modal section canvas {
+.save-modal section img,
+.save-modal section canvas {
   min-width: 300px;
   max-width: 100%;
 }

@@ -8,79 +8,93 @@ import type { Ref } from 'vue'
 import type { Position } from '@vueuse/core'
 
 export interface Settings {
-    tool: Tool
-    thickness: number
-    color: string
-    width: number
-    height: number
+  tool: ToolType
+  thickness: number
+  color: string
 }
 
 export interface SvgComponentProps {
-    history: Shape[]
-    width: number
-    height: number 
+  history: Shape[]
+  width: number
+  height: number
 }
 
 export interface ShapeSvgProps<T> extends SvgComponentProps {
-    shape: T
+  shape: T
 }
 export interface ToolSvgProps extends SvgComponentProps {
-    activeShape?: Shape
+  activeShape?: Shape
 }
 
-export interface ToolComposable<T> {
-    type: string
-    icon?: string
-    initialize?: (args: InitializeOptions) => Promise<T | T[] | void>
-    onDrawStart?: (args: DrawEvent) => T | void | undefined
-    onDraw?: (args: DrawEvent) => T | void | undefined
-    onDrawEnd?: (args: DrawEvent) => T | void | undefined
-    shapeSvg?: {
-        props: unknown,
-        setup: (props: ShapeSvgProps<T>) => () => unknown
-    }
-    svgStyle?: string
-    toolSvg?: {
-        props: unknown,
-        setup: (props: ToolSvgProps) => () => unknown,
-        layer?: number
-    }
-    beforeExport?: (args: ExportParameters) => void
+export interface BaseShape {
+  type: unknown
 }
+
+export interface Tool<T extends BaseShape> {
+  type: T['type']
+  icon?: string
+  initialize?: (args: InitializeOptions) => Promise<T | T[] | void>
+  onDrawStart?: (args: DrawEvent) => T | void | undefined
+  onDraw?: (args: DrawEvent) => T | void | undefined
+  onDrawEnd?: (args: DrawEvent) => T | void | undefined
+  shapeSvg?: {
+    props: unknown
+    setup: (props: ShapeSvgProps<T>) => () => unknown
+  }
+  svgStyle?: string
+  toolSvg?: {
+    props: unknown
+    setup: (props: ToolSvgProps) => () => unknown
+    layer?: number
+  }
+  beforeExport?: (args: ExportParameters) => void
+}
+
+type ExtractGeneric<Type> = Type extends Tool<infer S> ? S : never
+type ArrayElement<ArrayType extends readonly unknown[]> =
+  ArrayType extends readonly (infer ElementType)[] ? ElementType : never
+
+/**
+ * ImageHistory is a list of all actions the user has made to create an image. It's based on the tools you've decided to include, to you need to pass "typeof tools" as generic, like this:
+ * @example
+ * const tools = [useArrow(), useCrop()]
+ * const history: ref<ImageHistory<typeof tools>>([])
+ */
+export type ImageHistory<Tools extends Array<unknown>> = ExtractGeneric<ArrayElement<Tools>>[]
 
 export interface DrawEvent {
-    settings: Settings
-    tools: ToolComposable<Shape>[]
-    activeShape: Ref<Shape | undefined>
-    x: Ref<number>,
-    y: Ref<number>,
-    posStart: Position
-    posEnd: Position
-    isDrawing: Ref<boolean>
-    left: Ref<number>
-    right: Ref<number>
-    top: Ref<number>
-    bottom: Ref<number>
-    width: Ref<number>
-    height: Ref<number>
-    minX: Ref<number>
-    maxX: Ref<number>
-    minY: Ref<number>
-    maxY: Ref<number>
+  settings: Settings
+  tools: Tool<Shape>[]
+  activeShape: Ref<Shape | undefined>
+  width: number
+  height: number
+  x: Ref<number>
+  y: Ref<number>
+  posStart: Position
+  posEnd: Position
+  isDrawing: Ref<boolean>
+  left: Ref<number>
+  right: Ref<number>
+  top: Ref<number>
+  bottom: Ref<number>
+  minX: Ref<number>
+  maxX: Ref<number>
+  minY: Ref<number>
+  maxY: Ref<number>
 }
 
 export interface InitializeOptions {
-    tools: ToolComposable<Shape>[]
+  tools: Tool<Shape>[]
 }
 
 export type Shape = Freehand | Crop | Rectangle | Line | Arrow | Background
 
-export type Tool = Shape["type"]
+export type ToolType = Shape['type']
 
 export interface SaveParameters {
-    svg: SVGElement
-    tools: ToolComposable<Shape>[]
-    history: Shape[]
+  svg: SVGElement
+  tools: Tool<Shape>[]
+  history: Shape[]
 }
 
-export interface ExportParameters extends SaveParameters { }
+export interface ExportParameters extends SaveParameters {}

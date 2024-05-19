@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref } from 'vue'
 import VpEditor from './components/VpEditor.vue'
 import type { SaveParameters } from './types'
-import { toCanvas } from './utils/toCanvas';
-import { exportSvg } from './utils/exportSvg';
+import { toCanvas } from './utils/toCanvas'
+import { exportSvg } from './utils/exportSvg'
 import { useAllTools } from '@/composables/tools/useAllTools'
 import InteractiveHistory from '@/examples/InteractiveHistory.vue'
-import PersistHistory from './examples/PersistHistory.vue';
-import UsingEvents from './examples/UsingEvents.vue';
-import LessTools from './examples/LessTools.vue';
-import WithBackground from './examples/WithBackground.vue';
+import PersistHistory from './examples/PersistHistory.vue'
+import UsingEvents from './examples/UsingEvents.vue'
+import LessTools from './examples/LessTools.vue'
+import WithBackground from './examples/WithBackground.vue'
 
 const canvasRef = ref()
 const imgSrc = ref<string>()
@@ -20,7 +20,6 @@ function save({ svg, tools, history }: SaveParameters) {
   imgSrc.value = exportSvg({ svg, tools, history })
   toCanvas({ svg, canvas: canvasRef, tools, history })
 }
-
 </script>
 
 <template>

@@ -1,16 +1,16 @@
 // Components
-export { default as VpEditor } from "./components/VpEditor.vue";
-export { default as VpImage } from "./components/VpImage.vue";
-export { default as VpToolbar } from "./components/VpToolbar.vue";
+export { default as VpEditor } from './components/VpEditor.vue'
+export { default as VpImage } from './components/VpImage.vue'
+export { default as VpToolbar } from './components/VpToolbar.vue'
 
 // Tools
-export { useAllTools } from "./composables/tools/useAllTools";
-export { useArrow } from "./composables/tools/useArrow";
-export { useBackground } from "./composables/tools/useBackground";
-export { useCrop } from "./composables/tools/useCrop";
-export { useFreehand } from "./composables/tools/useFreehand";
-export { useLine } from "./composables/tools/useLine";
-export { useRectangle } from "./composables/tools/useRectangle";
+export { useAllTools } from './composables/tools/useAllTools'
+export { useArrow } from './composables/tools/useArrow'
+export { useBackground } from './composables/tools/useBackground'
+export { useCrop } from './composables/tools/useCrop'
+export { useFreehand } from './composables/tools/useFreehand'
+export { useLine } from './composables/tools/useLine'
+export { useRectangle } from './composables/tools/useRectangle'
 
 // Utils
 
@@ -20,4 +20,4 @@ export { toCanvas } from './utils/toCanvas'
 export { urlToBlob } from './utils/urlToBlob'
 
 // Types
-export * from "./types"
+export * from './types'

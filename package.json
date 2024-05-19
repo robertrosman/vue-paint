@@ -23,7 +23,7 @@
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
-    "test:unit": "vitest",
+    "test:unit": "vitest --typecheck",
     "build-only": "vite build",
     "build:demo": "vite build --config vite.demo-config.ts",
     "type-check": "vue-tsc --build --force",
