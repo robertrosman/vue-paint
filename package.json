@@ -20,9 +20,9 @@
         "default": "./dist/vue-paint.umd.cjs"
       }
     },
-    "./style.css": {
-      "import": "./dist/style.css",
-      "require": "./dist/style.css"
+    "./themes/*": {
+      "import": "./dist/themes/*",
+      "require": "./dist/themes/*"
     }
   },
   "scripts": {

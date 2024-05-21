@@ -1,4 +1,5 @@
 @import './base.css';
+@import '../../public/lib/themes/default.css';
 
 #app {
   max-width: 1280px;

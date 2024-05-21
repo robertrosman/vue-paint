@@ -1,0 +1,51 @@
+
+.vp-container {
+  position: relative;
+  cursor: crosshair;
+  height: auto;
+  display: flex;
+}
+
+.vp-image {
+  margin: 0;
+  max-width: 100%;
+}
+
+.vp-toolbar {
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  margin-top: 0.25em;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.25em 2em;
+}
+
+.vp-toolbar div {
+  display: flex;
+  gap: 0.25em;
+}
+
+.vp-toolbar button,
+.vp-toolbar input[type='color'] {
+  background: #eee;
+  outline: none;
+  width: 2.5em;
+  height: 2.5em;
+  border-radius: 50%;
+  border: 1px solid #aaa;
+  box-shadow: 0 0.2em 0.3em rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vp-toolbar input[type='color']:hover,
+.vp-toolbar button:hover,
+.vp-toolbar button.active {
+  background: #ddd;
+  border: 1px solid #999;
+  box-shadow: 0 0.2em 0.3em #bbb;
+}

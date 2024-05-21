@@ -64,10 +64,3 @@ const highLayers = computed(() =>
     </svg:style>
   </svg>
 </template>
-
-<style scoped>
-.vp-image {
-  margin: 0;
-  max-width: 100%;
-}
-</style>

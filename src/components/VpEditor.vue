@@ -170,10 +170,6 @@ const widthPx = computed(() => `${width}px`)
 
 <style scoped>
 .vp-container {
-  position: relative;
-  cursor: crosshair;
-  height: auto;
   max-width: v-bind(widthPx);
-  display: flex;
 }
 </style>
