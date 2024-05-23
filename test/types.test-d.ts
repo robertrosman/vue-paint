@@ -1,6 +1,6 @@
 import { it, expectTypeOf, describe, assertType } from 'vitest'
-import { type Arrow, useArrow } from '../src/composables/tools/useArrow'
-import { type Crop, useCrop } from '../src/composables/tools/useCrop'
+import { type Arrow, useArrow } from '../src/composables/tools/useArrow/useArrow'
+import { type Crop, useCrop } from '../src/composables/tools/useCrop/useCrop'
 import { type ImageHistory } from '../src/types'
 
 describe('tool types', () => {

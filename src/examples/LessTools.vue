@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import VpEditor from '@/components/VpEditor.vue'
-import { useRectangle } from '@/composables/tools/useRectangle'
-import { useArrow } from '@/composables/tools/useArrow'
+import { useRectangle } from '@/composables/tools/useRectangle/useRectangle'
+import { useArrow } from '@/composables/tools/useArrow/useArrow'
 
 const tools = [useRectangle(), useArrow()]
 defineEmits(['save'])

@@ -62,10 +62,9 @@ export function useArrow(): Tool<Arrow> {
       })
 
       return () =>
-        arrowMarkers.value.map((marker) =>
           h(
             'defs',
-            h(
+            arrowMarkers.value.map((marker) => h(
               'marker',
               {
                 id: marker.id,

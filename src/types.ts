@@ -1,10 +1,9 @@
-import { type Freehand } from '@/composables/tools/useFreehand'
-import { type Line } from '@/composables/tools/useLine'
-import { type Arrow } from '@/composables/tools/useArrow'
-import { type Rectangle } from '@/composables/tools/useRectangle'
-import { type Crop } from '@/composables/tools/useCrop'
-import type { Background } from './composables/tools/useBackground'
-import type { Ref } from 'vue'
+import { type Freehand } from '@/composables/tools/useFreehand/useFreehand'
+import { type Line } from '@/composables/tools/useLine/useLine'
+import { type Arrow } from '@/composables/tools/useArrow/useArrow'
+import { type Rectangle } from '@/composables/tools/useRectangle/useRectangle'
+import { type Crop } from '@/composables/tools/useCrop/useCrop'
+import type { Background } from './composables/tools/useBackground/useBackground'
 import type { Position } from '@vueuse/core'
 
 /** These settings are editable by the user and will affect what tool to use and style etc. */

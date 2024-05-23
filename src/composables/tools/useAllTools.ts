@@ -1,9 +1,9 @@
-import { useFreehand } from './useFreehand'
-import { useLine } from './useLine'
-import { useArrow } from './useArrow'
-import { useRectangle } from './useRectangle'
-import { useCrop } from './useCrop'
-import { useBackground } from './useBackground'
+import { useFreehand } from './useFreehand/useFreehand'
+import { useLine } from './useLine/useLine'
+import { useArrow } from './useArrow/useArrow'
+import { useRectangle } from './useRectangle/useRectangle'
+import { useCrop } from './useCrop/useCrop'
+import { useBackground } from './useBackground/useBackground'
 
 export interface Options {
   background?: Blob | Promise<Blob>

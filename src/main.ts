@@ -5,12 +5,12 @@ export { default as VpToolbar } from './components/VpToolbar.vue'
 
 // Tools
 export { useAllTools } from './composables/tools/useAllTools'
-export { useArrow } from './composables/tools/useArrow'
-export { useBackground } from './composables/tools/useBackground'
-export { useCrop } from './composables/tools/useCrop'
-export { useFreehand } from './composables/tools/useFreehand'
-export { useLine } from './composables/tools/useLine'
-export { useRectangle } from './composables/tools/useRectangle'
+export { useArrow } from './composables/tools/useArrow/useArrow'
+export { useBackground } from './composables/tools/useBackground/useBackground'
+export { useCrop } from './composables/tools/useCrop/useCrop'
+export { useFreehand } from './composables/tools/useFreehand/useFreehand'
+export { useLine } from './composables/tools/useLine/useLine'
+export { useRectangle } from './composables/tools/useRectangle/useRectangle'
 
 // Utils
 
