@@ -2,7 +2,7 @@
 
 vue-paint is a simple and lightweight paint component for vue projects. It can be used to add annotations to images, videos, or just draw some simple shapes to a canvas-like area.
 
-Demo: [https://github.com/robertrosman/vue-paint]
+Demo: <https://robertrosman.github.io/vue-paint>
 
 ## Getting started
 
