@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import VpEditor from './components/VpEditor.vue'
 import type { SaveParameters } from './types'
-import { toCanvas } from './utils/toCanvas'
+import { exportToCanvas } from './utils/exportToCanvas'
 import { exportSvg } from './utils/exportSvg'
 import { useAllTools } from '@/composables/tools/useAllTools'
 import InteractiveHistory from '@/examples/InteractiveHistory.vue'
@@ -18,7 +18,7 @@ const { tools } = useAllTools()
 
 function save({ svg, tools, history }: SaveParameters) {
   imgSrc.value = exportSvg({ svg, tools, history })
-  toCanvas({ svg, canvas: canvasRef, tools, history })
+  exportToCanvas({ svg, canvas: canvasRef, tools, history })
 }
 </script>
 

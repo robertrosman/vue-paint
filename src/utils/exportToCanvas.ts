@@ -6,7 +6,7 @@ interface Options extends ExportParameters {
   canvas: MaybeRef<HTMLCanvasElement>
 }
 
-export async function toCanvas({ svg, canvas, tools, history }: Options) {
+export async function exportToCanvas({ svg, canvas, tools, history }: Options) {
   const image64 = exportSvg({ svg, tools, history })
 
   const img = new Image()

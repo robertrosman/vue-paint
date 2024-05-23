@@ -17,7 +17,7 @@ export { useRectangle } from './composables/tools/useRectangle'
 export { exportSvg } from './utils/exportSvg'
 export { downloadSvg } from './utils/downloadSvg'
 export { createDataUrl } from './utils/createDataUrl'
-export { toCanvas } from './utils/toCanvas'
+export { exportToCanvas } from './utils/exportToCanvas'
 export { urlToBlob } from './utils/urlToBlob'
 export { canvasToBlob } from './utils/canvasToBlob'
 
