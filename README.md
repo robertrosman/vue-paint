@@ -4,6 +4,28 @@ vue-paint is a simple and lightweight paint component for vue projects. It can b
 
 Demo: [https://github.com/robertrosman/vue-paint]
 
+## Getting started
+
+First install `vue-paint` with your favorite package manager, like this `npm i vue-paint`. Then you need to choose what tools you want to include, setup
+history and you're good to go.
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+import { VpEditor, useFreehand, useRectangle, downloadSvg, type ImageHistory } from 'vue-paint'
+
+// Add the tools you like to use, or call useAllTools to make use of all available tools
+const tools = [useFreehand(), useRectangle()]
+
+// The history can be manipulated programmatically, and used to persist the image
+const history = ref<ImageHistory<typeof tools>>([])
+</script>
+
+<template>
+  <vp-editor v-model:history="history" @save="downloadSvg" :tools></vp-editor>
+</template>
+```
+
 ## Key features
 
 ### Tree shakable
