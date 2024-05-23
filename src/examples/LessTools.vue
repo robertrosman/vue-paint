@@ -5,7 +5,6 @@ import { useArrow } from '@/composables/tools/useArrow'
 
 const tools = [useRectangle(), useArrow()]
 defineEmits(['save'])
-
 </script>
 
 <template>

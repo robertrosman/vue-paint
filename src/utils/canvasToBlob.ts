@@ -4,11 +4,7 @@
  * const blob = await canvasToBlob(canvasElement)
  */
 export async function canvasToBlob(canvas: HTMLCanvasElement) {
-    return new Promise<Blob>((resolve, reject) => 
-        canvas.toBlob(blob => blob 
-            ? resolve(blob)
-            : reject("Couldn't create blob")
-        )
-    )
+  return new Promise<Blob>((resolve, reject) =>
+    canvas.toBlob((blob) => (blob ? resolve(blob) : reject("Couldn't create blob")))
+  )
 }
-  

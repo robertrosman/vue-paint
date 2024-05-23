@@ -38,7 +38,7 @@ export interface BaseShape {
   type: unknown
 }
 
-/** 
+/**
  * To build a new tool, create a composable that extends this interface, and pass the shape it will produce and add to the history.
  * Most of the properties of this interface are optional, since different tools are triggered by different events. The easiest way to
  * start out is probably to copy an existing tool that is similar to the tool you want to create, and read the descriptions of each
@@ -198,7 +198,7 @@ export type ToolType = Shape['type']
 export interface SaveParameters {
   /** The actual svg element that will be exported (clone of vp-image) */
   svg: SVGElement
-  
+
   /** The available tools for the user. */
   tools: Tool<Shape>[]
 
