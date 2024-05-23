@@ -138,7 +138,7 @@ export interface DrawEvent {
   tools: Tool<Shape>[]
 
   /** The shape that is currently being drawn. */
-  activeShape: Ref<Shape | undefined>
+  activeShape: Shape | undefined
 
   /** The width of the image in pixels. Note that it might be scaled down by the browser, but this is the base all other values will relate to. */
   width: number
@@ -147,10 +147,10 @@ export interface DrawEvent {
   height: number
 
   /** The X position of the pointer/cursor relative to the image left edge. */
-  x: Ref<number>
+  x: number
 
   /** The Y position of the pointer/cursor relative to the image top edge. */
-  y: Ref<number>
+  y: number
 
   /** The position {x, y} of where the pointer started to draw. */
   posStart: Position
@@ -159,31 +159,31 @@ export interface DrawEvent {
   posEnd: Position
 
   /** Is the user currently drawing? */
-  isDrawing: Ref<boolean>
+  isDrawing: boolean
 
   /** How far from the window's left edge is the image? */
-  left: Ref<number>
+  left: number
 
   /** How far from the window's right edge is the image? */
-  right: Ref<number>
+  right: number
 
   /** How far from the window's top edge is the image? */
-  top: Ref<number>
+  top: number
 
   /** How far from the window's bottom edge is the image? */
-  bottom: Ref<number>
+  bottom: number
 
   /** The smaller number of posStart.x and posEnd.x. It will always be within the boundaries of the image. */
-  minX: Ref<number>
+  minX: number
 
   /** The larger number of posStart.x and posEnd.x. It will always be within the boundaries of the image. */
-  maxX: Ref<number>
+  maxX: number
 
   /** The smaller number of posStart.y and posEnd.y. It will always be within the boundaries of the image. */
-  minY: Ref<number>
+  minY: number
 
   /** The larger number of posStart.y and posEnd.y. It will always be within the boundaries of the image. */
-  maxY: Ref<number>
+  maxY: number
 }
 
 export interface InitializeOptions {

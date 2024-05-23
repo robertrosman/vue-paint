@@ -31,7 +31,7 @@ export function useFreehand(): Tool<Freehand> {
   /** Initiates the draw by cleaning up previous state and starting a new path */
   function onDrawStart({ settings, x, y }: DrawEvent): Freehand {
     points.length = 0
-    points.push([x.value, y.value], [x.value, y.value])
+    points.push([x, y], [x, y])
     return {
       type,
       path: simplifySvgPath(points, { tolerance, precision }),
@@ -41,7 +41,7 @@ export function useFreehand(): Tool<Freehand> {
   }
 
   function onDraw({ settings, x, y }: DrawEvent): Freehand | undefined {
-    points.push([x.value, y.value])
+    points.push([x, y])
     return {
       type,
       path: simplifySvgPath(points, { tolerance, precision }),

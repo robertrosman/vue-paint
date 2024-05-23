@@ -50,23 +50,23 @@ function getActiveTool() {
 
 const drawEvent = computed<DrawEvent>(() => ({
   settings: settings.value,
-  activeShape,
-  isDrawing,
+  activeShape: activeShape.value,
+  isDrawing: isDrawing.value,
   tools: props.tools,
   posStart,
   posEnd,
-  left,
-  right,
-  top,
-  bottom,
+  left: left.value,
+  right: right.value,
+  top: top.value,
+  bottom: bottom.value,
   width: props.width,
   height: props.height,
-  x,
-  y,
-  minX,
-  maxX,
-  minY,
-  maxY
+  x: x.value,
+  y: y.value,
+  minX: minX.value,
+  maxX: maxX.value,
+  minY: minY.value,
+  maxY: maxY.value
 }))
 
 const {

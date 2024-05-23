@@ -20,10 +20,10 @@ export function useRectangle(): Tool<Rectangle> {
   function onDraw({ settings, minX, minY, maxX, maxY }: DrawEvent): Rectangle {
     return {
       type,
-      x: minX.value,
-      y: minY.value,
-      width: maxX.value - minX.value,
-      height: maxY.value - minY.value,
+      x: minX,
+      y: minY,
+      width: maxX - minX,
+      height: maxY - minY,
       thickness: settings.thickness,
       color: settings.color
     }

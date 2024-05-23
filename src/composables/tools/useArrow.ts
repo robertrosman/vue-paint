@@ -26,8 +26,8 @@ export function useArrow(): Tool<Arrow> {
       type,
       x1: posStart.x,
       y1: posStart.y,
-      x2: x.value,
-      y2: y.value,
+      x2: x,
+      y2: y,
       thickness: settings.thickness,
       color: settings.color
     }

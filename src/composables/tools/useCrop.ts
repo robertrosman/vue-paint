@@ -27,10 +27,10 @@ export function useCrop(): Tool<Crop> {
   function onDraw({ minX, minY, maxX, maxY }: DrawEvent): Crop {
     return {
       type,
-      x: minX.value,
-      y: minY.value,
-      width: maxX.value - minX.value,
-      height: maxY.value - minY.value
+      x: minX,
+      y: minY,
+      width: maxX - minX,
+      height: maxY - minY
     }
   }
 
