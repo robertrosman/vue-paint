@@ -1,6 +1,14 @@
 @import './base.css';
 @import '../../public/lib/themes/default.css';
 
+#app {
+  margin-top: 10em;
+}
+
+a, a:hover, a:active, a:visited {
+  color: #c82d2d;
+}
+
 .layout {
   max-width: 1280px;
   margin: 0 auto;

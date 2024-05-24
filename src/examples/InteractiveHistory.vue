@@ -46,17 +46,12 @@ function addRandomLine() {
 </script>
 
 <template>
-  <h1>Interactive history</h1>
+  <h2>Interactive history</h2>
   <p>
     You can inspect and modify the history and settings objects down below to see it update
     automatically. This can of course be done programmatically as well.
   </p>
-  <vp-editor
-    @save="$emit('save', $event)"
-    v-model:settings="settings"
-    v-model:history="history"
-    :tools
-  />
+  <vp-editor @save="$emit('save', $event)" v-model:settings="settings" v-model:history="history" :tools />
   <button @click="addRandomLine">Add random line</button>
   <textarea v-model="historyJson"></textarea>
   <textarea v-model="settingsJson"></textarea>

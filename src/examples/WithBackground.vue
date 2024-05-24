@@ -8,7 +8,7 @@ defineEmits(['save'])
 </script>
 
 <template>
-  <h1>With background</h1>
+  <h2>With background</h2>
   <p>
     You can set a custom background with useBackground(), or pass a background to useAllTools().
   </p>

@@ -8,7 +8,7 @@ defineEmits(['save'])
 </script>
 
 <template>
-  <h1>With less tools</h1>
+  <h2>With less tools</h2>
   <p>The editor will only support the tools you provide it</p>
   <vp-editor @save="$emit('save', $event)" :tools></vp-editor>
 </template>

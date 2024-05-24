@@ -33,7 +33,7 @@ function save({ svg, tools, history }: SaveParameters) {
       <canvas ref="canvasRef"></canvas>
     </section>
   </div>
-  <h1>Barebones example</h1>
+  <h2>Barebones example</h2>
   <vp-editor @save="save" :tools></vp-editor>
 
   <WithBackground @save="save" />

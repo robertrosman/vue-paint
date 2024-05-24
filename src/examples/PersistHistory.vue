@@ -19,15 +19,11 @@ defineEmits(['save'])
 </script>
 
 <template>
-  <h1>Persist history</h1>
+  <h2>Persist history</h2>
   <p>
     Using <code>v-model:history</code> you can set initial state, modify the state programmatically,
     add shapes, save current state (like in localStorage or on a server). Try to draw something and
     reload the page to see localStorage in action.
   </p>
-  <vp-editor
-    v-model:history="history"
-    @save="$emit('save', $event)"
-    :tools
-  ></vp-editor>
+  <vp-editor v-model:history="history" @save="$emit('save', $event)" :tools></vp-editor>
 </template>
