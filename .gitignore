@@ -30,3 +30,4 @@ coverage
 *.tsbuildinfo
 stats.html
 demo/*
+vue-paint-*.tgz
