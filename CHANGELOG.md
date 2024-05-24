@@ -1,4 +1,14 @@
-# 0.1.0 (2024-05-23)
+## [0.1.1](https://github.com/robertrosman/vue-paint/compare/v0.1.0...v0.1.1) (2024-05-24)
+
+
+### Bug Fixes
+
+* make headers semantically correct ([42e6b8a](https://github.com/robertrosman/vue-paint/commit/42e6b8ae2754d668a5cf54a498f46e2a6ad6a923))
+* replace vue-draw class to vue-paint ([904634b](https://github.com/robertrosman/vue-paint/commit/904634bf6dbf1705ad526e98639b6218a13a2dc0))
+
+
+
+# [0.1.0](https://github.com/robertrosman/vue-paint/compare/47e375b4a90cb5afdd2282e05cfc8e899d9fbba2...v0.1.0) (2024-05-23)
 
 
 ### Bug Fixes
