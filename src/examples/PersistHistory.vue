@@ -27,7 +27,6 @@ defineEmits(['save'])
   </p>
   <vp-editor
     v-model:history="history"
-    class="vue-draw"
     @save="$emit('save', $event)"
     :tools
   ></vp-editor>

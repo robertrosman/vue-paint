@@ -1,14 +1,14 @@
 @import './base.css';
 @import '../../public/lib/themes/default.css';
 
-#app {
+.layout {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   font-weight: normal;
 }
 
-.vue-draw {
+.vue-paint {
   outline: 1px dashed #777;
   border-radius: 5px;
   padding: 0;

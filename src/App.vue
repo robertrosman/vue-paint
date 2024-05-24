@@ -34,7 +34,7 @@ function save({ svg, tools, history }: SaveParameters) {
     </section>
   </div>
   <h1>Barebones example</h1>
-  <vp-editor class="vue-draw" @save="save" :tools></vp-editor>
+  <vp-editor @save="save" :tools></vp-editor>
 
   <WithBackground @save="save" />
 

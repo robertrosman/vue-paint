@@ -18,7 +18,6 @@ function logEvent(event: DrawEvent) {
     see it in action.
   </p>
   <vp-editor
-    class="vue-draw"
     @save="$emit('save', $event)"
     :tools
     @draw-start="logEvent"

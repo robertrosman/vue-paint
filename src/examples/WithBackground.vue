@@ -12,5 +12,5 @@ defineEmits(['save'])
   <p>
     You can set a custom background with useBackground(), or pass a background to useAllTools().
   </p>
-  <vp-editor class="vue-draw" @save="$emit('save', $event)" :tools></vp-editor>
+  <vp-editor @save="$emit('save', $event)" :tools></vp-editor>
 </template>

@@ -52,7 +52,6 @@ function addRandomLine() {
     automatically. This can of course be done programmatically as well.
   </p>
   <vp-editor
-    class="vue-draw"
     @save="$emit('save', $event)"
     v-model:settings="settings"
     v-model:history="history"
