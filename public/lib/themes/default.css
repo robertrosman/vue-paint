@@ -1,5 +1,5 @@
-
 .vp-container {
+  max-width: 100%;
   position: relative;
   cursor: crosshair;
   height: auto;
@@ -8,7 +8,7 @@
 
 .vp-image {
   margin: 0;
-  max-width: 100%;
+  width: 100%;
 }
 
 .vp-toolbar {

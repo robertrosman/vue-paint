@@ -146,30 +146,15 @@ function clear() {
   ).then((shapes) => (history.value = [...(shapes as Shape[]), ...history.value]))
   emit('clear')
 }
-
-const widthPx = computed(() => `${width}px`)
 </script>
 
 <template>
-  <div ref="container" class="vp-container">
+  <div ref="container" class="vue-paint vp-container">
     <vp-image :tools :activeShape :history :width="width" :height="height" />
 
     <slot name="toolbar" :undo :save :clear :settings>
-      <vp-toolbar
-        v-model:settings="settings"
-        @undo="undo"
-        @redo="redo"
-        @save="save"
-        @clear="clear"
-        :tools
-        v-model:active-tool="settings.tool"
-      />
+      <vp-toolbar v-model:settings="settings" @undo="undo" @redo="redo" @save="save" @clear="clear" :tools
+        v-model:active-tool="settings.tool" />
     </slot>
   </div>
 </template>
-
-<style scoped>
-.vp-container {
-  max-width: v-bind(widthPx);
-}
-</style>
