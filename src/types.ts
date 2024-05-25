@@ -5,6 +5,7 @@ import { type Rectangle } from '@/composables/tools/useRectangle/useRectangle'
 import { type Crop } from '@/composables/tools/useCrop/useCrop'
 import type { Background } from './composables/tools/useBackground/useBackground'
 import type { Position } from '@vueuse/core'
+import type { Textarea } from './composables/tools/useTextarea/useTextarea'
 
 /** These settings are editable by the user and will affect what tool to use and style etc. */
 export interface Settings {
@@ -26,6 +27,7 @@ export interface SvgComponentProps {
 
 export interface ShapeSvgProps<T> extends SvgComponentProps {
   shape: T
+  isActive: boolean
 }
 export interface ToolSvgProps extends SvgComponentProps {
   activeShape?: Shape
@@ -75,7 +77,7 @@ export interface Tool<T extends BaseShape> {
    * This event is triggered when the user has drawn and then releases their pointer. When this event occurs the activeShape is pushed to
    * the history. If you want to manipulate the shape it in any way, you can return the final result from this method.
    */
-  onDrawEnd?: (args: DrawEvent) => T | void | undefined
+  onDrawEnd?: (args: DrawEvent) => T | Promise<T | undefined> | void | undefined
 
   /**
    * When the image is rendered, every instance of the shape type this tool produces will be rendered as the component you specify here.
@@ -189,7 +191,7 @@ export interface InitializeOptions {
   tools: Tool<Shape>[]
 }
 
-export type Shape = Freehand | Crop | Rectangle | Line | Arrow | Background
+export type Shape = Freehand | Crop | Rectangle | Line | Arrow | Background | Textarea
 
 export type ToolType = Shape['type']
 

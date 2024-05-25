@@ -49,6 +49,7 @@ const highLayers = computed(() =>
       :history
       :width
       :height
+      is-active
     />
     <component
       v-for="tool in highLayers"

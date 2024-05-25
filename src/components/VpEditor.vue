@@ -97,8 +97,10 @@ const {
     activeShape.value = getActiveTool()?.onDraw?.(drawEvent.value) ?? activeShape.value
     emit('draw', drawEvent.value)
   },
-  onDrawEnd() {
-    activeShape.value = getActiveTool()?.onDrawEnd?.(drawEvent.value) ?? activeShape.value
+  async onDrawEnd() {
+    activeShape.value = getActiveTool()?.onDrawEnd
+      ? await getActiveTool()?.onDrawEnd?.(drawEvent.value)
+      : activeShape.value
     emit('drawEnd', drawEvent.value)
     if (activeShape.value) {
       history.value.push(activeShape.value)
