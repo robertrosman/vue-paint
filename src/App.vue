@@ -33,16 +33,25 @@ function save({ svg, tools, history }: SaveParameters) {
       <canvas ref="canvasRef"></canvas>
     </section>
   </div>
-  <h2>Barebones example</h2>
-  <vp-editor @save="save" :tools></vp-editor>
 
-  <WithBackground @save="save" />
+  <section>
+    <InteractiveHistory @save="save" />
+  </section>
 
-  <PersistHistory @save="save" />
+  <section>
+    <WithBackground @save="save" />
+  </section>
 
-  <UsingEvents @save="save" />
+  <section>
+    <PersistHistory @save="save" />
+  </section>
 
-  <LessTools @save="save" />
+  <section>
+    <UsingEvents @save="save" />
+  </section>
 
-  <InteractiveHistory @save="save" />
+  <section>
+    <LessTools @save="save" />
+  </section>
+
 </template>

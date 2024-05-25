@@ -17,6 +17,7 @@ a, a:hover, a:active, a:visited {
 }
 
 .vue-paint {
+  background: var(--vt-c-white);
   outline: 1px dashed #777;
   border-radius: 5px;
   padding: 0;

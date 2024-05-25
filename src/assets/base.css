@@ -61,7 +61,7 @@
 body {
   min-height: 100vh;
   color: var(--color-text);
-  background: var(--color-background);
+  background: var(--color-background-soft);
   transition:
     color 0.5s,
     background-color 0.5s;
@@ -83,4 +83,23 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+p {
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+}
+
+h1 {
+  font-size: 60px;
+  text-align: center;
+  margin-bottom: 0.3em;
+}
+
+h2 {
+  margin-top: 2em;
+}
+
+section {
+  margin: 10em 0;
 }
