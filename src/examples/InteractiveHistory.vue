@@ -34,30 +34,30 @@ const settingsJson = computed({
 })
 
 const shapes: Shape[] = [
-  { type: 'textarea', x: 40, y: 450, width: 580, height: 70, fontSize: 60, color: '#ffffff', content: 'Use the tools, Luke!' },
-  { type: 'line', x1: 300, y1: 525, x2: 300, y2: 525, thickness: 6, color: '#c82d2d' },
-  { type: 'arrow', x1: 327, y1: 550, x2: 327, y2: 550, thickness: 6, color: '#c82d2d' },
-  { type: 'textarea', x: 770, y: 450, width: 600, height: 70, fontSize: 60, color: '#ffffff', content: 'Try some settings' },
+  { type: 'textarea', x: 40, y: 450, width: 580, height: 70, fontSize: 6, color: '#ffffff', content: 'Use the tools, Luke!' },
+  { type: 'line', x1: 240, y1: 525, x2: 240, y2: 525, thickness: 6, color: '#c82d2d' },
+  { type: 'arrow', x1: 250, y1: 550, x2: 250, y2: 550, thickness: 6, color: '#c82d2d' },
+  { type: 'textarea', x: 900, y: 450, width: 600, height: 100, fontSize: 6, color: '#ffffff', content: 'Try some settings' },
   { type: 'line', x1: 1140, y1: 525, x2: 1140, y2: 525, thickness: 6, color: '#c82d2d' },
-  { type: 'arrow', x1: 1110, y1: 550, x2: 1110, y2: 550, thickness: 6, color: '#c82d2d' },
-  { type: 'freehand', path: 'M1278,419c0,0 -3.3,0.9 -5,1c-8,0.3 -16,-0.2 -24,0c-26,0.5 -52,1.4 -78,2c-89,2 -178,2.1 -267,3c-144.6,1.5 -289.4,2.2 -434,5c-74,1.4 -148,4.5 -222,6c-83.6,1.7 -167.4,2.7 -251,4c-67.7,1 -105.7,0.2 -170,3c-82.7,3.6 -165.4,11.5 -248,17', thickness: 6, color: '#ffffff' }
+  { type: 'arrow', x1: 1145, y1: 550, x2: 1145, y2: 550, thickness: 6, color: '#c82d2d' },
+  { type: 'freehand', path: 'M1278,400c0,0 -3.3,0.9 -5,1c-8,0.3 -16,-0.2 -24,0c-26,0.5 -52,1.4 -78,2c-89,2 -178,2.1 -267,3c-144.6,1.5 -289.4,2.2 -434,5c-74,1.4 -148,4.5 -222,6c-83.6,1.7 -167.4,2.7 -251,4c-67.7,1 -105.7,0.2 -170,3c-82.7,3.6 -165.4,11.5 -248,17', thickness: 6, color: '#ffffff' }
 ]
 
 const animations = [
   { color: '#c82d2d' },
-  { x1: 269, x2: 388 },
-  { x2: 375, y2: 681 },
+  { x1: 193, x2: 275 },
+  { x2: 300, y2: 681 },
   { color: '#c82d2d' },
-  { x1: 1040, x2: 1238 },
-  { x2: 815, y2: 683 },
+  { x1: 1085, x2: 1218 },
+  { x2: 870, y2: 683 },
   { color: '#bbbbbb' }
 ]
 
-onMounted(() => {
+function onReset() {
   const duration = 800
   const delay = duration * 0.3
   shapes.forEach((shape, i) => setTimeout(() => {
-    history.value.push(shape)
+    history.value.push(structuredClone(shape))
     anime({
       targets: history.value[i],
       ...animations[i],
@@ -66,12 +66,13 @@ onMounted(() => {
       round: 1,
     })
   }, i * delay))
-})
+}
 
 </script>
 
 <template>
-  <vp-editor @save="$emit('save', $event)" v-model:settings="settings" v-model:history="history" :tools />
+  <vp-editor @save="$emit('save', $event)" v-model:settings="settings" v-model:history="history" :tools
+    @reset="onReset" />
   <div class="flex">
     <div class="history">
       <h2>History</h2>

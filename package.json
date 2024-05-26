@@ -32,7 +32,7 @@
     }
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --config vite.demo-config.ts",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "test:unit": "vitest --typecheck",

@@ -1,4 +1,7 @@
 /* color palette from <https://github.com/vuejs/theme> */
+
+@import url('https://fonts.googleapis.com/css2?family=Edu+TAS+Beginner&family=Varela+Round&family=Just+Another+Hand&display=swap');
+
 :root {
   --vt-c-white: #ffffff;
   --vt-c-white-soft: #f8f8f8;
@@ -90,14 +93,19 @@ p {
   margin-bottom: 1em;
 }
 
+h1, h2, h3 {
+  font-family: "Just another hand", sans-serif;
+}
+
 h1 {
-  font-size: 60px;
+  font-size: 90px;
   text-align: center;
   margin-bottom: 0.3em;
 }
 
 h2 {
   margin-top: 2em;
+  font-size: 50px;
 }
 
 section {
