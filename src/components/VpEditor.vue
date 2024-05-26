@@ -146,7 +146,7 @@ async function reset() {
       .filter((tool) => 'initialize' in tool)
       .flatMap(async (tool) => await tool.initialize?.({ tools: props.tools }))
   )
-  history.value.unshift(...(shapes.filter(Boolean)))
+  history.value = [...shapes.filter(Boolean), ...history.value]
   emit('reset')
 }
 </script>
