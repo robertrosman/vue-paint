@@ -1,3 +1,13 @@
+# [0.2.0](https://github.com/robertrosman/vue-paint/compare/v0.1.1...v0.2.0) (2024-05-26)
+
+
+### Features
+
+* add useTextarea tool ([b301a0e](https://github.com/robertrosman/vue-paint/commit/b301a0ec6b7e6805c97ebed42e5e4f530c2df3af))
+* allow custom fonts in useTextarea ([bfbc192](https://github.com/robertrosman/vue-paint/commit/bfbc1920e7b0e782a84a60e77f642b5b9d5a53e9))
+
+
+
 ## [0.1.1](https://github.com/robertrosman/vue-paint/compare/v0.1.0...v0.1.1) (2024-05-24)
 
 
