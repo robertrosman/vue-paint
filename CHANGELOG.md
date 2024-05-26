@@ -1,3 +1,12 @@
+## [0.2.1](https://github.com/robertrosman/vue-paint/compare/v0.2.0...v0.2.1) (2024-05-26)
+
+
+### Bug Fixes
+
+* correct the reset event in the toolbar ([eb872c8](https://github.com/robertrosman/vue-paint/commit/eb872c8326f22a54a4e0e1f3a47c4dad7c89e52e))
+
+
+
 # [0.2.0](https://github.com/robertrosman/vue-paint/compare/v0.1.1...v0.2.0) (2024-05-26)
 
 
