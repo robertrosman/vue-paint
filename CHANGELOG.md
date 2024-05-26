@@ -1,3 +1,12 @@
+## [0.2.2](https://github.com/robertrosman/vue-paint/compare/v0.2.1...v0.2.2) (2024-05-26)
+
+
+### Bug Fixes
+
+* unshift is not triggering reactivity? ([e978cae](https://github.com/robertrosman/vue-paint/commit/e978cae1ed26a3817cd0f3337c5ce2f8f3e9e071))
+
+
+
 ## [0.2.1](https://github.com/robertrosman/vue-paint/compare/v0.2.0...v0.2.1) (2024-05-26)
 
 
