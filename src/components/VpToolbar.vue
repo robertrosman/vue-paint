@@ -38,7 +38,7 @@ const activeTool = defineModel<ToolType>('activeTool')
     <div class="actions">
       <button @click="emit('undo')"><img src="/src/assets/icons/undo.svg" /></button>
       <button @click="emit('redo')"><img src="/src/assets/icons/redo.svg" /></button>
-      <button @click="emit('clear')"><img src="/src/assets/icons/clear.svg" /></button>
+      <button @click="emit('reset')"><img src="/src/assets/icons/reset.svg" /></button>
       <button @click="emit('save')"><img src="/src/assets/icons/save.svg" /></button>
     </div>
   </div>
