@@ -39,7 +39,7 @@ describe('useTextarea', () => {
       y: 10,
       width: 20,
       height: 20,
-      fontSize: 30,
+      fontSize: 3,
       color: 'red'
     })
   })

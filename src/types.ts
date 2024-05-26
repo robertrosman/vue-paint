@@ -4,7 +4,7 @@ import { type Arrow } from '@/composables/tools/useArrow/useArrow'
 import { type Rectangle } from '@/composables/tools/useRectangle/useRectangle'
 import { type Crop } from '@/composables/tools/useCrop/useCrop'
 import type { Background } from './composables/tools/useBackground/useBackground'
-import type { Position } from '@vueuse/core'
+import type { MaybeRef, Position } from '@vueuse/core'
 import type { Textarea } from './composables/tools/useTextarea/useTextarea'
 
 /** These settings are editable by the user and will affect what tool to use and style etc. */
@@ -96,7 +96,7 @@ export interface Tool<T extends BaseShape> {
    * Here you can add styling that can apply to your svg element. Please scope it in classes, like `.your-tool { opacity: 0.5 }` so
    * it doesn't affect other elements in the same svg.
    */
-  svgStyle?: string
+  svgStyle?: MaybeRef<string>
 
   /**
    * This is pretty much the same concept as shapeSvg, except it is only rendered once per image. For some tools it might be sufficient

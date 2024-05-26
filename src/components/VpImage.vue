@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, unref } from 'vue'
 import type { Shape, Tool, ToolType } from '../types'
 
 const props = defineProps<{
@@ -14,7 +14,7 @@ function getTool(toolType: ToolType) {
   return props.tools.find((tool) => tool.type === toolType)
 }
 
-const style = computed(() => props.tools.map((tool) => tool.svgStyle ?? '').join('\n'))
+const style = computed(() => props.tools.map((tool) => tool.svgStyle ? unref(tool.svgStyle) : '').join('\n'))
 
 const lowLayers = computed(() =>
   props.tools.filter((tool) => tool.toolSvg && (tool.toolSvg.layer ?? 0) <= 0)

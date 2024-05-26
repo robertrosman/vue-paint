@@ -1,6 +1,7 @@
+import { createDataUrl, urlToBlob } from '@/main'
 import type { DrawEvent, Tool } from '@/types'
 import { shapeSvgComponent } from '@/utils/shapeSvgComponent'
-import { h, ref } from 'vue'
+import { computed, h, ref } from 'vue'
 
 export interface Textarea {
   type: 'textarea'
@@ -13,10 +14,43 @@ export interface Textarea {
   content: string
 }
 
-export function useTextarea(): Tool<Textarea> {
+export interface UseTextareaOptions {
+  /**
+   * What font do you want to use? Defaults to the Google font "Just another hand". Note that you can use web fonts if you want, but you probably want to embed them to make sure they
+   * work on other devices too. To embed a font, use fontUrl as well.
+   */
+  font?: string
+
+  /**
+   * Here you can set a url to a font that you want to embed in the exported svg. Defaults to the url for the Google font "Just another hand". You have to point to the exact font file
+   * (often ending with .woff2).
+   */
+  fontUrl?: string | false
+
+  /**
+   * The size of the text will be based on this number which defaults to 12. To if you use a thickness of 3, it will be multiplied by 12 and result in a font size of 36px. Different fonts
+   * have different thickness, so this number might have to be tweaked based on what font you use. Arial for example works better with a baseFontSize of 10.
+   */
+  baseFontSize?: number
+}
+
+export function useTextarea({ 
+    font = "Just another hand",
+    fontUrl = "https://fonts.gstatic.com/s/justanotherhand/v19/845CNN4-AJyIGvIou-6yJKyptyOpOfr4DGiHSIax.woff2",
+    baseFontSize = 14
+  }: UseTextareaOptions = {}): Tool<Textarea> {
   const type = 'textarea'
 
   const icon = `<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="m18.5 4l1.16 4.35l-.96.26c-.45-.87-.91-1.74-1.44-2.18C16.73 6 16.11 6 15.5 6H13v10.5c0 .5 0 1 .33 1.25c.34.25 1 .25 1.67.25v1H9v-1c.67 0 1.33 0 1.67-.25c.33-.25.33-.75.33-1.25V6H8.5c-.61 0-1.23 0-1.76.43c-.53.44-.99 1.31-1.44 2.18l-.96-.26L5.5 4z"/></svg>`
+  
+  const customFont = ref('')
+
+  async function initialize() {
+    if (fontUrl) {
+      const blob = await urlToBlob(fontUrl)
+      customFont.value = await createDataUrl(blob)
+    }
+  }
 
   function onDraw({ settings, minX, minY, maxX, maxY }: DrawEvent): Textarea | undefined {
     return {
@@ -25,7 +59,7 @@ export function useTextarea(): Tool<Textarea> {
       y: minY,
       width: maxX - minX,
       height: maxY - minY,
-      fontSize: settings.thickness * 10,
+      fontSize: settings.thickness,
       color: settings.color,
       content: ""
     }
@@ -58,7 +92,7 @@ export function useTextarea(): Tool<Textarea> {
           resolve({
             type,
             ...dimensions,
-            fontSize: settings.thickness * 10,
+            fontSize: settings.thickness,
             color: settings.color,
             content
           })
@@ -75,13 +109,32 @@ export function useTextarea(): Tool<Textarea> {
       height: textarea.height,
     }, h('textarea', {
       class: isActive ? 'is-active textarea' : 'textarea',
-      style: `font-size: ${textarea.fontSize}px; color: ${textarea.color}`,
+      style: `font-size: ${textarea.fontSize}em; color: ${textarea.color}`,
       disabled: !isActive,
       innerHTML: textarea.content
     }))
   )
 
-  const svgStyle = `
+  const svgStyle = computed(() => 
+    (customFont.value
+      ? `
+        @font-face {
+          font-family: "${font}";
+          font-style: normal;
+          font-weight: 400;
+          font-display: swap;
+          src: url(${customFont.value}) format("woff2");
+          unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+      `
+      : ''
+    )
+
+    + `
+    .vp-image {
+      font-size: ${baseFontSize}px;
+    }
+
     .textarea {
       width: 100%;
       height: 100%;
@@ -92,7 +145,7 @@ export function useTextarea(): Tool<Textarea> {
       touch-action: none;
       user-select: none;
       overflow: hidden;
-      font-family: Arial;
+      font-family: "${font}", Arial, sans-serif;
       padding: 1px;
       cursor: inherit;
     }
@@ -102,7 +155,7 @@ export function useTextarea(): Tool<Textarea> {
       padding: 0;
       cursor: text;
     }
-  `
+  `)
 
-  return { type, icon, onDraw, onDrawEnd, shapeSvg, svgStyle }
+  return { type, icon, initialize, onDraw, onDrawEnd, shapeSvg, svgStyle }
 }
