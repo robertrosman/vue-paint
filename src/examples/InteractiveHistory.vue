@@ -76,16 +76,16 @@ function onReset() {
   <div class="flex">
     <div class="history">
       <h2>History</h2>
+      <textarea v-model="historyJson"></textarea>
       <p>
         You can inspect and modify the history and settings objects down below to see it update
         automatically. This can of course be done programmatically as well.
       </p>
-      <textarea v-model="historyJson"></textarea>
     </div>
     <div class="settings">
       <h2>Settings</h2>
-      <p>The settings affect the active tool and can be changed in the toolbar, or programmatically.</p>
       <textarea v-model="settingsJson"></textarea>
+      <p>The settings affect the active tool and can be changed in the toolbar, or programmatically.</p>
     </div>
   </div>
 </template>
