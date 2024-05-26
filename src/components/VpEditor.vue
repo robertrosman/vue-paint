@@ -18,7 +18,7 @@ const emit = defineEmits<{
   (e: 'drawStart', event: DrawEvent): void
   (e: 'draw', event: DrawEvent): void
   (e: 'drawEnd', event: DrawEvent): void
-  (e: 'clear'): void
+  (e: 'reset'): void
 }>()
 
 const settings = defineModel<Settings>('settings', {
@@ -112,7 +112,7 @@ const {
 
 onMounted(() => {
   if (!history.value?.length) {
-    clear()
+    reset()
   }
 })
 
@@ -138,15 +138,16 @@ function save() {
   emit('save', { svg, tools: props.tools, history: history.value })
 }
 
-function clear() {
+async function reset() {
   redoHistory.value = history.value.reverse()
   history.value = []
-  Promise.all(
+  const shapes = await Promise.all(
     props.tools
       .filter((tool) => 'initialize' in tool)
       .flatMap(async (tool) => await tool.initialize?.({ tools: props.tools }))
-  ).then((shapes) => (history.value = [...(shapes as Shape[]), ...history.value]))
-  emit('clear')
+  )
+  history.value.unshift(...(shapes.filter(Boolean)))
+  emit('reset')
 }
 </script>
 
@@ -154,8 +155,8 @@ function clear() {
   <div ref="container" class="vue-paint vp-container">
     <vp-image :tools :activeShape :history :width="width" :height="height" />
 
-    <slot name="toolbar" :undo :save :clear :settings>
-      <vp-toolbar v-model:settings="settings" @undo="undo" @redo="redo" @save="save" @clear="clear" :tools
+    <slot name="toolbar" :undo :save :reset :settings>
+      <vp-toolbar v-model:settings="settings" @undo="undo" @redo="redo" @save="save" @reset="reset" :tools
         v-model:active-tool="settings.tool" />
     </slot>
   </div>

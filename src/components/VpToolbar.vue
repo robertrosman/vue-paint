@@ -9,7 +9,7 @@ const emit = defineEmits<{
   (e: 'save'): void
   (e: 'undo'): void
   (e: 'redo'): void
-  (e: 'clear'): void
+  (e: 'reset'): void
 }>()
 
 const settings = defineModel<Settings>('settings', {
@@ -27,14 +27,9 @@ const activeTool = defineModel<ToolType>('activeTool')
 <template>
   <div class="vp-toolbar">
     <div class="tools">
-      <button
-        v-for="tool in tools.filter((tool) => tool.icon)"
-        :key="tool.type"
+      <button v-for="tool in tools.filter((tool) => tool.icon)" :key="tool.type"
         :class="[activeTool === tool.type ? 'active' : '', `tool-${tool.type}`]"
-        @click="activeTool = tool.type as ToolType"
-        :title="tool.type"
-        v-html="tool.icon"
-      ></button>
+        @click="activeTool = tool.type as ToolType" :title="tool.type" v-html="tool.icon"></button>
     </div>
     <div class="settings">
       <input type="range" min="1" max="10" v-model="settings.thickness" />
