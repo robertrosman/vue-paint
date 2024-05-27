@@ -41,6 +41,13 @@ export function useEraser(): Tool<Eraser> {
     }
   }
 
+  function onDrawEnd({ activeShape }: DrawEvent): Eraser | undefined {
+    return targets.length === 0
+      ? undefined
+      : activeShape as Eraser
+  }
+
+
   function simplifyHistory(history: ImageHistory<BaseShape[]>) {
     const eraseIds = history
       .filter<Eraser>((shape): shape is Eraser => shape.type === 'eraser')
@@ -48,5 +55,5 @@ export function useEraser(): Tool<Eraser> {
     return history.filter(s => s.type !== 'eraser' && !eraseIds.includes(s.id))
   }
 
-  return { type, icon, onDrawStart, onDraw, simplifyHistory }
+  return { type, icon, onDrawStart, onDraw, onDrawEnd, simplifyHistory }
 }

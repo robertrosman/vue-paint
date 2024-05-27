@@ -43,6 +43,12 @@ export function useMove(): Tool<Move> {
       y: y - posStart.y,
     }
   }
+  
+  function onDrawEnd({ activeShape }: DrawEvent): Move | undefined {
+    return targets.length === 0
+      ? undefined
+      : activeShape as Move
+  }
 
   function simplifyHistory(history: ImageHistory<Shape[]>, tools: Tool<any>[]) {
     return history.map(shape => {
@@ -58,5 +64,5 @@ export function useMove(): Tool<Move> {
     }).filter(shape => shape.type !== 'move')
   }
 
-  return { type, icon, onDrawStart, onDraw, simplifyHistory }
+  return { type, icon, onDrawStart, onDraw, onDrawEnd, simplifyHistory }
 }
