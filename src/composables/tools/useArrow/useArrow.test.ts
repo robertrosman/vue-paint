@@ -28,6 +28,7 @@ describe('useArrow', () => {
     const { onDraw } = useArrow()
     const line = onDraw?.({
       settings,
+      id: 'test-id',
       posStart: { x: 10, y: 10 },
       x: 20,
       y: 20
@@ -35,6 +36,7 @@ describe('useArrow', () => {
 
     expect(line).toMatchObject({
       type: 'arrow',
+      id: 'test-id',
       x1: 10,
       y1: 10,
       x2: 20,

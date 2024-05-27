@@ -1,7 +1,7 @@
-import type { ToolSvgProps, DrawEvent, Tool, ExportParameters, Shape } from '@/types'
+import type { ToolSvgProps, DrawEvent, Tool, ExportParameters, Shape, BaseShape } from '@/types'
 import { computed, h } from 'vue'
 
-export interface Crop {
+export interface Crop extends BaseShape {
   type: 'crop'
   x: number
   y: number
@@ -24,9 +24,10 @@ export function useCrop(): Tool<Crop> {
 
   const icon = `<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M17 23v-4H7q-.825 0-1.412-.587T5 17V7H1V5h4V1h2v16h16v2h-4v4zm0-8V7H9V5h8q.825 0 1.413.588T19 7v8z"/></svg>`
 
-  function onDraw({ minX, minY, maxX, maxY }: DrawEvent): Crop {
+  function onDraw({ id, minX, minY, maxX, maxY }: DrawEvent): Crop {
     return {
       type,
+      id,
       x: minX,
       y: minY,
       width: maxX - minX,
@@ -42,6 +43,7 @@ export function useCrop(): Tool<Crop> {
         crop.value
           ? h('path', {
               class: 'overlay',
+              id: crop.value.id,
               d: `M 0,0 V ${props.height} H ${props.width} V 0 Z
                     M ${crop.value.x},${crop.value.y} H ${crop.value.x + crop.value.width} V ${crop.value.y + crop.value.height} H ${crop.value.x} Z
                 `

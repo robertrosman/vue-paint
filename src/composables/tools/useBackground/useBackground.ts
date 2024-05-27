@@ -1,8 +1,9 @@
-import type { ToolSvgProps, Tool, InitializeOptions } from '@/types'
+import type { ToolSvgProps, Tool, BaseShape } from '@/types'
 import { createDataUrl } from '@/utils/createDataUrl'
-import { h } from 'vue'
+import { randomId } from '@/utils/randomId'
+import { computed, h } from 'vue'
 
-export interface Background {
+export interface Background extends BaseShape {
   type: 'background'
   data: string
 }
@@ -26,6 +27,7 @@ export function useBackground({ blob }: UseBackgroundOptions): Tool<Background> 
       (data) =>
         ({
           type,
+          id: randomId(),
           data
         }) as Background
     )
@@ -34,15 +36,16 @@ export function useBackground({ blob }: UseBackgroundOptions): Tool<Background> 
   const toolSvg = {
     props: { history: Array, activeShape: Object, width: Number, height: Number },
     setup(props: ToolSvgProps) {
-      function getBackground() {
+      const background = computed(() => {
         return props.history.find<Background>(
           (shape): shape is Background => shape.type === 'background'
         )
-      }
+      })
       return () =>
-        getBackground()
+        background.value
           ? h('image', {
-              'xlink:href': getBackground()?.data,
+              'xlink:href': background.value.data,
+              id: background.value.id,
               width: props.width
             })
           : undefined

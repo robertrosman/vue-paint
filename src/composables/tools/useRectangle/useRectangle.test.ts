@@ -27,6 +27,7 @@ describe('useRectangle', () => {
     const { onDraw } = useRectangle()
     const line = onDraw?.({
       settings,
+      id: 'test-id',
       minX: 10,
       minY: 10,
       maxX: 30,
@@ -35,6 +36,7 @@ describe('useRectangle', () => {
 
     expect(line).toMatchObject({
       type: 'rectangle',
+      id: 'test-id',
       x: 10,
       y: 10,
       width: 20,

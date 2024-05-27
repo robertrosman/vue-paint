@@ -1,8 +1,8 @@
-import type { DrawEvent, Tool } from '@/types'
+import type { BaseShape, DrawEvent, Tool } from '@/types'
 import { shapeSvgComponent } from '@/utils/shapeSvgComponent'
 import { h } from 'vue'
 
-export interface Line {
+export interface Line extends BaseShape {
   type: 'line'
   x1: number
   y1: number
@@ -17,9 +17,10 @@ export function useLine(): Tool<Line> {
 
   const icon = `<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M21.71 3.29a1 1 0 0 0-1.42 0l-18 18a1 1 0 0 0 0 1.42a1 1 0 0 0 1.42 0l18-18a1 1 0 0 0 0-1.42"/></svg>`
 
-  function onDraw({ settings, posStart, x, y }: DrawEvent): Line {
+  function onDraw({ settings, id, posStart, x, y }: DrawEvent): Line {
     return {
       type,
+      id,
       x1: posStart.x,
       y1: posStart.y,
       x2: x,

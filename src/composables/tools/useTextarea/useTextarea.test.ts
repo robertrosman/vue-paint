@@ -27,6 +27,7 @@ describe('useTextarea', () => {
     const { onDraw } = useTextarea()
     const line = onDraw?.({
       settings,
+      id: 'test-id',
       minX: 10,
       minY: 10,
       maxX: 30,
@@ -35,6 +36,7 @@ describe('useTextarea', () => {
 
     expect(line).toMatchObject({
       type: 'textarea',
+      id: 'test-id',
       x: 10,
       y: 10,
       width: 20,

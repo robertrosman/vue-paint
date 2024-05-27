@@ -37,6 +37,9 @@ export interface ToolSvgProps extends SvgComponentProps {
 export interface BaseShape {
   /** What type of shape is produced? Must be unique between tools. */
   type: unknown
+
+  /** Every shape must have a unique id. Easiest way to ensure the id is kept intact is to take DrawEvent.id and pass it back to the shape. */
+  id: string
 }
 
 /**
@@ -101,7 +104,7 @@ export interface Tool<T extends BaseShape> {
   /**
    * This is pretty much the same concept as shapeSvg, except it is only rendered once per image. For some tools it might be sufficient
    * to render one element per image (like useCrop), and other tools might need to render some helper elements apart from shapeSvg
-   * (like useArrow).
+   * (like useArrow). Unlike shapeSvg you need to set the id of the component explicitly.
    */
   toolSvg?: {
     props: unknown
@@ -140,6 +143,9 @@ export interface DrawEvent {
 
   /** The shape that is currently being drawn. */
   activeShape: Shape | undefined
+
+  /** Id of the active shape, or a generated id if no active shape exists. Use this id to ensure you don't regenerate different id:s. */
+  id: string
 
   /** The width of the image in pixels. Note that it might be scaled down by the browser, but this is the base all other values will relate to. */
   width: number

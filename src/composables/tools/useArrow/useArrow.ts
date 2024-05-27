@@ -2,7 +2,7 @@ import type { ToolSvgProps, DrawEvent, Tool, BaseShape } from '@/types'
 import { shapeSvgComponent } from '@/utils/shapeSvgComponent'
 import { computed, h } from 'vue'
 
-export interface Arrow {
+export interface Arrow extends BaseShape {
   type: 'arrow'
   x1: number
   y1: number
@@ -21,9 +21,10 @@ export function useArrow(): Tool<Arrow> {
     return `arrow-${arrow.color.replace(/[^a-z0-9]/gi, '')}`
   }
 
-  function onDraw({ settings, posStart, x, y }: DrawEvent): Arrow {
+  function onDraw({ id, settings, posStart, x, y }: DrawEvent): Arrow {
     return {
       type,
+      id,
       x1: posStart.x,
       y1: posStart.y,
       x2: x,

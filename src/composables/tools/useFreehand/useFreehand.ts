@@ -1,11 +1,11 @@
-import type { DrawEvent, Tool } from '@/types'
+import type { BaseShape, DrawEvent, Tool } from '@/types'
 import { shapeSvgComponent } from '@/utils/shapeSvgComponent'
 import simplifySvgPath from '@luncheon/simplify-svg-path'
 import { h } from 'vue'
 
 export type Point = [x: number, y: number]
 
-export interface Freehand {
+export interface Freehand extends BaseShape {
   type: 'freehand'
 
   /** The path is svg formatted, but can be a bit daunting for human people. */
@@ -29,21 +29,23 @@ export function useFreehand(): Tool<Freehand> {
   const precision = 1
 
   /** Initiates the draw by cleaning up previous state and starting a new path */
-  function onDrawStart({ settings, x, y }: DrawEvent): Freehand {
+  function onDrawStart({ settings, id, x, y }: DrawEvent): Freehand {
     points.length = 0
     points.push([x, y], [x, y])
     return {
       type,
+      id,
       path: simplifySvgPath(points, { tolerance, precision }),
       thickness: settings.thickness,
       color: settings.color
     }
   }
 
-  function onDraw({ settings, x, y }: DrawEvent): Freehand | undefined {
+  function onDraw({ settings, id, x, y }: DrawEvent): Freehand | undefined {
     points.push([x, y])
     return {
       type,
+      id,
       path: simplifySvgPath(points, { tolerance, precision }),
       thickness: settings.thickness,
       color: settings.color

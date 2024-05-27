@@ -1,8 +1,8 @@
-import type { DrawEvent, Tool } from '@/types'
+import type { BaseShape, DrawEvent, Tool } from '@/types'
 import { shapeSvgComponent } from '@/utils/shapeSvgComponent'
 import { h } from 'vue'
 
-export interface Rectangle {
+export interface Rectangle extends BaseShape {
   type: 'rectangle'
   x: number
   y: number
@@ -17,9 +17,10 @@ export function useRectangle(): Tool<Rectangle> {
 
   const icon = `<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 256 256"><path fill="currentColor" d="M216 40H40a16 16 0 0 0-16 16v144a16 16 0 0 0 16 16h176a16 16 0 0 0 16-16V56a16 16 0 0 0-16-16m0 160H40V56h176z"/></svg>`
 
-  function onDraw({ settings, minX, minY, maxX, maxY }: DrawEvent): Rectangle {
+  function onDraw({ settings, id, minX, minY, maxX, maxY }: DrawEvent): Rectangle {
     return {
       type,
+      id,
       x: minX,
       y: minY,
       width: maxX - minX,

@@ -1,9 +1,9 @@
 import { createDataUrl, urlToBlob } from '@/main'
-import type { DrawEvent, Tool } from '@/types'
+import type { BaseShape, DrawEvent, Tool } from '@/types'
 import { shapeSvgComponent } from '@/utils/shapeSvgComponent'
 import { computed, h, ref } from 'vue'
 
-export interface Textarea {
+export interface Textarea extends BaseShape {
   type: 'textarea'
   x: number
   y: number
@@ -52,9 +52,10 @@ export function useTextarea({
     }
   }
 
-  function onDraw({ settings, minX, minY, maxX, maxY }: DrawEvent): Textarea | undefined {
+  function onDraw({ settings, id, minX, minY, maxX, maxY }: DrawEvent): Textarea | undefined {
     return {
       type,
+      id,
       x: minX,
       y: minY,
       width: maxX - minX,
@@ -65,7 +66,7 @@ export function useTextarea({
     }
   }
 
-  function onDrawEnd({ settings, minX, minY, maxX, maxY }: DrawEvent): Promise<Textarea | undefined> {
+  function onDrawEnd({ settings, id, minX, minY, maxX, maxY }: DrawEvent): Promise<Textarea | undefined> {
     const dimensions = Object.freeze({
         x: minX,
         y: minY,
@@ -91,6 +92,7 @@ export function useTextarea({
           element.value = ""
           resolve({
             type,
+            id,
             ...dimensions,
             fontSize: settings.thickness,
             color: settings.color,

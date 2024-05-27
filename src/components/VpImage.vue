@@ -36,14 +36,16 @@ const highLayers = computed(() =>
       :height
     />
     <component
-      v-for="(shape, i) in history"
-      :key="i"
+      v-for="shape in history"
+      :key="shape.id"
+      :id="shape.id"
       :is="getTool(shape.type)?.shapeSvg"
       :shape
       :history
     />
     <component
       v-if="activeShape"
+      :id="activeShape.id"
       :is="getTool(activeShape.type)?.shapeSvg"
       :shape="activeShape"
       :history

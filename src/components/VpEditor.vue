@@ -12,6 +12,7 @@ import type { DrawEvent, SaveParameters, Settings, Shape, Tool } from '../types'
 import VpImage from './VpImage.vue'
 import VpToolbar from './VpToolbar.vue'
 import { useDraw } from '@/composables/useDraw'
+import { randomId } from '@/utils/randomId'
 
 const emit = defineEmits<{
   (e: 'save', { svg, tools, history }: SaveParameters): void
@@ -51,6 +52,7 @@ function getActiveTool() {
 const drawEvent = computed<DrawEvent>(() => ({
   settings: settings.value,
   activeShape: activeShape.value,
+  id: activeShape.value?.id ?? randomId(),
   isDrawing: isDrawing.value,
   tools: props.tools,
   posStart,
