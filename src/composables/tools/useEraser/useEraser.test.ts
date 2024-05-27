@@ -24,7 +24,7 @@ describe('useEraser', () => {
         { type: 'eraser', id: 'first-erase', targets: ['first-textarea'] },
         { type: 'eraser', id: 'second-erase', targets: ['second-line', 'first-textarea'] }
       ]
-      const simplified = simplifyHistory!(history)
+      const simplified = simplifyHistory!(history, [useEraser()])
 
       expect(simplified.find(s => s.id === 'first-textarea')).toBeUndefined()
       expect(simplified.find(s => s.id === 'second-line')).toBeUndefined()
@@ -37,7 +37,7 @@ describe('useEraser', () => {
         { type: 'line', id: 'first-line', x1: 1140, y1: 525, x2: 1140, y2: 525, thickness: 6, color: '#c82d2d' },
         { type: 'eraser', id: 'first-erase', targets: ['first-textarea'] },
       ]
-      const simplified = simplifyHistory!(history)
+      const simplified = simplifyHistory!(history, [useEraser()])
 
       expect(simplified.length).toBe(1)
       expect(simplified.find(s => s.type === 'eraser')).toBeUndefined()
