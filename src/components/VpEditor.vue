@@ -68,7 +68,9 @@ const drawEvent = computed<DrawEvent>(() => ({
   minX: minX.value,
   maxX: maxX.value,
   minY: minY.value,
-  maxY: maxY.value
+  maxY: maxY.value,
+  absoluteX: absoluteX.value,
+  absoluteY: absoluteY.value
 }))
 
 const {
@@ -86,7 +88,9 @@ const {
   posEnd,
   width,
   height,
-  isDrawing
+  isDrawing,
+  absoluteX,
+  absoluteY
 } = useDraw({
   container,
   width: props.width,

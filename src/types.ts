@@ -3,6 +3,7 @@ import { type Line } from '@/composables/tools/useLine/useLine'
 import { type Arrow } from '@/composables/tools/useArrow/useArrow'
 import { type Rectangle } from '@/composables/tools/useRectangle/useRectangle'
 import { type Crop } from '@/composables/tools/useCrop/useCrop'
+import { type Eraser } from '@/composables/tools/useEraser/useEraser'
 import type { Background } from './composables/tools/useBackground/useBackground'
 import type { MaybeRef, Position } from '@vueuse/core'
 import type { Textarea } from './composables/tools/useTextarea/useTextarea'
@@ -113,6 +114,13 @@ export interface Tool<T extends BaseShape> {
   }
 
   /**
+   * Use this hook to clean up and simplify the history. User actions should only push shapes to the history, and simplifyHistory should
+   * compute the sum of those actions. The eraser for example adds an "eraser" event to the history with all targets to eraser, then
+   * removes them from the history in simplifyHistory.
+   */
+  simplifyHistory?: (history: ImageHistory<Shape[]>) => ImageHistory<Shape[]>
+
+  /**
    * Here you can modify the svg that will be exported in the resulting file. Feel free to manipulate args.svg as you need.
    */
   beforeExport?: (args: ExportParameters) => void
@@ -191,13 +199,19 @@ export interface DrawEvent {
 
   /** The larger number of posStart.y and posEnd.y. It will always be within the boundaries of the image. */
   maxY: number
+
+  /** The absolute x position of the cursor, relative to left edge of window, without scaling. */
+  absoluteX: number
+
+  /** The absolute y position of the cursor, relative to top edge of window, without scaling. */
+  absoluteY: number
 }
 
 export interface InitializeOptions {
   tools: Tool<Shape>[]
 }
 
-export type Shape = Freehand | Crop | Rectangle | Line | Arrow | Background | Textarea
+export type Shape = Freehand | Crop | Rectangle | Line | Arrow | Background | Textarea | Eraser
 
 export type ToolType = Shape['type']
 
