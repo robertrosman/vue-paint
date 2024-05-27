@@ -74,6 +74,7 @@ export function useDraw({
       pressure.value &&
       !isDrawing.value &&
       isInside.value &&
+      isMoving.value &&
       !isDrawingSomewhere &&
       !isTouchScrolling
     ) {
