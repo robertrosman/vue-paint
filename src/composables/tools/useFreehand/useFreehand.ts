@@ -1,4 +1,5 @@
 import type { BaseShape, DrawEvent, Tool } from '@/types'
+import { rectangleMove } from '@/utils/moveFunctions'
 import { shapeSvgComponent } from '@/utils/shapeSvgComponent'
 import simplifySvgPath from '@luncheon/simplify-svg-path'
 import { h } from 'vue'
@@ -7,6 +8,12 @@ export type Point = [x: number, y: number]
 
 export interface Freehand extends BaseShape {
   type: 'freehand'
+
+  /** The position of x to start drawing the line from. */
+  x: number
+
+  /** The position of y to start drawing the line from. */
+  y: number
 
   /** The path is svg formatted, but can be a bit daunting for human people. */
   path: string
@@ -35,7 +42,9 @@ export function useFreehand(): Tool<Freehand> {
     return {
       type,
       id,
-      path: simplifySvgPath(points, { tolerance, precision }),
+      x,
+      y,
+      path: simplifySvgPath(points, { tolerance, precision }).replace(/^M\d+,\d+/, ''),
       thickness: settings.thickness,
       color: settings.color
     }
@@ -46,7 +55,9 @@ export function useFreehand(): Tool<Freehand> {
     return {
       type,
       id,
-      path: simplifySvgPath(points, { tolerance, precision }),
+      x: points[0][0],
+      y: points[0][1],
+      path: simplifySvgPath(points, { tolerance, precision }).replace(/^M\d+,\d+/, ''),
       thickness: settings.thickness,
       color: settings.color
     }
@@ -55,7 +66,7 @@ export function useFreehand(): Tool<Freehand> {
   /** Render an [svg path](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/path) with the given settings.  */
   const shapeSvg = shapeSvgComponent<Freehand>((freehand) =>
     h('path', {
-      d: freehand.path,
+      d: `M${freehand.x},${freehand.y}${freehand.path}`,
       class: 'freehand',
       stroke: freehand.color,
       'stroke-width': freehand.thickness
@@ -70,5 +81,5 @@ export function useFreehand(): Tool<Freehand> {
         }
     `
 
-  return { type, icon, onDrawStart, onDraw, shapeSvg, svgStyle }
+  return { type, icon, onDrawStart, onDraw, shapeSvg, svgStyle, onMove: rectangleMove }
 }

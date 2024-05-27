@@ -18,7 +18,7 @@ const style = computed(() => props.tools.map((tool) => tool.svgStyle ? unref(too
 
 const simplifiedHistory = computed(() => {
   const historyWithActiveShape = props.activeShape ? [...props.history, props.activeShape] : [...props.history]
-  return props.tools.reduce((history, tool) => tool.simplifyHistory?.(history) ?? history, historyWithActiveShape)
+  return props.tools.reduce((history, tool) => tool.simplifyHistory?.(history, props.tools) ?? history, historyWithActiveShape)
     .filter(s => s.id !== props.activeShape?.id)
 })
 

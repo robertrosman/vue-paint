@@ -1,4 +1,5 @@
 import type { ToolSvgProps, DrawEvent, Tool, BaseShape } from '@/types'
+import { lineMove } from '@/utils/moveFunctions'
 import { shapeSvgComponent } from '@/utils/shapeSvgComponent'
 import { computed, h } from 'vue'
 
@@ -89,5 +90,5 @@ export function useArrow(): Tool<Arrow> {
     }
   }
 
-  return { type, icon, onDraw, shapeSvg, toolSvg }
+  return { type, icon, onDraw, shapeSvg, toolSvg, onMove: lineMove }
 }

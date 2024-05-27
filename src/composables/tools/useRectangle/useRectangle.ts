@@ -1,4 +1,5 @@
 import type { BaseShape, DrawEvent, Tool } from '@/types'
+import { rectangleMove } from '@/utils/moveFunctions'
 import { shapeSvgComponent } from '@/utils/shapeSvgComponent'
 import { h } from 'vue'
 
@@ -49,5 +50,5 @@ export function useRectangle(): Tool<Rectangle> {
         }
     `
 
-  return { type, icon, onDraw, shapeSvg, svgStyle }
+  return { type, icon, onDraw, shapeSvg, svgStyle, onMove: rectangleMove }
 }

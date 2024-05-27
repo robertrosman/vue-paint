@@ -1,4 +1,5 @@
 import type { ToolSvgProps, DrawEvent, Tool, ExportParameters, Shape, BaseShape } from '@/types'
+import { rectangleMove } from '@/utils/moveFunctions'
 import { computed, h } from 'vue'
 
 export interface Crop extends BaseShape {
@@ -71,5 +72,5 @@ export function useCrop(): Tool<Crop> {
     }
   }
 
-  return { type, icon, onDraw, svgStyle, toolSvg, beforeExport }
+  return { type, icon, onDraw, svgStyle, toolSvg, beforeExport, onMove: rectangleMove }
 }

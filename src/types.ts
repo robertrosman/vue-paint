@@ -7,6 +7,7 @@ import { type Eraser } from '@/composables/tools/useEraser/useEraser'
 import type { Background } from './composables/tools/useBackground/useBackground'
 import type { MaybeRef, Position } from '@vueuse/core'
 import type { Textarea } from './composables/tools/useTextarea/useTextarea'
+import type { Move } from './composables/tools/useMove/useMove'
 
 /** These settings are editable by the user and will affect what tool to use and style etc. */
 export interface Settings {
@@ -118,7 +119,12 @@ export interface Tool<T extends BaseShape> {
    * compute the sum of those actions. The eraser for example adds an "eraser" event to the history with all targets to eraser, then
    * removes them from the history in simplifyHistory.
    */
-  simplifyHistory?: (history: ImageHistory<Shape[]>) => ImageHistory<Shape[]>
+  simplifyHistory?: (history: ImageHistory<Shape[]>, tools: Tool<any>[]) => ImageHistory<Shape[]>
+
+  /**
+   * onMove
+   */
+  onMove?: (movement: Movement) => Partial<T>
 
   /**
    * Here you can modify the svg that will be exported in the resulting file. Feel free to manipulate args.svg as you need.
@@ -211,7 +217,7 @@ export interface InitializeOptions {
   tools: Tool<Shape>[]
 }
 
-export type Shape = Freehand | Crop | Rectangle | Line | Arrow | Background | Textarea | Eraser
+export type Shape = Freehand | Crop | Rectangle | Line | Arrow | Background | Textarea | Eraser | Move
 
 export type ToolType = Shape['type']
 
@@ -225,6 +231,14 @@ export interface SaveParameters {
 
   /** The complete history */
   history: Shape[]
+}
+
+export interface Movement {
+  /** How far the movement is on the x axis. */
+  x: number
+
+  /** How far the movement is on the y axis. */
+  y: number
 }
 
 /** The parameters that are provided to the beforeExport method. */
