@@ -1,4 +1,4 @@
-import type { Handle } from "@/types"
+import type { Handle, Movement } from "@/types"
 import type { Position } from "@vueuse/core"
 import { describe, expect, test } from "vitest"
 
@@ -16,7 +16,7 @@ export interface TestHandleOptions<ShapeLike> {
     handlePosition: Position
 
     /** Test to move this distance {x, y} */
-    move: Position
+    move: Movement
 
     /** How should the shape look after the move? */
     result: Partial<ShapeLike>
