@@ -1,5 +1,4 @@
-import type { BaseShape, DrawEvent, Tool } from '@/types'
-import { rectangleMove } from '@/utils/moveFunctions'
+import type { BaseShape, DrawEvent, Movement, Tool } from '@/types'
 import { shapeSvgComponent } from '@/utils/shapeSvgComponent'
 import simplifySvgPath from '@luncheon/simplify-svg-path'
 import { h } from 'vue'
@@ -81,5 +80,11 @@ export function useFreehand(): Tool<Freehand> {
         }
     `
 
-  return { type, icon, onDrawStart, onDraw, shapeSvg, svgStyle, onMove: rectangleMove }
+  const handles = [{
+    name: 'base',
+    position: ({ x, y }: Freehand) => ({ x, y }),
+    onMove: ({ x, y }: Movement) => ({ x, y })
+  }]
+
+  return { type, icon, onDrawStart, onDraw, shapeSvg, svgStyle, handles }
 }
