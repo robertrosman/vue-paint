@@ -158,7 +158,7 @@ async function reset() {
 </script>
 
 <template>
-  <div ref="container" class="vue-paint vp-container">
+  <div ref="container" class="vue-paint vp-container" :class="`active-tool-${settings.tool}`">
     <vp-image :tools :activeShape :history :width="width" :height="height" />
 
     <slot name="toolbar" :undo :save :reset :settings>

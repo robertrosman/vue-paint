@@ -83,6 +83,7 @@ export function useMove(): Tool<Move> {
 
   const svgStyle = `
     circle.handle {
+      r: 0;
       stroke: #000;
       stroke-width: 2;
       stroke-opacity: 0.5;
@@ -91,7 +92,10 @@ export function useMove(): Tool<Move> {
       transition: r 0.1s ease-out;
     }
 
-    circle.handle:hover {
+    .active-tool-move circle.handle {
+      r: 10;
+    }
+    .active-tool-move circle.handle:hover {
       r: 15;
     }
   `
