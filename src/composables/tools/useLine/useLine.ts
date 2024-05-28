@@ -1,5 +1,5 @@
 import type { BaseShape, DrawEvent, Tool } from '@/types'
-import { lineMove } from '@/utils/moveFunctions'
+import { lineHandles } from '@/composables/tools/useMove/handles/lineHandles'
 import { shapeSvgComponent } from '@/utils/shapeSvgComponent'
 import { h } from 'vue'
 
@@ -50,5 +50,5 @@ export function useLine(): Tool<Line> {
         }
     `
 
-  return { type, icon, onDraw, shapeSvg, svgStyle, onMove: lineMove }
+  return { type, icon, onDraw, shapeSvg, svgStyle, handles: lineHandles }
 }

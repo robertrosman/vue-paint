@@ -25,6 +25,8 @@ export interface SvgComponentProps {
   history: Shape[]
   width: number
   height: number
+  tools: Tool<any>[]
+  settings: Settings
 }
 
 export interface ShapeSvgProps<T> extends SvgComponentProps {
@@ -122,14 +124,28 @@ export interface Tool<T extends BaseShape> {
   simplifyHistory?: (history: ImageHistory<Shape[]>, tools: Tool<any>[]) => ImageHistory<Shape[]>
 
   /**
-   * onMove
+   * If the shape should be movable with the move tool, you can define some handles here. Read more on the Handle interface how to 
+   * declare them. Some reusable handles can be found in @/composables/tools/useMove/handles.
    */
-  onMove?: (movement: Movement) => Partial<T>
+  handles?: Handle<T>[]
 
   /**
    * Here you can modify the svg that will be exported in the resulting file. Feel free to manipulate args.svg as you need.
    */
   beforeExport?: (args: ExportParameters) => void
+}
+
+export interface Handle<T> {
+  /** A unique name for this handle, like "start", "top-left" and so on. There is one fallback handle that can be used to move the 
+   * whole shape, and it must have the name "base".
+   */
+  name: string
+
+  /** This function should return the {x, y} position of the handle, based on values from the shape. */
+  position: (shape: T) => Position
+
+  /** onMove takes a {x, y} Movement and returns the properties on the shape that should change, and by how much. */
+  onMove: (movement: Movement) => Partial<T>
 }
 
 type ExtractGeneric<Type> = Type extends Tool<infer S> ? S : never

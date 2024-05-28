@@ -1,4 +1,6 @@
-import type { BaseShape, DrawEvent, ImageHistory, Movement, Shape, Tool } from '@/types'
+import { useSimplifiedHistory } from '@/composables/useSimplifiedHistory'
+import type { BaseShape, DrawEvent, ImageHistory, Movement, Shape, Tool, ToolSvgProps } from '@/types'
+import { h, toRefs } from 'vue'
 
 export interface Move extends BaseShape, Movement {
   type: 'move'
@@ -16,11 +18,8 @@ export function useMove(): Tool<Move> {
 
   function updateTargets(x: number, y: number) {
     const elements = document.elementsFromPoint(x, y)
-    const rootIndex = elements.findIndex(e => e.classList.contains('vp-image'))
-    targets = elements
-      .slice(0, rootIndex)
-      .map(e => e.id)
-      .filter(e => e && !targets.includes(e))
+    const handle = elements.find(e => e.classList.contains('handle'))
+    targets = handle ? [handle.id.replace('handle-', '')] : []
   }
 
   function onDrawStart({ id, absoluteX, absoluteY }: DrawEvent): Move {
@@ -51,12 +50,17 @@ export function useMove(): Tool<Move> {
   }
 
   function simplifyHistory(history: ImageHistory<Shape[]>, tools: Tool<any>[]) {
+    const flatMoves = history
+      .filter<Move>((move): move is Move => move.type === 'move')
+      .flatMap(move => move.targets.map(target => {
+        const [_, shapeId, handle = 'base'] = target.match(/^([^-]+)(?:-(.*))?$/) ?? []
+        return { shapeId, handle, x: move.x, y: move.y }
+      }))
+
     return history.map(shape => {
       const clonedShape = {...shape}
-      history
-        .filter<Move>((m): m is Move => m.type === 'move')
-        .filter(m => m.targets.includes(shape.id))
-        .map(m => tools.find(t => t.type === shape.type)?.onMove?.(m))
+      flatMoves.filter(move => shape.id === move.shapeId)
+        .map(move => tools.find(tool => tool.type === shape.type)?.handles?.find(h => h.name === move.handle)?.onMove(move))
         .forEach(m => Object.entries(m ?? {}).forEach(([key, value]) => {
           clonedShape[key as keyof typeof clonedShape] += value
         }))
@@ -64,5 +68,34 @@ export function useMove(): Tool<Move> {
     }).filter(shape => shape.type !== 'move')
   }
 
-  return { type, icon, onDrawStart, onDraw, onDrawEnd, simplifyHistory }
+  const toolSvg = {
+    props: { history: Array, activeShape: Object, width: Number, height: Number, tools: Array },
+    setup(props: ToolSvgProps) {
+      const { simplifiedHistory } = useSimplifiedHistory(toRefs(props))
+      return () =>
+        simplifiedHistory.value.flatMap(shape => props.tools.find(t => t.type === shape.type)?.handles?.map(handle => {
+          const {x, y} = handle.position(shape)
+          return h('circle', { id: `handle-${shape.id}-${handle.name}`, class: 'handle', cx: x, cy: y, r: 10 })
+      }))
+    },
+    layer: 1_000
+  }
+
+  const svgStyle = `
+    circle.handle {
+      stroke: #000;
+      stroke-width: 2;
+      stroke-opacity: 0.5;
+      fill: #fff;
+      fill-opacity: 0.3;
+      transition: r 0.1s ease-out;
+    }
+
+    circle.handle:hover {
+      r: 15;
+    }
+  `
+
+
+  return { type, icon, onDrawStart, onDraw, onDrawEnd, simplifyHistory, toolSvg, svgStyle }
 }

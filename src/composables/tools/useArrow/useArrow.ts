@@ -1,5 +1,5 @@
 import type { ToolSvgProps, DrawEvent, Tool, BaseShape } from '@/types'
-import { lineMove } from '@/utils/moveFunctions'
+import { lineHandles } from '@/composables/tools/useMove/handles/lineHandles'
 import { shapeSvgComponent } from '@/utils/shapeSvgComponent'
 import { computed, h } from 'vue'
 
@@ -48,7 +48,7 @@ export function useArrow(): Tool<Arrow> {
   )
 
   const toolSvg = {
-    props: { history: Array, activeShape: Object, width: Number, height: Number },
+    props: { history: Array, activeShape: Object, width: Number, height: Number, tools: Array },
     setup(props: ToolSvgProps) {
       const arrowMarkers = computed(() => {
         return [...props.history, props.activeShape]
@@ -90,5 +90,5 @@ export function useArrow(): Tool<Arrow> {
     }
   }
 
-  return { type, icon, onDraw, shapeSvg, toolSvg, onMove: lineMove }
+  return { type, icon, onDraw, shapeSvg, toolSvg, handles: lineHandles }
 }

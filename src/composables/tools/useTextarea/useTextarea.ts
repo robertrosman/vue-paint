@@ -1,6 +1,6 @@
 import { createDataUrl, urlToBlob } from '@/main'
 import type { BaseShape, DrawEvent, Movement, Tool } from '@/types'
-import { rectangleMove } from '@/utils/moveFunctions'
+import { rectangleHandles } from '@/composables/tools/useMove/handles/rectangleHandles'
 import { shapeSvgComponent } from '@/utils/shapeSvgComponent'
 import { computed, h, ref } from 'vue'
 
@@ -160,5 +160,5 @@ export function useTextarea({
     }
   `)
 
-  return { type, icon, initialize, onDraw, onDrawEnd, shapeSvg, svgStyle, onMove: rectangleMove }
+  return { type, icon, initialize, onDraw, onDrawEnd, shapeSvg, svgStyle, handles: rectangleHandles }
 }

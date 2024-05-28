@@ -37,7 +37,7 @@ export function useCrop(): Tool<Crop> {
   }
 
   const toolSvg = {
-    props: { history: Array, activeShape: Object, width: Number, height: Number },
+    props: { history: Array, activeShape: Object, width: Number, height: Number, tools: Array },
     setup(props: ToolSvgProps) {
       const crop = computed(() => getCrop(props.history, props.activeShape))
       return () =>

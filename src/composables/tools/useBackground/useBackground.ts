@@ -34,7 +34,7 @@ export function useBackground({ blob }: UseBackgroundOptions): Tool<Background> 
   }
 
   const toolSvg = {
-    props: { history: Array, activeShape: Object, width: Number, height: Number },
+    props: { history: Array, activeShape: Object, width: Number, height: Number, tools: Array },
     setup(props: ToolSvgProps) {
       const background = computed(() => {
         return props.history.find<Background>(
