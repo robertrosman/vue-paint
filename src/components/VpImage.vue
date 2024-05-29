@@ -17,13 +17,17 @@ function getTool(toolType: ToolType) {
 
 const style = computed(() => props.tools.map((tool) => tool.svgStyle ? unref(tool.svgStyle) : '').join('\n'))
 
-const { simplifiedHistory } = useSimplifiedHistory(toRefs(props))
+const { simplifiedHistory } = useSimplifiedHistory({ ...toRefs(props), includeActiveShape: false })
 
 const lowLayers = computed(() =>
-  props.tools.filter((tool) => tool.toolSvg && (tool.toolSvg.layer ?? 0) <= 0)
+  props.tools
+    .filter((tool) => tool.toolSvg && (tool.toolSvg.layer ?? 0) <= 0)
+    .sort((a, b) => (a.toolSvg?.layer ?? 0) - (b.toolSvg?.layer ?? 0))
 )
 const highLayers = computed(() =>
-  props.tools.filter((tool) => tool.toolSvg && (tool.toolSvg.layer ?? 0) > 0)
+  props.tools
+    .filter((tool) => tool.toolSvg && (tool.toolSvg.layer ?? 0) > 0)
+    .sort((a, b) => (a.toolSvg?.layer ?? 0) - (b.toolSvg?.layer ?? 0))
 )
 </script>
 
