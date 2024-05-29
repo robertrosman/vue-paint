@@ -1,4 +1,4 @@
-import type { ToolSvgProps, DrawEvent, Tool, ExportParameters, Shape, BaseShape } from '@/types'
+import type { ToolSvgProps, DrawEvent, Tool, ExportParameters, Shape, BaseShape, ImageHistory } from '@/types'
 import { computed, h, toRefs } from 'vue'
 import { rectangleHandles } from '../useMove/handles/rectangleHandles'
 import { useSimplifiedHistory } from '@/composables/useSimplifiedHistory'
@@ -9,16 +9,6 @@ export interface Crop extends BaseShape {
   y: number
   width: number
   height: number
-}
-
-function getCrop(history: Shape[], activeShape: Shape | undefined) {
-  if (activeShape?.type === 'crop') {
-    return activeShape
-  }
-  const cropShapes = history.filter<Crop>((shape): shape is Crop => shape.type === 'crop')
-  if (cropShapes.length > 0) {
-    return cropShapes.reverse()[0]
-  }
 }
 
 export function useCrop(): Tool<Crop> {
@@ -37,11 +27,17 @@ export function useCrop(): Tool<Crop> {
     }
   }
 
+  function simplifyHistory(history: ImageHistory<Shape[]>) {
+    const crops = history.filter(shape => shape.type === 'crop')
+    return history.filter(shape => shape.type !== 'crop' || shape.id === crops[crops.length - 1].id)
+  }
+
+
   const toolSvg = {
     props: { history: Array, activeShape: Object, width: Number, height: Number, tools: Array },
     setup(props: ToolSvgProps) {
-      const { simplifiedHistory } = useSimplifiedHistory(toRefs(props))
-      const crop = computed(() => getCrop(simplifiedHistory.value, props.activeShape))
+      const { simplifiedHistory } = useSimplifiedHistory({ ...toRefs(props), includeActiveShape: true })
+      const crop = computed(() => simplifiedHistory.value.find(s => s.type === 'crop'))
       return () =>
         crop.value
           ? h('path', {
@@ -64,7 +60,7 @@ export function useCrop(): Tool<Crop> {
     `
 
   function beforeExport({ svg, history }: ExportParameters) {
-    const crop = getCrop(history, undefined)
+    const crop = simplifyHistory(history).find<Crop>((shape): shape is Crop => shape.type === 'crop')
     if (crop) {
       const { x, y, width, height } = crop
       svg.setAttribute('width', String(width))
@@ -74,5 +70,5 @@ export function useCrop(): Tool<Crop> {
     }
   }
 
-  return { type, icon, onDraw, svgStyle, toolSvg, beforeExport, handles: rectangleHandles }
+  return { type, icon, onDraw, svgStyle, simplifyHistory, toolSvg, beforeExport, handles: rectangleHandles }
 }
