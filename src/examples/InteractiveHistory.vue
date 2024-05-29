@@ -54,7 +54,7 @@ const animations = [
   { color: '#bbbbbb' }
 ]
 
-function onReset() {
+function animateHistory() {
   const duration = 800
   const delay = duration * 0.3
   shapes.forEach((shape, i) => setTimeout(() => {
@@ -73,7 +73,7 @@ function onReset() {
 
 <template>
   <vp-editor @save="$emit('save', $event)" v-model:settings="settings" v-model:history="history" :tools
-    @reset="onReset" />
+    @reset="animateHistory" />
   <div class="flex">
     <div class="history">
       <h2>History</h2>
