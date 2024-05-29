@@ -154,9 +154,12 @@ export function useTextarea({
     }
 
     .textarea.is-active {
+      cursor: text;
+    }
+
+    .textarea.is-active, .active-tool-move .textarea {
       border: 1px dashed #777;
       padding: 0;
-      cursor: text;
     }
   `)
 
