@@ -18,7 +18,7 @@ export interface UseMoveOptions {
 }
 
 export function useMove({
-  handlesOnActiveShape = true,
+  handlesOnActiveShape = false,
   handleRadius = 10
 }: UseMoveOptions = {}): Tool<Move> {
   const type = 'move'
