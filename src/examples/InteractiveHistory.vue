@@ -12,7 +12,7 @@ const settings = ref<Settings>({
   color: '#c82d2d'
 })
 
-const { tools } = useAllTools()
+const { tools } = useAllTools({ handlesOnActiveShape: false })
 const history = ref<ImageHistory<typeof tools>>([])
 defineEmits(['save'])
 

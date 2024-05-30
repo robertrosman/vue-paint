@@ -40,13 +40,14 @@ const redoHistory = ref<Shape[]>([])
 
 const container = ref()
 const activeShape = ref<Shape | undefined>()
+const temporaryTool = ref<string>()
 
 defineExpose({
   container
 })
 
 function getActiveTool() {
-  return props.tools?.find((tool) => tool.type === settings.value.tool)
+  return props.tools?.find((tool) => tool.type === (temporaryTool.value ?? settings.value.tool))
 }
 
 const drawEvent = computed<DrawEvent>(() => ({
@@ -96,6 +97,10 @@ const {
   width: props.width,
   height: props.height,
   onDrawStart() {
+    temporaryTool.value = document.elementsFromPoint(absoluteX.value, absoluteY.value)?.[0]
+      ?.getAttribute('class')?.split(' ')
+      .find(c => c.startsWith('use-tool-'))
+      ?.substring(9)
     activeShape.value = getActiveTool()?.onDrawStart?.(drawEvent.value) ?? activeShape.value
     emit('drawStart', drawEvent.value)
   },
@@ -107,6 +112,7 @@ const {
     activeShape.value = getActiveTool()?.onDrawEnd
       ? await getActiveTool()?.onDrawEnd?.(drawEvent.value)
       : activeShape.value
+    temporaryTool.value = undefined
     emit('drawEnd', drawEvent.value)
     if (activeShape.value) {
       history.value.push(activeShape.value)

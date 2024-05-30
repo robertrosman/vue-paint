@@ -9,7 +9,18 @@ export interface Move extends BaseShape, Movement {
   y: number
 }
 
-export function useMove(): Tool<Move> {
+export interface UseMoveOptions {
+  /** Should active shape have handles regardless of what tool is being used?  */
+  handlesOnActiveShape?: boolean
+
+  /** Radius on the handles. Defaults to 10. */
+  handleRadius?: number
+}
+
+export function useMove({
+  handlesOnActiveShape = true,
+  handleRadius = 10
+}: UseMoveOptions = {}): Tool<Move> {
   const type = 'move'
 
   const icon = `<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 20 20"><path fill="currentColor" d="m19 10l-4 4v-3h-4v4h3l-4 4l-4-4h3v-4H5v3l-4-4l4-4v3h4V5H6l4-4l4 4h-3v4h4V6z"/></svg>`
@@ -71,11 +82,16 @@ export function useMove(): Tool<Move> {
   const toolSvg = {
     props: { history: Array, activeShape: Object, width: Number, height: Number, tools: Array },
     setup(props: ToolSvgProps) {
-      const { simplifiedHistory } = useSimplifiedHistory(toRefs(props))
+      const { simplifiedHistory } = useSimplifiedHistory({ ...toRefs(props), includeActiveShape: true })
       return () =>
-        simplifiedHistory.value.flatMap(shape => props.tools.find(t => t.type === shape.type)?.handles?.map(handle => {
+        simplifiedHistory.value.flatMap((shape, i) => props.tools.find(t => t.type === shape.type)?.handles?.map(handle => {
           const {x, y} = handle.position(shape)
-          return h('circle', { id: `handle-${shape.id}-${handle.name}`, class: 'handle', cx: x, cy: y, r: 10 })
+          return h('circle', {
+            id: `handle-${shape.id}-${handle.name}`, 
+            class: `handle use-tool-move ${handlesOnActiveShape && i === simplifiedHistory.value.length - 1 ? 'is-active' : ''}`,
+            cx: x,
+            cy: y
+          })
       }))
     },
     layer: 1_000
@@ -92,11 +108,14 @@ export function useMove(): Tool<Move> {
       transition: r 0.1s ease-out;
     }
 
-    .active-tool-move circle.handle {
-      r: 10;
+    .active-tool-move circle.handle, 
+    .vp-editor circle.handle.is-active {
+      r: ${handleRadius};
     }
-    .active-tool-move circle.handle:hover {
-      r: 15;
+
+    .active-tool-move circle.handle:hover,
+    .vp-editor circle.handle.is-active:hover {
+      r: ${handleRadius * 1.5};
     }
   `
 
