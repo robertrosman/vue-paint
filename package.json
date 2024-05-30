@@ -39,8 +39,7 @@
     "build-only": "vite build",
     "build:demo": "vite build --config vite.demo-config.ts",
     "type-check": "vue-tsc --build --force",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "format": "prettier --write src/"
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
     "@luncheon/simplify-svg-path": "^0.2.0",
@@ -55,7 +54,6 @@
     "@types/jsdom": "^21.1.6",
     "@types/node": "^20.12.5",
     "@vitejs/plugin-vue": "^5.0.4",
-    "@vue/eslint-config-prettier": "^9.0.0",
     "@vue/eslint-config-typescript": "^13.0.0",
     "@vue/test-utils": "^2.4.5",
     "@vue/tsconfig": "^0.5.1",
@@ -63,7 +61,6 @@
     "eslint-plugin-vue": "^9.23.0",
     "jsdom": "^24.0.0",
     "npm-run-all2": "^6.1.2",
-    "prettier": "^3.2.5",
     "rollup-plugin-visualizer": "^5.12.0",
     "typescript": "~5.4.0",
     "vite": "^5.2.8",
