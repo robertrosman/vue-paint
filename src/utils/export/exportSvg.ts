@@ -6,6 +6,11 @@ export function exportSvg({ svg, history, tools }: ExportParameters) {
   // get svg data
   const clone = unref(svg).cloneNode(true) as SVGElement
   tools.forEach((tool) => tool.beforeExport?.({ svg: clone, history, tools }))
+  if ((!clone.hasAttribute('width') || !clone.hasAttribute('height')) && clone.hasAttribute('viewBox')) {
+    const viewBox = clone.getAttribute('viewBox')!.split(' ')
+    clone.setAttribute('width', viewBox[2])
+    clone.setAttribute('height', viewBox[3])
+  }
   const xml = new XMLSerializer().serializeToString(clone)
 
   // make it base64
