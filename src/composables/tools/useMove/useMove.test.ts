@@ -20,8 +20,8 @@ describe('useMove', () => {
       const { simplifyHistory } = useMove()
       const history: Shape[] = [
         { type: 'textarea', id: 'textarea', x: 40, y: 450, width: 580, height: 70, fontSize: 6, color: '#ffffff', content: 'Use the tools, Luke!' },
-        { type: 'move', id: 'first-move', targets: ['textarea-top-left'], x: 110, y: -110 },
-        { type: 'move', id: 'second-move', targets: ['textarea-top-left'], x: -10, y: 10 },
+        { type: 'move', id: 'first-move', targets: ['top-left-handle-textarea'], x: 110, y: -110 },
+        { type: 'move', id: 'second-move', targets: ['top-left-handle-textarea'], x: -10, y: 10 },
       ]
       const simplified = simplifyHistory!(history, [useTextarea(), useMove()])
       const movedTextarea = simplified[0] as Textarea
@@ -33,9 +33,9 @@ describe('useMove', () => {
     test('should move lines in history', () => {
       const { simplifyHistory } = useMove()
       const history: Shape[] = [
-        { type: 'line', id: 'firstLine', x1: 200, y1: 200, x2: 300, y2: 300, thickness: 6, color: '#c82d2d' },
-        { type: 'move', id: 'firstMove', targets: ['firstLine'], x: 110, y: -110 },
-        { type: 'move', id: 'secondMove', targets: ['firstLine'], x: -10, y: 10 },
+        { type: 'line', id: 'first-line', x1: 200, y1: 200, x2: 300, y2: 300, thickness: 6, color: '#c82d2d' },
+        { type: 'move', id: 'first-move', targets: ['first-line'], x: 110, y: -110 },
+        { type: 'move', id: 'second-move', targets: ['first-line'], x: -10, y: 10 },
       ]
       const simplified = simplifyHistory!(history, [useLine()])
       const movedLine = simplified[0] as Line

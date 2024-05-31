@@ -30,7 +30,7 @@ export function useMove({
   function updateTargets(x: number, y: number) {
     const elements = document.elementsFromPoint(x, y)
     const handle = elements.find(e => e.classList.contains('handle'))
-    targets = handle ? [handle.id.replace('handle-', '')] : []
+    targets = handle ? [handle.id] : []
   }
 
   function onDrawStart({ id, absoluteX, absoluteY }: DrawEvent): Move {
@@ -64,7 +64,7 @@ export function useMove({
     const flatMoves = history
       .filter<Move>((move): move is Move => move.type === 'move')
       .flatMap(move => move.targets.map(target => {
-        const [_, shapeId, handle = 'base'] = target.match(/^([^-]+)(?:-(.*))?$/) ?? []
+        const [handle, shapeId] = target.includes('-handle-') ? target.split('-handle-') : ['base', target]
         return { shapeId, handle, x: move.x, y: move.y }
       }))
 
@@ -87,7 +87,7 @@ export function useMove({
         simplifiedHistory.value.flatMap((shape, i) => props.tools.find(t => t.type === shape.type)?.handles?.map(handle => {
           const {x, y} = handle.position(shape)
           return h('circle', {
-            id: `handle-${shape.id}-${handle.name}`, 
+            id: `${handle.name}-handle-${shape.id}`, 
             class: `handle use-tool-move ${handlesOnActiveShape && i === simplifiedHistory.value.length - 1 ? 'is-active' : ''}`,
             cx: x,
             cy: y
