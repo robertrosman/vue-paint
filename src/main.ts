@@ -16,10 +16,10 @@ export { useMove } from './composables/tools/useMove/useMove'
 
 // Utils
 
-export { exportSvg } from './utils/exportSvg'
-export { downloadSvg } from './utils/downloadSvg'
+export { exportSvg } from './utils/export/exportSvg'
+export { downloadSvg } from './utils/export/downloadSvg'
+export { exportToCanvas } from './utils/export/exportToCanvas'
 export { createDataUrl } from './utils/createDataUrl'
-export { exportToCanvas } from './utils/exportToCanvas'
 export { urlToBlob } from './utils/urlToBlob'
 export { canvasToBlob } from './utils/canvasToBlob'
 export { randomId } from './utils/randomId'
