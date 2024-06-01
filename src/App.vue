@@ -8,13 +8,18 @@ import PersistHistory from './examples/PersistHistory.vue'
 import UsingEvents from './examples/UsingEvents.vue'
 import LessTools from './examples/LessTools.vue'
 import WithBackground from './examples/WithBackground.vue'
+import VpImage from './components/VpImage.vue'
 
 const canvasRef = ref()
 const imgSrc = ref<string>()
+const exportedHistory = ref()
+const exportedTools = ref()
 
 function save({ svg, tools, history }: SaveParameters) {
   imgSrc.value = exportSvg({ svg, tools, history })
   exportToCanvas({ svg, canvas: canvasRef, tools, history })
+  exportedTools.value = tools
+  exportedHistory.value = history
 }
 </script>
 
@@ -27,6 +32,10 @@ function save({ svg, tools, history }: SaveParameters) {
     <section>
       Exported to canvas
       <canvas ref="canvasRef"></canvas>
+    </section>
+    <section>
+      Readonly VpImage
+      <vp-image :tools="exportedTools" :history="exportedHistory" :width="1280" :height="720" />
     </section>
   </div>
 
