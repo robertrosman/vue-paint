@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { VpEditor, useAllTools, type DrawEvent } from 'vue-paint'
+import { ref } from 'vue';
+import { type ImageHistory, VpEditor, createSettings, useAllTools, type DrawEvent } from 'vue-paint'
 
 const { tools } = useAllTools()
+const history = ref<ImageHistory<typeof tools>>([])
+const settings = createSettings(tools)
 defineEmits(['save'])
 
 function logEvent(event: DrawEvent) {
@@ -15,5 +18,6 @@ function logEvent(event: DrawEvent) {
     You can hook into events that are emitted from the component. Watch the console while drawing to
     see it in action.
   </p>
-  <vp-editor @save="$emit('save', $event)" :tools @draw-start="logEvent" @draw-end="logEvent"></vp-editor>
+  <vp-editor v-model:history="history" v-model:settings="settings" @save="$emit('save', $event)" :tools @draw-start="logEvent"
+    @draw-end="logEvent"></vp-editor>
 </template>

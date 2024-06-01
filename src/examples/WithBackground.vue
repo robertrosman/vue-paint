@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { VpEditor, useAllTools, urlToBlob } from 'vue-paint'
+import { ref } from 'vue';
+import { VpEditor, useAllTools, urlToBlob, type ImageHistory, createSettings } from 'vue-paint'
 
 const { tools } = useAllTools({ background: urlToBlob('./pexels-apasaric.jpg') })
+const history = ref<ImageHistory<typeof tools>>([])
+const settings = createSettings(tools)
 defineEmits(['save'])
 </script>
 
@@ -10,5 +13,5 @@ defineEmits(['save'])
   <p>
     You can set a custom background with useBackground(), or pass a background to useAllTools().
   </p>
-  <vp-editor @save="$emit('save', $event)" :tools></vp-editor>
+  <vp-editor v-model:history="history" v-model:settings="settings" @save="$emit('save', $event)" :tools></vp-editor>
 </template>

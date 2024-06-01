@@ -1,15 +1,11 @@
 <script setup lang="ts">
-import { VpEditor, useAllTools, randomId, type ImageHistory, type Settings, type Shape } from 'vue-paint'
+import { VpEditor, useAllTools, randomId, createSettings, type ImageHistory, type Shape } from 'vue-paint'
 import { computed, onMounted, ref } from 'vue'
 import anime from 'animejs';
 
-const settings = ref<Settings>({
-  tool: 'line',
-  thickness: 5,
-  color: '#c82d2d'
-})
 
 const { tools } = useAllTools({ handlesOnActiveShape: false })
+const settings = createSettings(tools)
 const history = ref<ImageHistory<typeof tools>>([])
 defineEmits(['save'])
 
