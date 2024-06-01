@@ -24,16 +24,16 @@ const settings = defineModel<Settings>('settings', {
 
 <template>
   <div class="vp-toolbar">
-    <div class="tools">
+    <div class="vp-tools">
       <button v-for="tool in tools.filter((tool) => tool.icon)" :key="tool.type"
-        :class="[settings.tool === tool.type ? 'active' : '', `tool-${tool.type}`]"
+        :class="[settings.tool === tool.type ? 'active' : '', `vp-tool-${tool.type}`]"
         @click="settings.tool = tool.type as ToolType" :title="tool.type" v-html="tool.icon"></button>
     </div>
-    <div class="settings">
+    <div class="vp-settings">
       <input type="range" min="1" max="10" v-model="settings.thickness" />
       <input type="color" v-model="settings.color" />
     </div>
-    <div class="actions">
+    <div class="vp-actions">
       <button @click="emit('undo')"><img src="/src/assets/icons/undo.svg" /></button>
       <button @click="emit('redo')"><img src="/src/assets/icons/redo.svg" /></button>
       <button @click="emit('reset')"><img src="/src/assets/icons/reset.svg" /></button>
