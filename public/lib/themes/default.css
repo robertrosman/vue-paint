@@ -3,6 +3,7 @@
   position: relative;
   cursor: crosshair;
   height: auto;
+  font-size: 15px;
 }
 
 .vp-image {
