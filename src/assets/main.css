@@ -16,12 +16,15 @@ a, a:hover, a:active, a:visited {
   font-weight: normal;
 }
 
-.vue-paint {
+.vp-editor {
+  margin-bottom: 5em;
+}
+
+.vp-editor .vp-image {
   background: var(--vt-c-white);
   outline: 1px dashed #777;
   border-radius: 5px;
   padding: 0;
-  margin-bottom: 70px;
 }
 
 .save-modal {
