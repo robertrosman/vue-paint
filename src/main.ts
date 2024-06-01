@@ -11,6 +11,7 @@ export { useCrop } from './composables/tools/useCrop/useCrop'
 export { useFreehand } from './composables/tools/useFreehand/useFreehand'
 export { useLine } from './composables/tools/useLine/useLine'
 export { useRectangle } from './composables/tools/useRectangle/useRectangle'
+export { useTextarea } from './composables/tools/useTextarea/useTextarea'
 export { useEraser } from './composables/tools/useEraser/useEraser'
 export { useMove } from './composables/tools/useMove/useMove'
 
