@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, toRefs, unref } from 'vue'
+import { computed, ref, toRefs, unref } from 'vue'
 import type { Shape, Tool, ToolType } from '../types'
 import { useSimplifiedHistory } from '@/composables/useSimplifiedHistory';
 
@@ -10,6 +10,12 @@ const props = defineProps<{
   width: number
   height: number
 }>()
+
+const svg = ref()
+
+defineExpose({
+  svg
+})
 
 function getTool(toolType: ToolType) {
   return props.tools.find((tool) => tool.type === toolType)
@@ -32,7 +38,7 @@ const highLayers = computed(() =>
 </script>
 
 <template>
-  <svg :viewBox="`0 0 ${width} ${height}`" xmlns="http://www.w3.org/2000/svg" class="vp-image">
+  <svg ref="svg" :viewBox="`0 0 ${width} ${height}`" xmlns="http://www.w3.org/2000/svg" class="vp-image">
 
     <component v-for="tool in lowLayers" :key="tool.type" :is="tool.toolSvg" :history :tools :activeShape :width
       :height />

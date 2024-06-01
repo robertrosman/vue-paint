@@ -1,4 +1,3 @@
-
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import type { DrawEvent, SaveParameters, Settings, Shape, Tool } from '../types'
@@ -32,13 +31,9 @@ const props = withDefaults(
 const history = defineModel<Shape[]>('history', { default: [] })
 const redoHistory = ref<Shape[]>([])
 
-const container = ref()
+const vpImageRef = ref()
 const activeShape = ref<Shape | undefined>()
 const temporaryTool = ref<string>()
-
-defineExpose({
-  container
-})
 
 function getActiveTool() {
   return props.tools?.find((tool) => tool.type === (temporaryTool.value ?? settings.value.tool))
@@ -87,7 +82,7 @@ const {
   absoluteX,
   absoluteY
 } = useDraw({
-  container,
+  container: vpImageRef,
   width: props.width,
   height: props.height,
   onDrawStart() {
@@ -137,7 +132,7 @@ function redo() {
 }
 
 function save() {
-  const svg = container.value.querySelector('svg')
+  const svg = vpImageRef.value.$refs.svg
   if (!svg) {
     throw new Error("Couldn't find the svg")
   }
@@ -158,8 +153,8 @@ async function reset() {
 </script>
 
 <template>
-  <div ref="container" class="vue-paint vp-editor" :class="`active-tool-${settings.tool}`">
-    <vp-image :tools :activeShape :history :width="width" :height="height" />
+  <div class="vue-paint vp-editor" :class="`active-tool-${settings.tool}`">
+    <vp-image ref="vpImageRef" :tools :activeShape :history :width="width" :height="height" />
 
     <slot name="toolbar" :undo :save :reset :settings>
       <vp-toolbar v-model:settings="settings" @undo="undo" @redo="redo" @save="save" @reset="reset" :tools
