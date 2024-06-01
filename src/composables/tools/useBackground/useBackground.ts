@@ -44,7 +44,7 @@ export function useBackground({ blob }: UseBackgroundOptions): Tool<Background> 
       return () =>
         background.value
           ? h('image', {
-              'xlink:href': background.value.data,
+              href: background.value.data,
               id: background.value.id,
               width: props.width
             })
