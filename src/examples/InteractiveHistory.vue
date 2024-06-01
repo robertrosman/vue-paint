@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { VpEditor, useAllTools, randomId, type ImageHistory, type Settings, type Shape } from 'vue-paint'
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import anime from 'animejs';
 
 const settings = ref<Settings>({
@@ -51,7 +51,7 @@ const animations = [
   { color: '#bbbbbb' }
 ]
 
-function animateHistory() {
+onMounted(() => {
   const duration = 800
   const delay = duration * 0.3
   shapes.forEach((shape, i) => setTimeout(() => {
@@ -64,13 +64,12 @@ function animateHistory() {
       round: 1,
     })
   }, i * delay))
-}
+})
 
 </script>
 
 <template>
-  <vp-editor @save="$emit('save', $event)" v-model:settings="settings" v-model:history="history" :tools
-    @reset="animateHistory" />
+  <vp-editor @save="$emit('save', $event)" v-model:settings="settings" v-model:history="history" :tools />
   <div class="flex">
     <div class="history">
       <h2>History</h2>
