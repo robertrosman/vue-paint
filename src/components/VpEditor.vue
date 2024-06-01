@@ -1,10 +1,3 @@
-<script lang="ts">
-const defaultSettings: Settings = {
-  tool: 'freehand',
-  thickness: 5,
-  color: '#c82d2d'
-}
-</script>
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
@@ -13,6 +6,7 @@ import VpImage from './VpImage.vue'
 import VpToolbar from './VpToolbar.vue'
 import { useDraw } from '@/composables/useDraw'
 import { randomId } from '@/utils/randomId'
+import { defaultSettings } from '@/utils/createSettings'
 
 const emit = defineEmits<{
   (e: 'save', { svg, tools, history }: SaveParameters): void

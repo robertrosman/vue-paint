@@ -24,6 +24,7 @@ export { createDataUrl } from './utils/createDataUrl'
 export { urlToBlob } from './utils/urlToBlob'
 export { canvasToBlob } from './utils/canvasToBlob'
 export { randomId } from './utils/randomId'
+export { createSettings } from './utils/createSettings'
 
 // Types
 export * from './types'
