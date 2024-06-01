@@ -22,7 +22,7 @@ interface UseBackgroundOptions {
 export function useBackground({ blob }: UseBackgroundOptions): Tool<Background> {
   const type = 'background'
 
-  async function initialize() {
+  async function onInitialize() {
     return createDataUrl(await blob).then(
       (data) =>
         ({
@@ -53,5 +53,5 @@ export function useBackground({ blob }: UseBackgroundOptions): Tool<Background> 
     layer: -1_000_000
   }
 
-  return { type, initialize, toolSvg }
+  return { type, onInitialize, toolSvg }
 }

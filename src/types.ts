@@ -66,7 +66,7 @@ export interface Tool<T extends BaseShape> {
    * If your tool needs to run any startup logic, you put it in this method. It is async by default and you can return one or multiple
    * shapes if you want (it/they will be added to the beginning of the history), but you don't have to return anything.
    */
-  initialize?: (args: InitializeOptions) => Promise<T | T[] | void>
+  onInitialize?: (args: InitializeEvent) => Promise<T | T[] | void>
 
   /**
    * This event will be triggered when the user starts to draw with this tool. If you return a shape it will be set as the activeShape
@@ -229,7 +229,7 @@ export interface DrawEvent {
   absoluteY: number
 }
 
-export interface InitializeOptions {
+export interface InitializeEvent {
   tools: Tool<Shape>[]
 }
 

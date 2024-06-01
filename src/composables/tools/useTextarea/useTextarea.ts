@@ -46,7 +46,7 @@ export function useTextarea({
   
   const customFont = ref('')
 
-  async function initialize() {
+  async function onInitialize() {
     if (fontUrl) {
       const blob = await urlToBlob(fontUrl)
       customFont.value = await createDataUrl(blob)
@@ -171,5 +171,5 @@ export function useTextarea({
     }
   }
 
-  return { type, icon, initialize, onDraw, onDrawEnd, shapeSvg, svgStyle, handles: rectangleHandles, beforeExport }
+  return { type, icon, onInitialize, onDraw, onDrawEnd, shapeSvg, svgStyle, handles: rectangleHandles, beforeExport }
 }

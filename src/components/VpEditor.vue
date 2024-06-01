@@ -144,8 +144,8 @@ async function reset() {
   history.value = []
   const shapes = await Promise.all(
     props.tools
-      .filter((tool) => 'initialize' in tool)
-      .flatMap(async (tool) => await tool.initialize?.({ tools: props.tools }))
+      .filter((tool) => 'onInitialize' in tool)
+      .flatMap(async (tool) => await tool.onInitialize?.({ tools: props.tools }))
   )
   history.value = [...shapes.filter(Boolean), ...history.value]
   emit('reset')
