@@ -20,16 +20,14 @@ const settings = defineModel<Settings>('settings', {
   })
 })
 
-// Why is it not updating immediately? Is a separate model really needed at all, or can we make the settings.tool reactive too?
-const activeTool = defineModel<ToolType>('activeTool')
 </script>
 
 <template>
   <div class="vp-toolbar">
     <div class="tools">
       <button v-for="tool in tools.filter((tool) => tool.icon)" :key="tool.type"
-        :class="[activeTool === tool.type ? 'active' : '', `tool-${tool.type}`]"
-        @click="activeTool = tool.type as ToolType" :title="tool.type" v-html="tool.icon"></button>
+        :class="[settings.tool === tool.type ? 'active' : '', `tool-${tool.type}`]"
+        @click="settings.tool = tool.type as ToolType" :title="tool.type" v-html="tool.icon"></button>
     </div>
     <div class="settings">
       <input type="range" min="1" max="10" v-model="settings.thickness" />

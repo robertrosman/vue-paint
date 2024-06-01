@@ -157,8 +157,7 @@ async function reset() {
     <vp-image ref="vpImageRef" :tools :activeShape :history :width="width" :height="height" />
 
     <slot name="toolbar" :undo :save :reset :settings>
-      <vp-toolbar v-model:settings="settings" @undo="undo" @redo="redo" @save="save" @reset="reset" :tools
-        v-model:active-tool="settings.tool" />
+      <vp-toolbar v-model:settings="settings" @undo="undo" @redo="redo" @save="save" @reset="reset" :tools />
     </slot>
   </div>
 </template>
