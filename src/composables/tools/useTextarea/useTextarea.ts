@@ -1,5 +1,5 @@
 import { createDataUrl, urlToBlob } from '@/main'
-import type { BaseShape, DrawEvent, Movement, Tool } from '@/types'
+import type { BaseShape, DrawEvent, ExportParameters, Movement, Tool } from '@/types'
 import { rectangleHandles } from '@/composables/tools/useMove/handles/rectangleHandles'
 import { shapeSvgComponent } from '@/utils/shapeSvgComponent'
 import { computed, h, ref } from 'vue'
@@ -163,5 +163,13 @@ export function useTextarea({
     }
   `)
 
-  return { type, icon, initialize, onDraw, onDrawEnd, shapeSvg, svgStyle, handles: rectangleHandles }
+  function beforeExport({ svg, history }: ExportParameters) {
+    // Remove styles if no textarea shape exist, to shrink image size
+    const styleElement = svg.querySelector('style')
+    if (!history.some(shape => shape.type === 'textarea') && styleElement) {
+      styleElement.innerHTML = styleElement.innerHTML.replace(svgStyle.value, '')
+    }
+  }
+
+  return { type, icon, initialize, onDraw, onDrawEnd, shapeSvg, svgStyle, handles: rectangleHandles, beforeExport }
 }
