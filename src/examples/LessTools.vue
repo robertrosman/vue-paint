@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import VpEditor from '@/components/VpEditor.vue'
-import { useRectangle } from '@/composables/tools/useRectangle/useRectangle'
-import { useArrow } from '@/composables/tools/useArrow/useArrow'
+import { VpEditor, useRectangle, useArrow } from 'vue-paint'
 
 const tools = [useRectangle(), useArrow()]
 defineEmits(['save'])

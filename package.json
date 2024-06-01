@@ -32,12 +32,12 @@
     }
   },
   "scripts": {
-    "dev": "vite --config vite.demo-config.ts",
-    "build": "run-p type-check \"build-only {@}\" --",
+    "dev": "vite",
+    "build": "run-p type-check \"build:lib {@}\" --",
     "preview": "vite preview",
     "test:unit": "vitest --typecheck",
-    "build-only": "vite build",
-    "build:demo": "vite build --config vite.demo-config.ts",
+    "build:lib": "vite build --config vite.lib-config.ts",
+    "build:demo": "vite build",
     "type-check": "vue-tsc --build --force",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },

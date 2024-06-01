@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import VpEditor from '@/components/VpEditor.vue'
-import { useAllTools } from '@/composables/tools/useAllTools'
-import { urlToBlob } from '@/utils/urlToBlob'
+import { VpEditor, useAllTools, urlToBlob } from 'vue-paint'
 
 const { tools } = useAllTools({ background: urlToBlob('./pexels-apasaric.jpg') })
 defineEmits(['save'])

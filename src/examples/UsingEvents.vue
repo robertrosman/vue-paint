@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import VpEditor from '@/components/VpEditor.vue'
-import { useAllTools } from '@/composables/tools/useAllTools'
-import type { DrawEvent } from '@/types'
+import { VpEditor, useAllTools, type DrawEvent } from 'vue-paint'
 
 const { tools } = useAllTools()
 defineEmits(['save'])

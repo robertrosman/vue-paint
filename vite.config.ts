@@ -2,27 +2,12 @@ import { fileURLToPath, URL } from 'node:url'
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import { visualizer } from 'rollup-plugin-visualizer'
-import dts from 'vite-plugin-dts'
-import { resolve } from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  publicDir: 'public/lib',
+  base: '/vue-paint/',
   build: {
-    lib: {
-      entry: resolve(__dirname, 'src/main.ts'),
-      name: 'VuePaint',
-      fileName: 'vue-paint',
-    },
-    rollupOptions: {
-      external: ['vue'],
-      output: {
-        globals: {
-          vue: 'Vue',
-        },
-      },
-    },
+    outDir: 'demo'
   },
   plugins: [
     vue({
@@ -32,14 +17,11 @@ export default defineConfig({
         }
       }
     }),
-    dts({ include: "src" }),
-    visualizer({
-      gzipSize: true
-    })
   ],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      'vue-paint': fileURLToPath(new URL('./src/main', import.meta.url))
     }
   }
 })

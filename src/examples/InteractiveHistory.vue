@@ -1,10 +1,7 @@
 <script setup lang="ts">
-import VpEditor from '@/components/VpEditor.vue'
-import { useAllTools } from '@/composables/tools/useAllTools'
-import type { ImageHistory, Settings, Shape } from '@/types'
-import { computed, onMounted, ref } from 'vue'
+import { VpEditor, useAllTools, randomId, type ImageHistory, type Settings, type Shape } from 'vue-paint'
+import { computed, ref } from 'vue'
 import anime from 'animejs';
-import { randomId } from '@/utils/randomId';
 
 const settings = ref<Settings>({
   tool: 'line',

@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import VpEditor from '@/components/VpEditor.vue'
-import { useAllTools } from '@/composables/tools/useAllTools'
-import type { Shape } from '@/types'
+import { VpEditor, useAllTools, type Shape } from 'vue-paint'
 import { useStorage } from '@vueuse/core'
 
 const history = useStorage<Shape[]>('history', [
   {
     type: 'crop',
+    id: 'jaivose',
     x: 50,
     y: 50,
     width: 150,
