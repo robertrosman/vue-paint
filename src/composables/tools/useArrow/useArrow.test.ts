@@ -73,11 +73,12 @@ describe('useArrow', () => {
     expect(wrapper.attributes('marker-end')).toBe('url(#arrow-red)')
   })
 
-  test('toolSvg should render unique markers for every color', () => {
-    const { toolSvg } = useArrow()
+  test('ToolSvgComponent should render unique markers for every color', () => {
+    const { ToolSvgComponent } = useArrow()
 
     const arrow: Arrow = {
       type: 'arrow',
+      id: 'test',
       x1: 10,
       y1: 10,
       x2: 20,
@@ -86,7 +87,7 @@ describe('useArrow', () => {
       color: 'red'
     }
 
-    const wrapper = mount(toolSvg, {
+    const wrapper = mount(ToolSvgComponent, {
       props: {
         history: [
           arrow,

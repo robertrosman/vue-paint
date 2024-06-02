@@ -1,4 +1,4 @@
-import type { ToolSvgProps, Tool, BaseShape } from '@/types'
+import type { ToolSvgComponentProps, Tool, BaseShape } from '@/types'
 import { createDataUrl } from '@/utils/createDataUrl'
 import { randomId } from '@/utils/randomId'
 import { computed, h } from 'vue'
@@ -33,9 +33,9 @@ export function useBackground({ blob }: UseBackgroundOptions): Tool<Background> 
     )
   }
 
-  const toolSvg = {
+  const ToolSvgComponent = {
     props: { history: Array, activeShape: Object, width: Number, height: Number, tools: Array },
-    setup(props: ToolSvgProps) {
+    setup(props: ToolSvgComponentProps) {
       const background = computed(() => {
         return props.history.find<Background>(
           (shape): shape is Background => shape.type === 'background'
@@ -53,5 +53,5 @@ export function useBackground({ blob }: UseBackgroundOptions): Tool<Background> 
     layer: -1_000_000
   }
 
-  return { type, onInitialize, toolSvg }
+  return { type, onInitialize, ToolSvgComponent }
 }

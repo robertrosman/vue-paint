@@ -1,4 +1,4 @@
-import type { ToolSvgProps, DrawEvent, Tool, ExportParameters, Shape, BaseShape, ImageHistory } from '@/types'
+import type { ToolSvgComponentProps, DrawEvent, Tool, ExportParameters, Shape, BaseShape, ImageHistory } from '@/types'
 import { computed, h, toRefs } from 'vue'
 import { rectangleHandles } from '../useMove/handles/rectangleHandles'
 import { useSimplifiedHistory } from '@/composables/useSimplifiedHistory'
@@ -33,9 +33,9 @@ export function useCrop(): Tool<Crop> {
   }
 
 
-  const toolSvg = {
+  const ToolSvgComponent = {
     props: { history: Array, activeShape: Object, width: Number, height: Number, tools: Array },
-    setup(props: ToolSvgProps) {
+    setup(props: ToolSvgComponentProps) {
       const { simplifiedHistory } = useSimplifiedHistory({ ...toRefs(props), includeActiveShape: true })
       const crop = computed(() => simplifiedHistory.value.find(s => s.type === 'crop'))
       return () =>
@@ -70,5 +70,5 @@ export function useCrop(): Tool<Crop> {
     }
   }
 
-  return { type, icon, onDraw, svgStyle, simplifyHistory, toolSvg, beforeExport, handles: rectangleHandles }
+  return { type, icon, onDraw, svgStyle, simplifyHistory, ToolSvgComponent, beforeExport, handles: rectangleHandles }
 }

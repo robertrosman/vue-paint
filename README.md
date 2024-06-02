@@ -55,8 +55,8 @@ Written in Typescript and fully typed.
 
 vue-paint provides a bunch of tools that you can import. Only the tools imported will be available in the editor. Every tool may or may not produce a shape that is pushed to the [history](#history).
 A shape is a plain javascript object that keeps all information needed about that specific action. The shapes can then be rendered by the tool if it is providing a shapeSvg component. Some tools 
-may not render a component for every shape, but rather one per history. Take the crop tool for example, where it makes sense to only render one crop overlay per image. It is therefor providing a
-toolSvg component instead to handle that scenario once.
+may not render a component for every shape, but rather one per history. Take the crop tool for example, where it makes sense to only render one crop overlay per image. It is therefore providing a
+ToolSvgComponent instead to handle that scenario once.
 
 Note that you need to import the same tools every time you edit an image, otherwise there would be no way to render the shapes that might have already been pushed to the history.
 
@@ -82,6 +82,11 @@ or programmatically by changing the values respectively. Note that changing the 
 
 To use the default theme you can import it like `import "vue-paint/themes/default.css"`. There's not that much styling going on, most of it relates to the toolbar. More themes are welcome, just open a PR!
 If you want to skip the theme completely and write your own css, that's of course an option as well.
+
+### Saving and exporting images
+
+There is a save button in the toolbar and it's completely up to you what you want to do with the save event. Either just store the [history](#history) somewhere to be picked up later, or export it to another format.
+The image is based on svg, so the default export function would be exportSvg or downloadSvg, but you may also export it to a canvas.
 
 ## Development
 

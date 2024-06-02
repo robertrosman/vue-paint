@@ -26,14 +26,13 @@ export interface SvgComponentProps {
   width: number
   height: number
   tools: Tool<any>[]
-  settings: Settings
 }
 
 export interface ShapeSvgProps<T> extends SvgComponentProps {
   shape: T
   isActive: boolean
 }
-export interface ToolSvgProps extends SvgComponentProps {
+export interface ToolSvgComponentProps extends SvgComponentProps {
   activeShape?: Shape
 }
 
@@ -110,9 +109,9 @@ export interface Tool<T extends BaseShape> {
    * to render one element per image (like useCrop), and other tools might need to render some helper elements apart from shapeSvg
    * (like useArrow). Unlike shapeSvg you need to set the id of the component explicitly.
    */
-  toolSvg?: {
+  ToolSvgComponent?: {
     props: unknown
-    setup: (props: ToolSvgProps) => () => unknown
+    setup: (props: ToolSvgComponentProps) => () => unknown
     layer?: number
   }
 

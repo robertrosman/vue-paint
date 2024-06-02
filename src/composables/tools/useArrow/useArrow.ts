@@ -1,4 +1,4 @@
-import type { ToolSvgProps, DrawEvent, Tool, BaseShape } from '@/types'
+import type { ToolSvgComponentProps, DrawEvent, Tool, BaseShape } from '@/types'
 import { lineHandles } from '@/composables/tools/useMove/handles/lineHandles'
 import { shapeSvgComponent } from '@/utils/shapeSvgComponent'
 import { computed, h } from 'vue'
@@ -47,9 +47,9 @@ export function useArrow(): Tool<Arrow> {
     })
   )
 
-  const toolSvg = {
+  const ToolSvgComponent = {
     props: { history: Array, activeShape: Object, width: Number, height: Number, tools: Array },
-    setup(props: ToolSvgProps) {
+    setup(props: ToolSvgComponentProps) {
       const arrowMarkers = computed(() => {
         return [...props.history, props.activeShape]
           .filter<Arrow>((shape): shape is Arrow => shape?.type === 'arrow')
@@ -90,5 +90,5 @@ export function useArrow(): Tool<Arrow> {
     }
   }
 
-  return { type, icon, onDraw, shapeSvg, toolSvg, handles: lineHandles }
+  return { type, icon, onDraw, shapeSvg, ToolSvgComponent, handles: lineHandles }
 }

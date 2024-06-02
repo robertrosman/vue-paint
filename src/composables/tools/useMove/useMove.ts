@@ -1,5 +1,5 @@
 import { useSimplifiedHistory } from '@/composables/useSimplifiedHistory'
-import type { BaseShape, DrawEvent, ExportParameters, ImageHistory, Movement, Shape, Tool, ToolSvgProps } from '@/types'
+import type { BaseShape, DrawEvent, ExportParameters, ImageHistory, Movement, Shape, Tool, ToolSvgComponentProps } from '@/types'
 import { h, toRefs } from 'vue'
 
 export interface Move extends BaseShape, Movement {
@@ -79,9 +79,9 @@ export function useMove({
     }).filter(shape => shape.type !== 'move')
   }
 
-  const toolSvg = {
+  const ToolSvgComponent = {
     props: { history: Array, activeShape: Object, width: Number, height: Number, tools: Array },
-    setup(props: ToolSvgProps) {
+    setup(props: ToolSvgComponentProps) {
       const { simplifiedHistory } = useSimplifiedHistory({ ...toRefs(props), includeActiveShape: true })
       return () =>
         simplifiedHistory.value.flatMap((shape, i) => props.tools.find(t => t.type === shape.type)?.handles?.map(handle => {
@@ -123,5 +123,5 @@ export function useMove({
     svg.querySelectorAll('circle.handle').forEach(handle => handle.remove())
   }
 
-  return { type, icon, onDrawStart, onDraw, onDrawEnd, simplifyHistory, toolSvg, svgStyle, beforeExport }
+  return { type, icon, onDrawStart, onDraw, onDrawEnd, simplifyHistory, ToolSvgComponent, svgStyle, beforeExport }
 }
