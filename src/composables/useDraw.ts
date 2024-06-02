@@ -28,7 +28,8 @@ export function useDraw({
     right,
     bottom,
     width: scaledWidth,
-    height: scaledHeight
+    height: scaledHeight,
+    update
   } = useElementBounding(container)
   const isDrawing = ref(false)
   const posStart = reactive<Position>({ x: 0, y: 0 })
@@ -78,6 +79,7 @@ export function useDraw({
       !isDrawingSomewhere &&
       !isTouchScrolling
     ) {
+      update()
       isDrawing.value = true
       isDrawingSomewhere = true
       posStart.x = x.value
