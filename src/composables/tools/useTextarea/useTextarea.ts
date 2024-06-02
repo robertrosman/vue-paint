@@ -136,6 +136,7 @@ export function useTextarea({
     + `
     .vp-image {
       font-size: ${baseFontSize}px;
+      user-select: none;
     }
 
     .textarea {
@@ -146,7 +147,6 @@ export function useTextarea({
       background: transparent;
       resize: none;
       touch-action: none;
-      user-select: none;
       overflow: hidden;
       font-family: "${font}", Arial, sans-serif;
       padding: 1px;
