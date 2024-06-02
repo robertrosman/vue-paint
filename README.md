@@ -12,17 +12,21 @@ history and you're good to go.
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue'
-import { VpEditor, useFreehand, useRectangle, downloadSvg, type ImageHistory } from 'vue-paint'
+import { VpEditor, useFreehand, useRectangle, downloadSvg, createSettings, type ImageHistory } from 'vue-paint'
 
 // Add the tools you like to use, or call useAllTools to make use of all available tools
 const tools = [useFreehand(), useRectangle()]
 
 // The history can be manipulated programmatically, and used to persist the image
 const history = ref<ImageHistory<typeof tools>>([])
+
+// Settings are mainly changed through the toolbar, but you have full control over the settings, if you want to change active tool, color, thickness etc.
+// Use the utility function createSettings to set it up, where you pass the tools you're using along with any start settings.
+const settings = createSettings(tools, { color: "#c82d2d" })
 </script>
 
 <template>
-  <vp-editor v-model:history="history" @save="downloadSvg" :tools></vp-editor>
+  <vp-editor v-model:history="history" v-model:settings="settings" @save="downloadSvg" :tools></vp-editor>
 </template>
 ```
 
