@@ -21,7 +21,7 @@ export function useDraw({
   width,
   height
 }: UseDrawOptions) {
-  const { x: absoluteX, y: absoluteY, pressure, pointerType } = usePointer()
+  const { x: absoluteX, y: absoluteY, pressure } = usePointer()
   const {
     top,
     left,

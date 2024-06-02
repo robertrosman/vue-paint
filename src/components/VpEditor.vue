@@ -8,11 +8,11 @@ import { randomId } from '@/utils/randomId'
 import { defaultSettings } from '@/utils/createSettings'
 
 const emit = defineEmits<{
-  (e: 'save', { svg, tools, history }: SaveParameters): void
-  (e: 'drawStart', event: DrawEvent): void
-  (e: 'draw', event: DrawEvent): void
-  (e: 'drawEnd', event: DrawEvent): void
-  (e: 'reset'): void
+  save: [event: SaveParameters]
+  drawStart: [event: DrawEvent]
+  draw: [event: DrawEvent]
+  drawEnd: [event: DrawEvent]
+  reset: []
 }>()
 
 const settings = defineModel<Settings>('settings', {
