@@ -46,10 +46,10 @@ describe('useTextarea', () => {
     })
   })
 
-  test('should return a shapeSvgComponent', () => {
-    const { shapeSvg } = useTextarea()
+  test('should return a ShapeSvgComponent', () => {
+    const { ShapeSvgComponent } = useTextarea()
 
-    const wrapper = mount(shapeSvg, {
+    const wrapper = mount(ShapeSvgComponent, {
       props: {
         shape: {
           type: 'rectangle',

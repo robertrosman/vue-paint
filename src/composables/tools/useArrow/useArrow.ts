@@ -1,6 +1,6 @@
 import type { ToolSvgComponentProps, DrawEvent, Tool, BaseShape } from '@/types'
 import { lineHandles } from '@/composables/tools/useMove/handles/lineHandles'
-import { shapeSvgComponent } from '@/utils/shapeSvgComponent'
+import { createShapeSvgComponent } from '@/utils/createShapeSvgComponent'
 import { computed, h } from 'vue'
 
 export interface Arrow extends BaseShape {
@@ -35,7 +35,7 @@ export function useArrow(): Tool<Arrow> {
     }
   }
 
-  const shapeSvg = shapeSvgComponent<Arrow>((arrow) =>
+  const ShapeSvgComponent = createShapeSvgComponent<Arrow>((arrow) =>
     h('line', {
       x1: arrow.x1,
       y1: arrow.y1,
@@ -90,5 +90,5 @@ export function useArrow(): Tool<Arrow> {
     }
   }
 
-  return { type, icon, onDraw, shapeSvg, ToolSvgComponent, handles: lineHandles }
+  return { type, icon, onDraw, ShapeSvgComponent, ToolSvgComponent, handles: lineHandles }
 }

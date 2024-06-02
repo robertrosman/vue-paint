@@ -54,10 +54,10 @@ describe('useLine', () => {
     expect(svgStyle).toMatch('fill-opacity: 0')
   })
 
-  test('should return a shapeSvgComponent', () => {
-    const { shapeSvg } = useLine()
+  test('should return a ShapeSvgComponent', () => {
+    const { ShapeSvgComponent } = useLine()
 
-    const wrapper = mount(shapeSvg, {
+    const wrapper = mount(ShapeSvgComponent, {
       props: {
         shape: {
           type: 'line',

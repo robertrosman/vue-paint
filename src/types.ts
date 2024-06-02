@@ -28,7 +28,7 @@ export interface SvgComponentProps {
   tools: Tool<any>[]
 }
 
-export interface ShapeSvgProps<T> extends SvgComponentProps {
+export interface ShapeSvgComponentProps<T> extends SvgComponentProps {
   shape: T
   isActive: boolean
 }
@@ -91,11 +91,11 @@ export interface Tool<T extends BaseShape> {
    * Note that the setup function must return a render function, which might feel a bit unfamiliar at first, but it's actually really
    * simple once you get the hang of it. The Vue documentation does a really good job explaining how they work:
    * https://vuejs.org/guide/extras/render-function. Look at the existing tools to get inspiration. Note that you can use the utility
-   * function shapeSvgComponent if you don't need any extra logic to render your component.
+   * function createShapeSvgComponent if you don't need any extra logic to render your component.
    */
-  shapeSvg?: {
+  ShapeSvgComponent?: {
     props: unknown
-    setup: (props: ShapeSvgProps<T>) => () => unknown
+    setup: (props: ShapeSvgComponentProps<T>) => () => unknown
   }
 
   /**

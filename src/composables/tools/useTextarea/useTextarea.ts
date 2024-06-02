@@ -1,7 +1,7 @@
 import { createDataUrl, urlToBlob } from '@/main'
 import type { BaseShape, DrawEvent, ExportParameters, Movement, Tool } from '@/types'
 import { rectangleHandles } from '@/composables/tools/useMove/handles/rectangleHandles'
-import { shapeSvgComponent } from '@/utils/shapeSvgComponent'
+import { createShapeSvgComponent } from '@/utils/createShapeSvgComponent'
 import { computed, h, ref } from 'vue'
 
 export interface Textarea extends BaseShape {
@@ -104,7 +104,7 @@ export function useTextarea({
     })
   }
 
-  const shapeSvg = shapeSvgComponent<Textarea>((textarea, { isActive }) =>
+  const ShapeSvgComponent = createShapeSvgComponent<Textarea>((textarea, { isActive }) =>
     h('foreignObject', {
       x: textarea.x,
       y: textarea.y,
@@ -171,5 +171,5 @@ export function useTextarea({
     }
   }
 
-  return { type, icon, onInitialize, onDraw, onDrawEnd, shapeSvg, svgStyle, handles: rectangleHandles, beforeExport }
+  return { type, icon, onInitialize, onDraw, onDrawEnd, ShapeSvgComponent, svgStyle, handles: rectangleHandles, beforeExport }
 }

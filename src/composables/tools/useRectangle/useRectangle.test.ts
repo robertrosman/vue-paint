@@ -55,10 +55,10 @@ describe('useRectangle', () => {
     expect(svgStyle).toMatch('fill-opacity: 0')
   })
 
-  test('should return a shapeSvgComponent', () => {
-    const { shapeSvg } = useRectangle()
+  test('should return a ShapeSvgComponent', () => {
+    const { ShapeSvgComponent } = useRectangle()
 
-    const wrapper = mount(shapeSvg, {
+    const wrapper = mount(ShapeSvgComponent, {
       props: {
         shape: {
           type: 'rectangle',

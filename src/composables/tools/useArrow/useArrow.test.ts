@@ -46,10 +46,10 @@ describe('useArrow', () => {
     })
   })
 
-  test('should return a shapeSvgComponent', () => {
-    const { shapeSvg } = useArrow()
+  test('should return a ShapeSvgComponent', () => {
+    const { ShapeSvgComponent } = useArrow()
 
-    const wrapper = mount(shapeSvg, {
+    const wrapper = mount(ShapeSvgComponent, {
       props: {
         shape: {
           type: 'arrow',

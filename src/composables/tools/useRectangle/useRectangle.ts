@@ -1,6 +1,6 @@
 import type { BaseShape, DrawEvent, Tool } from '@/types'
 import { rectangleHandles } from '@/composables/tools/useMove/handles/rectangleHandles'
-import { shapeSvgComponent } from '@/utils/shapeSvgComponent'
+import { createShapeSvgComponent } from '@/utils/createShapeSvgComponent'
 import { h } from 'vue'
 
 export interface Rectangle extends BaseShape {
@@ -31,7 +31,7 @@ export function useRectangle(): Tool<Rectangle> {
     }
   }
 
-  const shapeSvg = shapeSvgComponent<Rectangle>((rectangle) =>
+  const ShapeSvgComponent = createShapeSvgComponent<Rectangle>((rectangle) =>
     h('rect', {
       x: rectangle.x,
       y: rectangle.y,
@@ -50,5 +50,5 @@ export function useRectangle(): Tool<Rectangle> {
         }
     `
 
-  return { type, icon, onDraw, shapeSvg, svgStyle, handles: rectangleHandles }
+  return { type, icon, onDraw, ShapeSvgComponent, svgStyle, handles: rectangleHandles }
 }

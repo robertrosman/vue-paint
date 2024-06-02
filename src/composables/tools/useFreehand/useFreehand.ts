@@ -1,5 +1,5 @@
 import type { BaseShape, DrawEvent, Movement, Tool } from '@/types'
-import { shapeSvgComponent } from '@/utils/shapeSvgComponent'
+import { createShapeSvgComponent } from '@/utils/createShapeSvgComponent'
 import simplifySvgPath from '@luncheon/simplify-svg-path'
 import { h } from 'vue'
 
@@ -63,7 +63,7 @@ export function useFreehand(): Tool<Freehand> {
   }
 
   /** Render an [svg path](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/path) with the given settings.  */
-  const shapeSvg = shapeSvgComponent<Freehand>((freehand) =>
+  const ShapeSvgComponent = createShapeSvgComponent<Freehand>((freehand) =>
     h('path', {
       d: `M${freehand.x},${freehand.y}${freehand.path}`,
       class: 'freehand',
@@ -86,5 +86,5 @@ export function useFreehand(): Tool<Freehand> {
     onMove: ({ x, y }: Movement) => ({ x, y })
   }]
 
-  return { type, icon, onDrawStart, onDraw, shapeSvg, svgStyle, handles }
+  return { type, icon, onDrawStart, onDraw, ShapeSvgComponent, svgStyle, handles }
 }

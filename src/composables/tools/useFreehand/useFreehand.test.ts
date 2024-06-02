@@ -59,9 +59,9 @@ describe('useFreehand', () => {
   })
 
   test('should return a shapeSvgComponent', () => {
-    const { shapeSvg } = useFreehand()
+    const { ShapeSvgComponent } = useFreehand()
 
-    const wrapper = mount(shapeSvg, {
+    const wrapper = mount(ShapeSvgComponent, {
       props: {
         shape: {
           type: 'freehand',
