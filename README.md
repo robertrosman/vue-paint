@@ -54,7 +54,7 @@ Written in Typescript and fully typed.
 ### Tools
 
 vue-paint provides a bunch of tools that you can import. Only the tools imported will be available in the editor. Every tool may or may not produce a shape that is pushed to the [history](#history).
-A shape is a plain javascript object that keeps all information needed about that specific action. The shapes can then be rendered by the tool if it is providing a shapeSvg component. Some tools 
+A shape is a plain javascript object that keeps all information needed about that specific action. The shapes can then be rendered by the tool if it is providing an ShapeSvgComponent. Some tools 
 may not render a component for every shape, but rather one per history. Take the crop tool for example, where it makes sense to only render one crop overlay per image. It is therefore providing a
 ToolSvgComponent instead to handle that scenario once.
 
