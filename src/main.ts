@@ -15,11 +15,19 @@ export { useTextarea } from './composables/tools/useTextarea/useTextarea'
 export { useEraser } from './composables/tools/useEraser/useEraser'
 export { useMove } from './composables/tools/useMove/useMove'
 
+// Export functions
+export { exportSvg } from './utils/export/exportSvg'
+export { exportPng } from './utils/export/exportPng'
+export { exportJpg } from './utils/export/exportJpg'
+export { exportWebp } from './utils/export/exportWebp'
+export { downloadSvg } from './utils/export/downloadSvg'
+export { downloadPng } from './utils/export/downloadPng'
+export { downloadJpg } from './utils/export/downloadJpg'
+export { downloadWebp } from './utils/export/downloadWebp'
+export { exportToCanvas } from './utils/export/exportToCanvas'
+
 // Utils
 
-export { exportSvg } from './utils/export/exportSvg'
-export { downloadSvg } from './utils/export/downloadSvg'
-export { exportToCanvas } from './utils/export/exportToCanvas'
 export { createDataUrl } from './utils/createDataUrl'
 export { urlToBlob } from './utils/urlToBlob'
 export { canvasToBlob } from './utils/canvasToBlob'

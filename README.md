@@ -86,7 +86,8 @@ If you want to skip the theme completely and write your own css, that's of cours
 ### Saving and exporting images
 
 There is a save button in the toolbar and it's completely up to you what you want to do with the save event. Either just store the [history](#history) somewhere to be picked up later, or export it to another format.
-The image is based on svg, so the default export function would be exportSvg or downloadSvg, but you may also export it to a canvas.
+The image is based on svg, so the default export function would be exportSvg or downloadSvg, but you may also export it to a canvas. All available export functions are
+[found here](https://github.com/robertrosman/vue-paint/tree/main/src/utils/export).
 
 ## Development
 

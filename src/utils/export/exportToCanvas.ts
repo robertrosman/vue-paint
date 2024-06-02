@@ -3,7 +3,7 @@ import { unref, type MaybeRef } from 'vue'
 import { exportSvg } from './exportSvg'
 
 interface Options extends ExportParameters {
-  canvas: MaybeRef<HTMLCanvasElement>
+  canvas: MaybeRef<HTMLCanvasElement | OffscreenCanvas>
 }
 
 export async function exportToCanvas({ svg, canvas, tools, history }: Options) {
