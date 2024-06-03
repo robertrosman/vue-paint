@@ -1,5 +1,5 @@
 import { useSimplifiedHistory } from '@/composables/useSimplifiedHistory'
-import type { BaseShape, DrawEvent, ExportParameters, ImageHistory, Movement, Shape, Tool, ToolSvgComponentProps } from '@/types'
+import type { BaseShape, DrawEvent, ExportParameters, ImageHistory, Movement, Shape, SvgStyleParameters, Tool, ToolSvgComponentProps } from '@/types'
 import { h, toRefs } from 'vue'
 
 export interface Move extends BaseShape, Movement {
@@ -97,27 +97,29 @@ export function useMove({
     layer: 1_000
   }
 
-  const svgStyle = `
-    circle.handle {
-      r: 0;
-      stroke: #000;
-      stroke-width: 2;
-      stroke-opacity: 0.5;
-      fill: #fff;
-      fill-opacity: 0.3;
-      transition: r 0.1s ease-out;
-    }
+  function svgStyle ({ svgId }: SvgStyleParameters) {
+    return `
+      circle.handle {
+        r: 0;
+        stroke: #000;
+        stroke-width: 2;
+        stroke-opacity: 0.5;
+        fill: #fff;
+        fill-opacity: 0.3;
+        transition: r 0.1s ease-out;
+      }
 
-    .active-tool-move circle.handle, 
-    .vp-editor circle.handle.is-active {
-      r: ${handleRadius};
-    }
+      .active-tool-move #${svgId} circle.handle, 
+      .vp-editor #${svgId} circle.handle.is-active {
+        r: ${handleRadius};
+      }
 
-    .active-tool-move circle.handle:hover,
-    .vp-editor circle.handle.is-active:hover {
-      r: ${handleRadius * 1.5};
-    }
-  `
+      .active-tool-move #${svgId} circle.handle:hover,
+      .vp-editor #${svgId} circle.handle.is-active:hover {
+        r: ${handleRadius * 1.5};
+      }
+    `
+  }
 
   function beforeExport({ svg }: ExportParameters) {
     svg.querySelectorAll('circle.handle').forEach(handle => handle.remove())

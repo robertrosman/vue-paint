@@ -36,6 +36,10 @@ export interface ToolSvgComponentProps extends SvgComponentProps {
   activeShape?: Shape
 }
 
+export interface SvgStyleParameters {
+  svgId: string
+}
+
 /** Every new shape must extend this base class. */
 export interface BaseShape {
   /** What type of shape is produced? Must be unique between tools. */
@@ -102,7 +106,7 @@ export interface Tool<T extends BaseShape> {
    * Here you can add styling that can apply to your svg element. Please scope it in classes, like `.your-tool { opacity: 0.5 }` so
    * it doesn't affect other elements in the same svg.
    */
-  svgStyle?: MaybeRef<string>
+  svgStyle?: MaybeRef<string> | ((args: SvgStyleParameters) => string)
 
   /**
    * This is pretty much the same concept as shapeSvg, except it is only rendered once per image. For some tools it might be sufficient

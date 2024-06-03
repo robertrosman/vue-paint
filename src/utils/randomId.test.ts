@@ -8,8 +8,13 @@ describe('randomId', () => {
         expect(typeof id).toBe('string')
     })
 
-    it('should return a 7 letter string padded with zeros', () => {
-        const id = randomId(100)
-        expect(id).toBe('000002s')
+    it('should return the lowest possible id (beginning with a letter)', () => {
+        const id = randomId(() => 0)
+        expect(id).toBe('a000000')
+    })
+
+    it('should return the lowest possible id (beginning with a letter)', () => {
+        const id = randomId(() => 0.9999999999)
+        expect(id).toBe('zzzzzzz')
     })
 })

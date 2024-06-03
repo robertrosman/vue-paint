@@ -1,5 +1,5 @@
 import { createDataUrl, urlToBlob } from '@/main'
-import type { BaseShape, DrawEvent, ExportParameters, Movement, Tool } from '@/types'
+import type { BaseShape, DrawEvent, ExportParameters, Movement, SvgStyleParameters, Tool } from '@/types'
 import { rectangleHandles } from '@/composables/tools/useMove/handles/rectangleHandles'
 import { createShapeSvgComponent } from '@/utils/createShapeSvgComponent'
 import { computed, h, ref } from 'vue'
@@ -118,56 +118,57 @@ export function useTextarea({
     }))
   )
 
-  const svgStyle = computed(() => 
-    (customFont.value
-      ? `
-        @font-face {
-          font-family: "${font}";
-          font-style: normal;
-          font-weight: 400;
-          font-display: swap;
-          src: url(${customFont.value}) format("woff2");
-          unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-        }
-      `
-      : ''
-    )
+  function svgStyle ({ svgId }: SvgStyleParameters) {
+    return (customFont.value
+        ? `
+          @font-face {
+            font-family: "${font}";
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url(${customFont.value}) format("woff2");
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+          }
+        `
+        : ''
+      )
 
-    + `
-    .vp-image {
-      font-size: ${baseFontSize}px;
-      user-select: none;
-    }
+      + `
+      #${svgId} {
+        font-size: ${baseFontSize}px;
+        user-select: none;
+      }
 
-    .textarea {
-      width: 100%;
-      height: 100%;
-      border: none;
-      outline: none;
-      background: transparent;
-      resize: none;
-      touch-action: none;
-      overflow: hidden;
-      font-family: "${font}", Arial, sans-serif;
-      padding: 1px;
-      cursor: inherit;
-    }
+      #${svgId} .textarea {
+        width: 100%;
+        height: 100%;
+        border: none;
+        outline: none;
+        background: transparent;
+        resize: none;
+        touch-action: none;
+        overflow: hidden;
+        font-family: "${font}", Arial, sans-serif;
+        padding: 1px;
+        cursor: inherit;
+      }
 
-    .textarea.is-active {
-      cursor: text;
-    }
+      #${svgId} .textarea.is-active {
+        cursor: text;
+      }
 
-    .textarea.is-active, .active-tool-move .textarea {
-      border: 1px dashed #777;
-      padding: 0;
-    }
-  `)
+      #${svgId} .textarea.is-active, .active-tool-move #${svgId} .textarea {
+        border: 1px dashed #777;
+        padding: 0;
+      }
+    `
+  }
 
   function beforeExport({ svg, history }: ExportParameters) {
     // Remove styles if no textarea shape exist, to shrink image size
     const styleElement = svg.querySelector('style')
     if (!history.some(shape => shape.type === 'textarea') && styleElement) {
-      styleElement.innerHTML = styleElement.innerHTML.replace(svgStyle.value, '')
+      styleElement.innerHTML = styleElement.innerHTML.replace(svgStyle({ svgId: svg.id }), '')
     }
   }
 

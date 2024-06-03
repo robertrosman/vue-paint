@@ -1,4 +1,7 @@
-/** Simple function to generate a random id. It is "unique" in the sense "the chance for collision is small enough", but not universally unique. */
-export function randomId(seed: number = Math.random() * 36 * 36 * 36 * 36 * 36 * 36 * 36) {
-    return Math.round(seed).toString(36).padStart(7, '0')
+/** 
+ * Simple function to generate a random id. It is "unique" in the sense "the chance for collision is small enough", but not universally unique.
+ * The generated id will start with a letter in order to be a valid css selector.
+ */
+export function randomId(random = Math.random) {
+    return [26, 36, 36, 36, 36, 36, 36].map(x => Math.floor(random() * x + (36 - x)).toString(36)).join('')
 }

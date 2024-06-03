@@ -2,6 +2,7 @@
 import { computed, ref, toRefs, unref } from 'vue'
 import type { Shape, Tool, ToolType } from '../types'
 import { useSimplifiedHistory } from '@/composables/useSimplifiedHistory';
+import { randomId } from '@/utils/randomId';
 
 const props = defineProps<{
   tools: Tool<any>[]
@@ -12,6 +13,7 @@ const props = defineProps<{
 }>()
 
 const svg = ref()
+const svgId = ref(randomId())
 
 defineExpose({
   svg
@@ -21,7 +23,19 @@ function getTool(toolType: ToolType) {
   return props.tools.find((tool) => tool.type === toolType)
 }
 
-const style = computed(() => props.tools.map((tool) => tool.svgStyle ? unref(tool.svgStyle) : '').join('\n'))
+const style = computed(() => {
+  return props.tools.map((tool) => {
+    if (!tool.svgStyle) {
+      return ''
+    }
+    else if (typeof tool.svgStyle === 'function') {
+      return tool.svgStyle({ svgId: svgId.value })
+    }
+    else {
+      return unref(tool.svgStyle)
+    }
+  }).join('\n')
+})
 
 const { simplifiedHistory } = useSimplifiedHistory({ ...toRefs(props), includeActiveShape: false })
 
@@ -38,7 +52,7 @@ const highLayers = computed(() =>
 </script>
 
 <template>
-  <svg ref="svg" :viewBox="`0 0 ${width} ${height}`" xmlns="http://www.w3.org/2000/svg" class="vp-image">
+  <svg ref="svg" :viewBox="`0 0 ${width} ${height}`" :id="svgId" xmlns="http://www.w3.org/2000/svg" class="vp-image">
 
     <component v-for="tool in lowLayers" :key="tool.type" :is="tool.ToolSvgComponent" :history :tools :activeShape
       :width :height />
