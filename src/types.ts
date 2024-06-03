@@ -8,6 +8,7 @@ import type { Background } from './composables/tools/useBackground/useBackground
 import type { MaybeRef, Position } from '@vueuse/core'
 import type { Textarea } from './composables/tools/useTextarea/useTextarea'
 import type { Move } from './composables/tools/useMove/useMove'
+import type { Ref } from 'vue'
 
 /** These settings are editable by the user and will affect what tool to use and style etc. */
 export interface Settings {
@@ -234,6 +235,8 @@ export interface DrawEvent {
 
 export interface InitializeEvent {
   tools: Tool<Shape>[]
+  settings: Ref<Settings>
+  history: ImageHistory<Tool<any>[]>
 }
 
 export type Shape = Freehand | Crop | Rectangle | Line | Arrow | Background | Textarea | Eraser | Move

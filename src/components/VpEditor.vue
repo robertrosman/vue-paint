@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, toRef } from 'vue'
 import type { DrawEvent, SaveParameters, Settings, Shape, Tool } from '../types'
 import VpImage from './VpImage.vue'
 import VpToolbar from './VpToolbar.vue'
@@ -145,7 +145,7 @@ async function reset() {
   const shapes = await Promise.all(
     props.tools
       .filter((tool) => 'onInitialize' in tool)
-      .flatMap(async (tool) => await tool.onInitialize?.({ tools: props.tools }))
+      .flatMap(async (tool) => await tool.onInitialize?.({ tools: props.tools, settings: toRef(settings), history: toRef(history) }))
   )
   history.value = [...shapes.filter(Boolean), ...history.value]
   emit('reset')

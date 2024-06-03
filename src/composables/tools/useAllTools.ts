@@ -7,6 +7,7 @@ import { useBackground } from './useBackground/useBackground'
 import { useTextarea } from './useTextarea/useTextarea'
 import { useEraser } from './useEraser/useEraser'
 import { useMove, type UseMoveOptions } from './useMove/useMove'
+import { useKeyboardShortcuts } from './useKeyboardShortcuts/useKeyboardShortcuts'
 
 export interface Options extends UseMoveOptions {
   backgroundImage?: Blob | Promise<Blob>
@@ -14,7 +15,7 @@ export interface Options extends UseMoveOptions {
 }
 
 export function useAllTools(options?: Options) {
-  const tools = [useFreehand(), useLine(), useArrow(), useRectangle(), useTextarea(), useCrop(), useEraser(), useMove(options)]
+  const tools = [useFreehand(), useLine(), useArrow(), useRectangle(), useTextarea(), useCrop(), useEraser(), useMove(options), useKeyboardShortcuts()]
   if (options?.backgroundImage || options?.backgroundColor) {
     return { tools: [useBackground({ blob: options?.backgroundImage, color: options?.backgroundColor }), ...tools] }
   }
