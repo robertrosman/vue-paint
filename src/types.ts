@@ -236,7 +236,7 @@ export interface DrawEvent {
 export interface InitializeEvent {
   tools: Tool<Shape>[]
   settings: Ref<Settings>
-  history: ImageHistory<Tool<any>[]>
+  history: Ref<ImageHistory<Tool<any>[]>>
 }
 
 export type Shape = Freehand | Crop | Rectangle | Line | Arrow | Background | Textarea | Eraser | Move

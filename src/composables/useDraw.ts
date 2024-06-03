@@ -1,8 +1,8 @@
-import { type Position, usePointer, useElementBounding, tryOnMounted } from '@vueuse/core'
-import { computed, reactive, ref, unref, watchEffect, type MaybeRef } from 'vue'
+import { type Position, usePointer, useElementBounding, type MaybeElement } from '@vueuse/core'
+import { computed, reactive, ref, watchEffect, type Ref } from 'vue'
 
 export interface UseDrawOptions {
-  container: MaybeRef<HTMLElement | undefined>
+  target: Ref<MaybeElement>
   onDrawStart?: () => void
   onDraw?: () => void
   onDrawEnd?: () => void
@@ -14,7 +14,7 @@ export interface UseDrawOptions {
 let isDrawingSomewhere = false
 
 export function useDraw({
-  container,
+  target,
   onDrawStart,
   onDraw,
   onDrawEnd,
@@ -30,7 +30,7 @@ export function useDraw({
     width: scaledWidth,
     height: scaledHeight,
     update
-  } = useElementBounding(container)
+  } = useElementBounding(target)
   const isDrawing = ref(false)
   const posStart = reactive<Position>({ x: 0, y: 0 })
   const posEnd = reactive<Position>({ x: 0, y: 0 })
@@ -58,11 +58,6 @@ export function useDraw({
   const isMoving = computed(
     () => Math.floor(absoluteX.value) !== lastPos.x || Math.floor(absoluteY.value) !== lastPos.y
   )
-
-  tryOnMounted(() => {
-    unref(container)?.style?.setProperty('touch-action', 'none')
-    unref(container)?.style?.setProperty('user-select', 'none')
-  })
 
   watchEffect(() => {
     const isTouchScrolling =
