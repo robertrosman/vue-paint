@@ -9,13 +9,14 @@ import { useEraser } from './useEraser/useEraser'
 import { useMove, type UseMoveOptions } from './useMove/useMove'
 
 export interface Options extends UseMoveOptions {
-  background?: Blob | Promise<Blob>
+  backgroundImage?: Blob | Promise<Blob>
+  backgroundColor?: string
 }
 
 export function useAllTools(options?: Options) {
   const tools = [useFreehand(), useLine(), useArrow(), useRectangle(), useTextarea(), useCrop(), useEraser(), useMove(options)]
-  if (options?.background) {
-    return { tools: [useBackground({ blob: options?.background }), ...tools] }
+  if (options?.backgroundImage || options?.backgroundColor) {
+    return { tools: [useBackground({ blob: options?.backgroundImage, color: options?.backgroundColor }), ...tools] }
   }
   return { tools }
 }

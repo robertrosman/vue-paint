@@ -1,15 +1,17 @@
-import type { ToolSvgComponentProps, Tool, BaseShape } from '@/types'
+import type { ToolSvgComponentProps, Tool, BaseShape, SvgStyleParameters } from '@/types'
 import { createDataUrl } from '@/utils/createDataUrl'
 import { randomId } from '@/utils/randomId'
 import { computed, h } from 'vue'
 
 export interface Background extends BaseShape {
   type: 'background'
-  data: string
+  data?: string
+  color?: string
 }
 
 interface UseBackgroundOptions {
-  blob: Blob | Promise<Blob>
+  blob?: Blob | Promise<Blob>
+  color?: string
 }
 
 /**
@@ -19,18 +21,17 @@ interface UseBackgroundOptions {
  * const blob1 = await canvasToBlob(canvas)
  * const blob2 = await urlToBlob(url)
  */
-export function useBackground({ blob }: UseBackgroundOptions): Tool<Background> {
+export function useBackground({ blob, color }: UseBackgroundOptions): Tool<Background> {
   const type = 'background'
 
-  async function onInitialize() {
-    return createDataUrl(await blob).then(
-      (data) =>
-        ({
-          type,
-          id: randomId(),
-          data
-        }) as Background
-    )
+  async function onInitialize(): Promise<Background> {
+    const data = blob ? await createDataUrl(await blob) : undefined
+    return {
+        type,
+        id: randomId(),
+        data,
+        color
+    }
   }
 
   const ToolSvgComponent = {
@@ -42,7 +43,7 @@ export function useBackground({ blob }: UseBackgroundOptions): Tool<Background> 
         )
       })
       return () =>
-        background.value
+        background.value?.data
           ? h('image', {
               href: background.value.data,
               id: background.value.id,
@@ -53,5 +54,13 @@ export function useBackground({ blob }: UseBackgroundOptions): Tool<Background> 
     layer: -1_000_000
   }
 
-  return { type, onInitialize, ToolSvgComponent }
+  function svgStyle({ svgId }: SvgStyleParameters) {
+    return `
+      #${svgId} {
+        background-color: ${color}
+      }
+    `
+  }
+
+  return { type, onInitialize, ToolSvgComponent, svgStyle }
 }

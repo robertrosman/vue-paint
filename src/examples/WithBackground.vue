@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { VpEditor, useAllTools, urlToBlob, type ImageHistory, createSettings } from 'vue-paint'
 
-const { tools } = useAllTools({ background: urlToBlob('./pexels-apasaric.jpg') })
+const { tools } = useAllTools({ backgroundImage: urlToBlob('./pexels-apasaric.jpg') })
 const history = ref<ImageHistory<typeof tools>>([])
 const settings = createSettings(tools)
 defineEmits(['save'])
