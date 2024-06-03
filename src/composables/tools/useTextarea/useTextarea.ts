@@ -1,8 +1,8 @@
 import { createDataUrl, urlToBlob } from '@/main'
-import type { BaseShape, DrawEvent, ExportParameters, Movement, SvgStyleParameters, Tool } from '@/types'
+import type { BaseShape, DrawEvent, ExportParameters, SvgStyleParameters, Tool } from '@/types'
 import { rectangleHandles } from '@/composables/tools/useMove/handles/rectangleHandles'
 import { createShapeSvgComponent } from '@/utils/createShapeSvgComponent'
-import { computed, h, ref } from 'vue'
+import { h, ref } from 'vue'
 
 export interface Textarea extends BaseShape {
   type: 'textarea'

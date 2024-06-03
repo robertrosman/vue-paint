@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Settings, Shape, ToolType, Tool } from '@/types'
 
-const props = defineProps<{
+defineProps<{
   tools: Tool<Shape>[]
 }>()
 
