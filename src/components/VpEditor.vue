@@ -4,6 +4,7 @@ import type { DrawEvent, SaveParameters, Settings, Shape, Tool } from '../types'
 import VpToolbar from './VpToolbar.vue'
 import { defaultSettings } from '@/utils/createSettings'
 import { useEditor } from '@/composables/useEditor'
+import VpImage from './VpImage.vue'
 
 const emit = defineEmits<{
   save: [event: SaveParameters]
