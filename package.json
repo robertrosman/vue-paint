@@ -44,6 +44,7 @@
   "dependencies": {
     "@luncheon/simplify-svg-path": "^0.2.0",
     "@vueuse/core": "^10.9.0",
+    "@vueuse/math": "^10.10.0",
     "animejs": "^3.2.2",
     "vue": "^3.4.21"
   },
