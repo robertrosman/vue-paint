@@ -111,12 +111,12 @@ export function useMove({
 
       .active-tool-move #${svgId} circle.handle, 
       .vp-editor #${svgId} circle.handle.is-active {
-        r: ${handleRadius};
+        r: ${handleRadius}px;
       }
 
       .active-tool-move #${svgId} circle.handle:hover,
       .vp-editor #${svgId} circle.handle.is-active:hover {
-        r: ${handleRadius * 1.5};
+        r: ${handleRadius * 1.5}px;
       }
     `
   }
