@@ -31,7 +31,7 @@ const history = defineModel<Shape[]>('history', { default: [] })
 
 const vpImage = ref()
 
-const { activeShape, undo, redo, save, reset } = useEditor({
+const { activeShape, setTool, undo, redo, save, reset } = useEditor({
   vpImage,
   tools: props.tools,
   history: toRef(history),
@@ -54,8 +54,9 @@ onMounted(() => {
   <div class="vue-paint vp-editor" :class="`active-tool-${settings.tool}`">
     <vp-image ref="vpImage" :tools :activeShape :history :width :height />
 
-    <slot name="toolbar" :undo :save :reset :settings>
-      <vp-toolbar v-model:settings="settings" @undo="undo" @redo="redo" @save="save" @reset="reset" :tools />
+    <slot name="toolbar" :set-tool :undo :save :reset :settings>
+      <vp-toolbar v-model:settings="settings" @set-tool="setTool" @undo="undo" @redo="redo" @save="save" @reset="reset"
+        :tools />
     </slot>
   </div>
 </template>

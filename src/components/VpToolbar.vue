@@ -6,6 +6,7 @@ defineProps<{
 }>()
 
 const emit = defineEmits<{
+  (e: 'set-tool', tool: ToolType): void
   (e: 'save'): void
   (e: 'undo'): void
   (e: 'redo'): void
@@ -27,7 +28,7 @@ const settings = defineModel<Settings>('settings', {
     <div class="vp-tools">
       <button v-for="tool in tools.filter((tool) => tool.icon)" :key="tool.type"
         :class="[settings.tool === tool.type ? 'active' : '', `vp-tool-${tool.type}`]"
-        @click="settings.tool = tool.type as ToolType" :title="tool.type" v-html="tool.icon"></button>
+        @click="emit('set-tool', tool.type)" :title="tool.type" v-html="tool.icon"></button>
     </div>
     <div class="vp-settings">
       <input type="range" min="1" max="10" v-model="settings.thickness" />

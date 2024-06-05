@@ -1,7 +1,8 @@
 import { useDraw } from '@/composables/useDraw'
 import { randomId } from '@/utils/randomId'
-import type { DrawEvent, ImageHistory, Settings, Shape, Tool } from '../types'
+import type { DrawEvent, ImageHistory, Settings, Shape, Tool, ToolType } from '../types'
 import { computed, ref, type ComponentPublicInstance, type Ref } from 'vue'
+import { useActiveEditor } from './useActiveEditor'
 
 export interface UseEditorOptions {
   vpImage: Ref<ComponentPublicInstance>
@@ -46,7 +47,7 @@ export function useEditor({ vpImage, tools, history, settings, width, height, em
     absoluteX: absoluteX.value,
     absoluteY: absoluteY.value
   }))
-  
+
   const {
     x,
     y,
@@ -74,10 +75,12 @@ export function useEditor({ vpImage, tools, history, settings, width, height, em
       ?.substring(9)
       activeShape.value = getActiveTool()?.onDrawStart?.(drawEvent.value) ?? activeShape.value
       emit?.('drawStart', drawEvent.value)
+      setActiveEditor(editor)
     },
     onDraw() {
       activeShape.value = getActiveTool()?.onDraw?.(drawEvent.value) ?? activeShape.value
       emit?.('draw', drawEvent.value)
+      setActiveEditor(editor)
     },
     async onDrawEnd() {
       activeShape.value = getActiveTool()?.onDrawEnd
@@ -85,6 +88,7 @@ export function useEditor({ vpImage, tools, history, settings, width, height, em
       : activeShape.value
       temporaryTool.value = undefined
       emit?.('drawEnd', drawEvent.value)
+      setActiveEditor(editor)
       if (activeShape.value) {
         history.value.push(activeShape.value)
         redoHistory.value = []
@@ -92,11 +96,18 @@ export function useEditor({ vpImage, tools, history, settings, width, height, em
       }
     }
   })
+
+  function setTool(tool: ToolType) {
+    settings.value.tool = tool
+    setActiveEditor(editor)
+  }
+
   function undo() {
     if (history.value.length) {
       redoHistory.value.push(...history.value.slice(-1))
       history.value = history.value.slice(0, -1)
     }
+    setActiveEditor(editor)
   }
   
   function redo() {
@@ -104,6 +115,7 @@ export function useEditor({ vpImage, tools, history, settings, width, height, em
       history.value.push(...redoHistory.value.slice(-1))
       redoHistory.value = redoHistory.value.slice(0, -1)
     }
+    setActiveEditor(editor)
   }
   
   function save() {
@@ -112,6 +124,7 @@ export function useEditor({ vpImage, tools, history, settings, width, height, em
       throw new Error("Couldn't find the svg")
     }
     emit?.('save', { svg, tools, history: history.value })
+    setActiveEditor(editor)
   }
   
   async function reset() {
@@ -124,11 +137,13 @@ export function useEditor({ vpImage, tools, history, settings, width, height, em
     )
     history.value = [...shapes.filter(Boolean), ...history.value]
     emit?.('reset')
+    setActiveEditor(editor)
   }
-  
-  return {
+
+  const editor = {
     settings,
     activeShape,
+    setTool,
     undo,
     redo,
     save,
@@ -149,4 +164,9 @@ export function useEditor({ vpImage, tools, history, settings, width, height, em
     absoluteX,
     absoluteY
   }
+
+  const { setActiveEditor } = useActiveEditor()
+  setActiveEditor(editor)
+
+  return editor
 }

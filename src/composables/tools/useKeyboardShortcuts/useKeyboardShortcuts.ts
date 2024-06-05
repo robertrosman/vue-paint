@@ -2,6 +2,8 @@ import type { Tool, BaseShape, InitializeEvent } from '@/types'
 import { computed } from 'vue'
 import { useActiveElement, useMagicKeys, whenever } from '@vueuse/core'
 import { logicAnd } from '@vueuse/math'
+import type { useEditor } from '@/composables/useEditor'
+import { useActiveEditor } from '@/composables/useActiveEditor'
 
 // Feels weird to create a Shape that will never be added to the history. Can we support Tool<undefined>?
 export interface KeyboardShortcuts extends BaseShape {
@@ -22,7 +24,7 @@ interface UseKeyboardShortcutsOptions {
   shortcuts?: Shortcuts
 }
 
-type Shortcuts = Record<string, (args: InitializeEvent) => void>
+type Shortcuts = Record<string, (args: ReturnType<typeof useEditor>) => void>
 
 export const defaultShortcuts: Shortcuts = {
   'f': ({settings}) => settings.value.tool = 'freehand',
@@ -45,11 +47,12 @@ export function useKeyboardShortcuts({ shortcuts = defaultShortcuts }: UseKeyboa
   )
 
   const keys = useMagicKeys()
+  const { getActiveEditor } = useActiveEditor()
 
-  async function onInitialize(event: InitializeEvent) {
+  async function onInitialize() {
     Object.entries(shortcuts).forEach(([keycode, callback]) => {
       whenever(logicAnd(keys[keycode], notUsingInput), () => {
-        callback(event)
+        callback(getActiveEditor())
       })
     })
   }
