@@ -153,6 +153,10 @@ export function useTextarea({
         cursor: inherit;
       }
 
+      #${svgId} .textarea[disabled]::selection {
+        background: none;
+      }
+
       #${svgId} .textarea.is-active {
         cursor: text;
       }
