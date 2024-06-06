@@ -1,4 +1,4 @@
-import type { Tool, BaseShape, InitializeEvent } from '@/types'
+import type { Tool, BaseShape } from '@/types'
 import { computed } from 'vue'
 import { useActiveElement, useMagicKeys, whenever } from '@vueuse/core'
 import { logicAnd } from '@vueuse/math'
@@ -35,7 +35,15 @@ export const defaultShortcuts: Shortcuts = {
   'c': ({settings}) => settings.value.tool = 'crop',
   'e': ({settings}) => settings.value.tool = 'eraser',
   'm': ({settings}) => settings.value.tool = 'move',
+  'ctrl_z': ({undo}) => undo(),
+  'cmd_z': ({undo}) => undo(),
+  'ctrl_y': ({redo}) => redo(),
+  'cmd_y': ({redo}) => redo(),
+  'ctrl_s': ({save}) => save(),
+  'cmd_s': ({save}) => save(),
 }
+
+const registeredKeyCodes: string[] = []
 
 export function useKeyboardShortcuts({ shortcuts = defaultShortcuts }: UseKeyboardShortcutsOptions = {}): Tool<KeyboardShortcuts> {
   const type = 'keyboard-shortcuts'
@@ -46,14 +54,24 @@ export function useKeyboardShortcuts({ shortcuts = defaultShortcuts }: UseKeyboa
     activeElement.value?.tagName !== 'TEXTAREA'
   )
 
-  const keys = useMagicKeys()
+  const keys = useMagicKeys({ 
+    passive: false,
+    onEventFired(e) {
+      if ((e.ctrlKey || e.metaKey) && (['s', 'z', 'y'].includes(e.key)) && e.type === 'keydown')
+        e.preventDefault()
+    },
+  })
   const { getActiveEditor } = useActiveEditor()
 
   async function onInitialize() {
     Object.entries(shortcuts).forEach(([keycode, callback]) => {
+      if (registeredKeyCodes.includes(keycode)) {
+        return
+      }
       whenever(logicAnd(keys[keycode], notUsingInput), () => {
         callback(getActiveEditor())
       })
+      registeredKeyCodes.push(keycode)
     })
   }
 
