@@ -8,6 +8,7 @@ import PersistHistory from './examples/PersistHistory.vue'
 import UsingEvents from './examples/UsingEvents.vue'
 import LessTools from './examples/LessTools.vue'
 import WithBackground from './examples/WithBackground.vue'
+import CustomToolbar from './examples/CustomToolbar.vue'
 import VpImage from './components/VpImage.vue'
 
 const canvasRef = ref()
@@ -57,6 +58,10 @@ function save({ svg, tools, history }: SaveParameters) {
 
   <section>
     <LessTools @save="save" />
+  </section>
+
+  <section>
+    <CustomToolbar @save="save" />
   </section>
 
 </template>
