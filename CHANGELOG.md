@@ -1,3 +1,7 @@
+## [0.5.3](https://github.com/robertrosman/vue-paint/compare/v0.5.2...v0.5.3) (2024-06-06)
+
+
+
 ## [0.5.2](https://github.com/robertrosman/vue-paint/compare/v0.5.1...v0.5.2) (2024-06-06)
 
 
@@ -62,17 +66,6 @@
 ### Reverts
 
 * Revert "refactor(demo): rename App.vue to Demo.vue" ([1027a12](https://github.com/robertrosman/vue-paint/commit/1027a12a4c86cb675fd6e877028aea68c253e4fe))
-
-
-
-## [0.3.1](https://github.com/robertrosman/vue-paint/compare/v0.3.0...v0.3.1) (2024-05-30)
-
-
-### Bug Fixes
-
-* add tools prop to shapeSvgComponent ([7146808](https://github.com/robertrosman/vue-paint/commit/7146808299c5180b1ed7755ffeffc014f6011c26))
-* disable handlesOnActiveShape by default ([61c7342](https://github.com/robertrosman/vue-paint/commit/61c734242352496ab8648a12e0b7b8f88d051d20))
-* remove all handles before export ([d3bc80b](https://github.com/robertrosman/vue-paint/commit/d3bc80bf55da188d7f6a8d5b4879c37c4b31bbc9))
 
 
 
