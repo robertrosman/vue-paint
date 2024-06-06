@@ -9,6 +9,7 @@ import type { MaybeRef, Position } from '@vueuse/core'
 import type { Textarea } from './composables/tools/useTextarea/useTextarea'
 import type { Move } from './composables/tools/useMove/useMove'
 import type { Ref } from 'vue'
+import type { KeyboardShortcuts } from './composables/tools/useKeyboardShortcuts/useKeyboardShortcuts'
 
 /** These settings are editable by the user and will affect what tool to use and style etc. */
 export interface Settings {
@@ -239,7 +240,7 @@ export interface InitializeEvent {
   history: Ref<ImageHistory<Tool<any>[]>>
 }
 
-export type Shape = Freehand | Crop | Rectangle | Line | Arrow | Background | Textarea | Eraser | Move
+export type Shape = Freehand | Crop | Rectangle | Line | Arrow | Background | Textarea | Eraser | Move | KeyboardShortcuts
 
 export type ToolType = Shape['type']
 

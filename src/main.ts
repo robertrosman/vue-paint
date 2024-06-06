@@ -14,6 +14,7 @@ export { useRectangle } from './composables/tools/useRectangle/useRectangle'
 export { useTextarea } from './composables/tools/useTextarea/useTextarea'
 export { useEraser } from './composables/tools/useEraser/useEraser'
 export { useMove } from './composables/tools/useMove/useMove'
+export { useKeyboardShortcuts, defaultShortcuts } from './composables/tools/useKeyboardShortcuts/useKeyboardShortcuts'
 
 // Export functions
 export { exportSvg } from './utils/export/exportSvg'
@@ -27,7 +28,6 @@ export { downloadWebp } from './utils/export/downloadWebp'
 export { exportToCanvas } from './utils/export/exportToCanvas'
 
 // Utils
-
 export { createDataUrl } from './utils/createDataUrl'
 export { urlToBlob } from './utils/urlToBlob'
 export { canvasToBlob } from './utils/canvasToBlob'
