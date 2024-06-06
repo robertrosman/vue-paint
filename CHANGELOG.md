@@ -1,3 +1,12 @@
+## [0.5.1](https://github.com/robertrosman/vue-paint/compare/v0.5.0...v0.5.1) (2024-06-06)
+
+
+### Bug Fixes
+
+* update broken workflow ([a9c0056](https://github.com/robertrosman/vue-paint/commit/a9c0056fad16663a4a671761e571f738378bdbd1))
+
+
+
 # [0.5.0](https://github.com/robertrosman/vue-paint/compare/v0.4.0...v0.5.0) (2024-06-06)
 
 
@@ -79,15 +88,6 @@
 * add handles to the move tool ([0e0d57f](https://github.com/robertrosman/vue-paint/commit/0e0d57f497ce52a38fb696f4f8680e7d3f9070ad))
 * add includeActiveShape option to useSimplifiedHistory ([59348a7](https://github.com/robertrosman/vue-paint/commit/59348a7513fd9849d8168c846bb5013cbc6d5a69))
 * add move tool ([5b7392d](https://github.com/robertrosman/vue-paint/commit/5b7392d79aa1de2ffb8c1e8dff3e4a26e79ab621))
-
-
-
-## [0.2.3](https://github.com/robertrosman/vue-paint/compare/v0.2.2...v0.2.3) (2024-05-27)
-
-
-### Bug Fixes
-
-* look if pointer is actually moving, or user is just scrolling. closes [#4](https://github.com/robertrosman/vue-paint/issues/4) ([5085cb0](https://github.com/robertrosman/vue-paint/commit/5085cb098182619ffd8e5650dc5f052b48d31dca))
 
 
 
