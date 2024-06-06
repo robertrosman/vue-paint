@@ -1,3 +1,12 @@
+## [0.5.4](https://github.com/robertrosman/vue-paint/compare/v0.5.3...v0.5.4) (2024-06-06)
+
+
+### Bug Fixes
+
+* disable touch-action on editor ([8d1e0df](https://github.com/robertrosman/vue-paint/commit/8d1e0dfdd14632eb213c0c8b172517a4e737c392))
+
+
+
 ## [0.5.3](https://github.com/robertrosman/vue-paint/compare/v0.5.2...v0.5.3) (2024-06-06)
 
 
@@ -39,33 +48,6 @@
 * add tool useKeyboardShortcuts ([d7e29dd](https://github.com/robertrosman/vue-paint/commit/d7e29dd862471cf23941698d19a13eb1d94286ab))
 * add undo and redo ([20e86be](https://github.com/robertrosman/vue-paint/commit/20e86bebf3bb3ff6feea6996fdceb9df3fa53082))
 * let keyboard shortcuts only affect active editor ([f080fe5](https://github.com/robertrosman/vue-paint/commit/f080fe5a7e2a0d1d596877bc3c1842af17d12b57))
-
-
-
-# [0.4.0](https://github.com/robertrosman/vue-paint/compare/v0.3.1...v0.4.0) (2024-06-02)
-
-
-### Bug Fixes
-
-* add width and height from viewBox if missing ([27d95c8](https://github.com/robertrosman/vue-paint/commit/27d95c8203deb1bfa6a99ab2cf712d7cc2a3c8bd))
-* export useTextarea ([a33366e](https://github.com/robertrosman/vue-paint/commit/a33366e30166c1e75deb9977e2acd571216e6590))
-* handle kebab-cased id:s in move tool ([9d07f67](https://github.com/robertrosman/vue-paint/commit/9d07f670f403fb00ed8eee100bfdbfe8c32216a5))
-* remove unused style + font from exported svg ([763a18a](https://github.com/robertrosman/vue-paint/commit/763a18a5718de4826d803c27febaeb6c224fabb2))
-* set user-select on whole svg. fixes [#6](https://github.com/robertrosman/vue-paint/issues/6) ([c61e318](https://github.com/robertrosman/vue-paint/commit/c61e318c1214a9fca2fd2e5575b681b6b44aad8a))
-* update bounding rect onDrawStart (fixes [#2](https://github.com/robertrosman/vue-paint/issues/2)) ([12fa944](https://github.com/robertrosman/vue-paint/commit/12fa94454c4a953f18e2b2a9c40e5b265d2dfd47))
-* use dimensions of svg instead of container ([b1eb3a8](https://github.com/robertrosman/vue-paint/commit/b1eb3a8b37662389d7af509c4da277dea4aff090))
-* **demo:** animate onMounted instead of reset ([291a4c2](https://github.com/robertrosman/vue-paint/commit/291a4c261eac78e2be8be28a38a243f340f40a35))
-
-
-### Features
-
-* add more export and download functions ([0fe38af](https://github.com/robertrosman/vue-paint/commit/0fe38af9d09c7dffabcc3beb0d5d608606cf95d8))
-* add util function createSettings ([62a51f5](https://github.com/robertrosman/vue-paint/commit/62a51f547897c18149880f19c15b2e6c8aad7a09))
-
-
-### Reverts
-
-* Revert "refactor(demo): rename App.vue to Demo.vue" ([1027a12](https://github.com/robertrosman/vue-paint/commit/1027a12a4c86cb675fd6e877028aea68c253e4fe))
 
 
 
