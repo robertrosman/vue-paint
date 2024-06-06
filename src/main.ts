@@ -16,6 +16,13 @@ export { useEraser } from './composables/tools/useEraser/useEraser'
 export { useMove } from './composables/tools/useMove/useMove'
 export { useKeyboardShortcuts, defaultShortcuts } from './composables/tools/useKeyboardShortcuts/useKeyboardShortcuts'
 
+// Other composables
+
+export { useEditor } from './composables/useEditor'
+export { useActiveEditor } from './composables/useActiveEditor'
+export { useDraw } from './composables/useDraw'
+export { useSimplifiedHistory } from './composables/useSimplifiedHistory'
+
 // Export functions
 export { exportSvg } from './utils/export/exportSvg'
 export { exportPng } from './utils/export/exportPng'
