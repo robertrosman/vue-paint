@@ -4,6 +4,7 @@
   cursor: crosshair;
   height: auto;
   font-size: 15px;
+  touch-action: none;
 }
 
 .vp-image {
