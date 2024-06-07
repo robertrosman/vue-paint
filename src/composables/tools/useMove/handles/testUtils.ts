@@ -32,7 +32,7 @@ export function testHandle<T>({ handles, name, shape, handlePosition, move, resu
 
         test(`should move shape when ${name} handle moves`, () => {
             const startHandle = handles.find(h => h.name === name)!
-            const afterMove = startHandle.onMove(move)
+            const afterMove = startHandle.onMove(move, shape)
             const clonedShape = structuredClone(shape)
             Object.entries(afterMove ?? {}).forEach(([key, value]) => {
                 (clonedShape[key as keyof typeof clonedShape] as any) += value

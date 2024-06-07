@@ -71,7 +71,7 @@ export function useMove({
     return history.map(shape => {
       const clonedShape = {...shape}
       flatMoves.filter(move => shape.id === move.shapeId)
-        .map(move => tools.find(tool => tool.type === shape.type)?.handles?.find(h => h.name === move.handle)?.onMove(move))
+        .map(move => tools.find(tool => tool.type === shape.type)?.handles?.find(h => h.name === move.handle)?.onMove(move, shape))
         .forEach(m => Object.entries(m ?? {}).forEach(([key, value]) => {
           clonedShape[key as keyof typeof clonedShape] += value
         }))

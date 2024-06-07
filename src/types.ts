@@ -150,7 +150,7 @@ export interface Handle<T> {
   position: (shape: T) => Position
 
   /** onMove takes a {x, y} Movement and returns the properties on the shape that should change, and by how much. */
-  onMove: (movement: Movement) => Partial<T>
+  onMove: (movement: Movement, shape: T) => Partial<T>
 }
 
 type ExtractGeneric<Type> = Type extends Tool<infer S> ? S : never

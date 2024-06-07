@@ -15,6 +15,7 @@ export { useTextarea } from './composables/tools/useTextarea/useTextarea'
 export { useEraser } from './composables/tools/useEraser/useEraser'
 export { useMove } from './composables/tools/useMove/useMove'
 export { useKeyboardShortcuts, defaultShortcuts } from './composables/tools/useKeyboardShortcuts/useKeyboardShortcuts'
+export { useEllipse } from './composables/tools/useEllipse/useEllipse'
 
 // Other composables
 
