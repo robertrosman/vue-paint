@@ -65,8 +65,8 @@ export function useEllipse({ base = 'edge'}: UseEllipseOptions = {}): Tool<Ellip
     h('ellipse', {
       cx: ellipse.x,
       cy: ellipse.y,
-      rx: ellipse.width / 2,
-      ry: ellipse.height / 2,
+      rx: Math.abs(ellipse.width / 2),
+      ry: Math.abs(ellipse.height / 2),
       stroke: ellipse.color,
       'stroke-width': ellipse.thickness
     })

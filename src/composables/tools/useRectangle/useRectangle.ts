@@ -33,10 +33,10 @@ export function useRectangle(): Tool<Rectangle> {
 
   const ShapeSvgComponent = createShapeSvgComponent<Rectangle>((rectangle) =>
     h('rect', {
-      x: rectangle.x,
-      y: rectangle.y,
-      width: rectangle.width,
-      height: rectangle.height,
+      x: rectangle.width > 0 ? rectangle.x : rectangle.x + rectangle.width,
+      y: rectangle.height > 0 ? rectangle.y : rectangle.y + rectangle.height,
+      width: Math.abs(rectangle.width),
+      height: Math.abs(rectangle.height),
       stroke: rectangle.color,
       'stroke-width': rectangle.thickness
     })
