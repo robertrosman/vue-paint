@@ -1,5 +1,5 @@
 import type { ToolSvgComponentProps, DrawEvent, Tool, ExportParameters, Shape, BaseShape, ImageHistory } from '@/types'
-import { computed, h, toRefs } from 'vue'
+import { computed, h, toRef, toRefs } from 'vue'
 import { rectangleHandles } from '../useMove/handles/rectangleHandles'
 import { useSimplifiedHistory } from '@/composables/useSimplifiedHistory'
 
@@ -38,13 +38,15 @@ export function useCrop(): Tool<Crop> {
     setup(props: ToolSvgComponentProps) {
       const { simplifiedHistory } = useSimplifiedHistory({ ...toRefs(props), includeActiveShape: true })
       const crop = computed(() => simplifiedHistory.value.find(s => s.type === 'crop'))
+      const x = computed(() => crop.value.width > 0 ? crop.value.x : crop.value.x + crop.value.width)
+      const y = computed(() => crop.value.height > 0 ? crop.value.y : crop.value.y + crop.value.height)
       return () =>
         crop.value
           ? h('path', {
               class: 'overlay',
               id: crop.value.id,
               d: `M 0,0 V ${props.height} H ${props.width} V 0 Z
-                    M ${crop.value.x},${crop.value.y} H ${crop.value.x + crop.value.width} V ${crop.value.y + crop.value.height} H ${crop.value.x} Z
+                    M ${x.value},${y.value} H ${x.value + Math.abs(crop.value.width)} V ${y.value + Math.abs(crop.value.height)} H ${x.value} Z
                 `
             })
           : undefined
@@ -59,10 +61,15 @@ export function useCrop(): Tool<Crop> {
         }
     `
 
-  function beforeExport({ svg, history }: ExportParameters) {
-    const crop = simplifyHistory(history).find<Crop>((shape): shape is Crop => shape.type === 'crop')
+  function beforeExport({ svg, history, tools }: ExportParameters) {
+    const { simplifiedHistory } = useSimplifiedHistory({ history: toRef(history), tools: toRef(tools), includeActiveShape: false })
+    const crop = simplifiedHistory.value.find<Crop>((shape): shape is Crop => shape.type === 'crop')
     if (crop) {
-      const { x, y, width, height } = crop
+      const x = crop.width > 0 ? crop.x : crop.x + crop.width
+      const y = crop.height > 0 ? crop.y : crop.y + crop.height
+      const width = Math.abs(crop.width)
+      const height = Math.abs(crop.height)
+      console.log({ crop, x, y, width, height})
       svg.setAttribute('width', String(width))
       svg.setAttribute('height', String(height))
       svg.setAttribute('viewBox', `${x} ${y} ${width} ${height}`)
