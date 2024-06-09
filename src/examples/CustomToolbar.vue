@@ -50,7 +50,7 @@ function setColor(color: string) {
 
         <template #setting-color>
           <button @click="showPalette = true">
-            <div class="color" :style="{background: settings.color}"></div>
+            <div class="color" :style="{ background: settings.color }"></div>
           </button>
         </template>
 
@@ -65,9 +65,13 @@ function setColor(color: string) {
   display: none;
 }
 
+:deep(.vp-toolbar button) {
+  border-radius: 15%;
+}
+
 .color {
   width: 20px;
   height: 20px;
-  border-radius: 10px;
+  border-radius: 15%;
 }
 </style>
