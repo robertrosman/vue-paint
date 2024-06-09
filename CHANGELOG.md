@@ -1,3 +1,7 @@
+## [0.6.1](https://github.com/robertrosman/vue-paint/compare/v0.6.0...v0.6.1) (2024-06-09)
+
+
+
 # [0.6.0](https://github.com/robertrosman/vue-paint/compare/v0.5.4...v0.6.0) (2024-06-09)
 
 
@@ -37,15 +41,6 @@
 ### Bug Fixes
 
 * set selection background to none ([0d08f77](https://github.com/robertrosman/vue-paint/commit/0d08f779cdcda20b25f50d387aed5f9698514b38))
-
-
-
-## [0.5.1](https://github.com/robertrosman/vue-paint/compare/v0.5.0...v0.5.1) (2024-06-06)
-
-
-### Bug Fixes
-
-* update broken workflow ([a9c0056](https://github.com/robertrosman/vue-paint/commit/a9c0056fad16663a4a671761e571f738378bdbd1))
 
 
 
