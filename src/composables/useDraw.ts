@@ -6,8 +6,8 @@ export interface UseDrawOptions {
   onDrawStart?: () => void
   onDraw?: () => void
   onDrawEnd?: () => void
-  width: number
-  height: number
+  width: Ref<number>
+  height: Ref<number>
 }
 
 /** Without this variable you can start drawing in one editor and continue in another (with it's potentially other tool). */
@@ -40,14 +40,14 @@ export function useDraw({
     left: 0,
     top: 0
   })
-  const x = computed(() => Math.round(((absoluteX.value - left.value) * width) / scaledWidth.value))
+  const x = computed(() => Math.round(((absoluteX.value - left.value) * width.value) / scaledWidth.value))
   const y = computed(() =>
-    Math.round(((absoluteY.value - top.value) * height) / scaledHeight.value)
+    Math.round(((absoluteY.value - top.value) * height.value) / scaledHeight.value)
   )
   const minX = computed(() => Math.max(0, Math.min(posStart.x, x.value)))
   const minY = computed(() => Math.max(0, Math.min(posStart.y, y.value)))
-  const maxX = computed(() => Math.min(width, Math.max(posStart.x, x.value)))
-  const maxY = computed(() => Math.min(height, Math.max(posStart.y, y.value)))
+  const maxX = computed(() => Math.min(width.value, Math.max(posStart.x, x.value)))
+  const maxY = computed(() => Math.min(height.value, Math.max(posStart.y, y.value)))
   const isInside = computed(
     () =>
       absoluteX.value >= left.value &&

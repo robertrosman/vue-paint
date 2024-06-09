@@ -27,6 +27,9 @@ const props = withDefaults(
   { width: 1280, height: 720 }
 )
 
+const widthRef = ref(props.width);
+const heightRef = ref(props.height);
+
 const history = defineModel<Shape[]>('history', { default: [] })
 
 const vpImage = ref()
@@ -36,8 +39,8 @@ const { activeShape, setTool, undo, redo, save, reset } = useEditor({
   tools: props.tools,
   history: toRef(history),
   settings: toRef(settings),
-  width: props.width,
-  height: props.height,
+  width: widthRef,
+  height: heightRef,
   emit
 })
 
@@ -52,7 +55,7 @@ onMounted(() => {
 
 <template>
   <div class="vue-paint vp-editor" :class="`active-tool-${settings.tool}`">
-    <vp-image ref="vpImage" :tools :activeShape :history :width :height />
+    <vp-image ref="vpImage" :tools :activeShape :history :width="widthRef" :height="heightRef" />
 
     <slot name="toolbar" :set-tool :undo :save :reset :settings>
       <vp-toolbar v-model:settings="settings" @set-tool="setTool" @undo="undo" @redo="redo" @save="save" @reset="reset"
