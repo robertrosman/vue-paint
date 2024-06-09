@@ -1,4 +1,4 @@
-import type { Handle, Movement } from "@/types"
+import type { Handle } from "@/types"
 
 interface LineLike {
   x1: number
@@ -10,19 +10,19 @@ interface LineLike {
 export const lineHandles: Handle<LineLike>[] = [
     {
         name: 'start',
-        position: ({x1, y1}: LineLike) => ({x: x1, y: y1}),
-        onMove: ({x, y}: Movement) => ({x1: x, y1: y}),
-        opposite: 'end'
+        opposite: 'end',
+        position: ({x1, y1}) => ({x: x1, y: y1}),
+        onMove: ({x, y}) => ({x1: x, y1: y})
     },
     {
         name: 'base',
-        position: ({x1, y1, x2, y2}: LineLike) => ({x: x1 + (x2 - x1) / 2, y: y1 + (y2 - y1) / 2}),
-        onMove: ({x, y}: Movement) => ({x1: x, y1: y, x2: x, y2: y})
+        position: ({x1, y1, x2, y2}) => ({x: x1 + (x2 - x1) / 2, y: y1 + (y2 - y1) / 2}),
+        onMove: ({x, y}) => ({x1: x, y1: y, x2: x, y2: y})
     },
     {
         name: 'end',
-        position: ({x2, y2}: LineLike) => ({x: x2, y: y2}),
-        onMove: ({x, y}: Movement) => ({x2: x, y2: y}),
-        opposite: 'start'
+        opposite: 'start',
+        position: ({x2, y2}) => ({x: x2, y: y2}),
+        onMove: ({x, y}) => ({x2: x, y2: y})
     },
 ]
