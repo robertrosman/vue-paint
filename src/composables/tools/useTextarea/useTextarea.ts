@@ -107,10 +107,10 @@ export function useTextarea({
 
   const ShapeSvgComponent = createShapeSvgComponent<Textarea>((textarea, { isActive }) =>
     h('foreignObject', {
-      x: textarea.x,
-      y: textarea.y,
-      width: textarea.width,
-      height: textarea.height,
+      x: textarea.width > 0 ? textarea.x : textarea.x + textarea.width,
+      y: textarea.height > 0 ? textarea.y : textarea.y + textarea.height,
+      width: Math.abs(textarea.width),
+      height: Math.abs(textarea.height),
     }, h('textarea', {
       class: isActive ? 'is-active textarea' : 'textarea',
       style: `font-size: ${textarea.fontSize}em; color: ${textarea.color}`,
