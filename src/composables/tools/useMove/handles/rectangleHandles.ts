@@ -1,4 +1,4 @@
-import type { Movement, Handle } from "@/types"
+import type { Handle } from "@/types"
 
 interface RectangleLike {
   x: number
