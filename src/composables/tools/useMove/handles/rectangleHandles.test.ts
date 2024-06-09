@@ -15,11 +15,11 @@ describe('rectangleHandles', () => {
 
     testHandle({
         handles: rectangleHandles,
-        name: 'top-left',
+        name: 'top',
         shape: {x: 100, y: 150, width: 200, height: 250},
-        handlePosition: {x: 100, y: 150},
+        handlePosition: {x: 200, y: 150},
         move: {x: 10, y: 20},
-        result: {x: 110, y: 170, width: 190, height: 230}
+        result: {x: 100, y: 170, width: 200, height: 230}
     })
 
     testHandle({
@@ -33,11 +33,11 @@ describe('rectangleHandles', () => {
 
     testHandle({
         handles: rectangleHandles,
-        name: 'bottom-left',
+        name: 'right',
         shape: {x: 100, y: 150, width: 200, height: 250},
-        handlePosition: {x: 100, y: 400},
+        handlePosition: {x: 300, y: 275},
         move: {x: 10, y: 20},
-        result: {x: 110, y: 150, width: 190, height: 270}
+        result: {x: 100, y: 150, width: 210, height: 250}
     })
 
     testHandle({
@@ -47,6 +47,42 @@ describe('rectangleHandles', () => {
         handlePosition: {x: 300, y: 400},
         move: {x: 10, y: 20},
         result: {x: 100, y: 150, width: 210, height: 270}
+    })
+
+    testHandle({
+        handles: rectangleHandles,
+        name: 'bottom',
+        shape: {x: 100, y: 150, width: 200, height: 250},
+        handlePosition: {x: 200, y: 400},
+        move: {x: 10, y: 20},
+        result: {x: 100, y: 150, width: 200, height: 270}
+    })
+
+    testHandle({
+        handles: rectangleHandles,
+        name: 'bottom-left',
+        shape: {x: 100, y: 150, width: 200, height: 250},
+        handlePosition: {x: 100, y: 400},
+        move: {x: 10, y: 20},
+        result: {x: 110, y: 150, width: 190, height: 270}
+    })
+
+    testHandle({
+        handles: rectangleHandles,
+        name: 'left',
+        shape: {x: 100, y: 150, width: 200, height: 250},
+        handlePosition: {x: 100, y: 275},
+        move: {x: 10, y: 20},
+        result: {x: 110, y: 150, width: 190, height: 250}
+    })
+
+    testHandle({
+        handles: rectangleHandles,
+        name: 'top-left',
+        shape: {x: 100, y: 150, width: 200, height: 250},
+        handlePosition: {x: 100, y: 150},
+        move: {x: 10, y: 20},
+        result: {x: 110, y: 170, width: 190, height: 230}
     })
 
 })

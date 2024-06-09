@@ -1,12 +1,15 @@
 import { useSimplifiedHistory } from '@/composables/useSimplifiedHistory'
 import type { BaseShape, DrawEvent, ExportParameters, ImageHistory, Movement, Shape, SvgStyleParameters, Tool, ToolSvgComponentProps } from '@/types'
-import { h, toRefs } from 'vue'
+import { lineSnapAngles } from '@/utils/snapAngles'
+import { snapToAngle } from '@/utils/snapToAngle'
+import { h, ref, toRefs } from 'vue'
 
 export interface Move extends BaseShape, Movement {
   type: 'move'
   targets: string[]
   x: number
   y: number
+  angleSnap: boolean
 }
 
 export interface UseMoveOptions {
@@ -40,18 +43,24 @@ export function useMove({
       id, 
       targets: structuredClone(targets),
       x: 0,
-      y: 0
+      y: 0,
+      angleSnap: false
     }
   }
 
-  function onDraw({ id, posStart, x, y }: DrawEvent): Move {
-    return {
+  function onDraw({ id, settings, posStart, x, y }: DrawEvent): Move {
+    const angleSnap = settings.angleSnap
+    settings.angleSnap = false
+    const move = {
       type,
       id, 
       targets: structuredClone(targets),
       x: x - posStart.x,
       y: y - posStart.y,
-    }
+      angleSnap
+    } as Move
+    settings.angleSnap = angleSnap
+    return move
   }
   
   function onDrawEnd({ activeShape }: DrawEvent): Move | undefined {
@@ -60,23 +69,50 @@ export function useMove({
       : activeShape as Move
   }
 
+  function applyMoveToShape(shape: BaseShape, tools: Tool<any>[], move: Move & { handle: string}) {
+      const tool = tools.find(tool => tool.type === shape.type)
+      const handles = tool?.handles
+      const handle = handles?.find(h => h.name === move.handle)
+      if (!handle || !tool) return shape
+
+      const oppositeHandle = handles?.find(h => h.name === handle.opposite)
+      const snapAngles = ref()
+      const posStart = {x: 0, y: 0}
+
+      if (move.angleSnap && handle.name === 'base') {
+        snapAngles.value = lineSnapAngles
+      }
+      else if (move.angleSnap && oppositeHandle) {
+        const position = handle.position(shape)
+        const oppositePosition = oppositeHandle.position(shape)
+        posStart.x = oppositePosition.x - position.x
+        posStart.y = oppositePosition.y - position.y
+        snapAngles.value = tool.snapAngles
+      }
+
+      const snapMove = snapToAngle({ snapAngles, posStart, x: move.x, y: move.y })
+      const diff = handle?.onMove(snapMove, shape) ?? {}
+      const entries = Object.entries(diff).map(([key, value]) => 
+        [key, shape[key as keyof typeof shape] + value]
+      )
+
+      return Object.assign({}, shape, Object.fromEntries(entries))
+  }
+
   function simplifyHistory(history: ImageHistory<Shape[]>, tools: Tool<any>[]) {
     const flatMoves = history
       .filter<Move>((move): move is Move => move.type === 'move')
       .flatMap(move => move.targets.map(target => {
         const [handle, shapeId] = target.includes('-handle-') ? target.split('-handle-') : ['base', target]
-        return { shapeId, handle, x: move.x, y: move.y }
+        return { shapeId, handle, ...move }
       }))
 
-    return history.map(shape => {
-      const clonedShape = {...shape}
-      flatMoves.filter(move => shape.id === move.shapeId)
-        .map(move => tools.find(tool => tool.type === shape.type)?.handles?.find(h => h.name === move.handle)?.onMove(move))
-        .forEach(m => Object.entries(m ?? {}).forEach(([key, value]) => {
-          clonedShape[key as keyof typeof clonedShape] += value
-        }))
-      return clonedShape
-    }).filter(shape => shape.type !== 'move')
+    return history
+      .filter(shape => shape.type !== 'move')
+      .map(shape => flatMoves
+          .filter(move => shape.id === move.shapeId)
+          .reduce((clonedShape, move) => applyMoveToShape(clonedShape, tools, move), shape)
+      )
   }
 
   const ToolSvgComponent = {

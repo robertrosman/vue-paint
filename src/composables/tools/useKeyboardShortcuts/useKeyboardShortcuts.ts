@@ -1,5 +1,5 @@
 import type { Tool, BaseShape } from '@/types'
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 import { useActiveElement, useMagicKeys, whenever } from '@vueuse/core'
 import { logicAnd } from '@vueuse/math'
 import type { useEditor } from '@/composables/useEditor'
@@ -22,6 +22,9 @@ interface UseKeyboardShortcutsOptions {
    * const tools = [useKeyboardShortcuts({ shortcuts }), useAnotherTool(), useAThirdTool]
    */
   shortcuts?: Shortcuts
+
+  /** Do you want to turn angleSnap on temporarily with shift key? Defaults to true. */
+  angleSnapOnShift?: boolean
 }
 
 type Shortcuts = Record<string, (args: ReturnType<typeof useEditor>) => void>
@@ -30,10 +33,11 @@ export const defaultShortcuts: Shortcuts = {
   'f': ({settings}) => settings.value.tool = 'freehand',
   'l': ({settings}) => settings.value.tool = 'line',
   'a': ({settings}) => settings.value.tool = 'arrow',
+  'e': ({settings}) => settings.value.tool = 'ellipse',
   'r': ({settings}) => settings.value.tool = 'rectangle',
   't': ({settings}) => settings.value.tool = 'textarea',
   'c': ({settings}) => settings.value.tool = 'crop',
-  'e': ({settings}) => settings.value.tool = 'eraser',
+  'd': ({settings}) => settings.value.tool = 'eraser',
   'm': ({settings}) => settings.value.tool = 'move',
   'ctrl_z': ({undo}) => undo(),
   'cmd_z': ({undo}) => undo(),
@@ -45,7 +49,7 @@ export const defaultShortcuts: Shortcuts = {
 
 const registeredKeyCodes: string[] = []
 
-export function useKeyboardShortcuts({ shortcuts = defaultShortcuts }: UseKeyboardShortcutsOptions = {}): Tool<KeyboardShortcuts> {
+export function useKeyboardShortcuts({ shortcuts = defaultShortcuts, angleSnapOnShift = true }: UseKeyboardShortcutsOptions = {}): Tool<KeyboardShortcuts> {
   const type = 'keyboard-shortcuts'
 
   const activeElement = useActiveElement()
@@ -73,6 +77,12 @@ export function useKeyboardShortcuts({ shortcuts = defaultShortcuts }: UseKeyboa
       })
       registeredKeyCodes.push(keycode)
     })
+
+    if (angleSnapOnShift) {
+      watch(keys.shift, () => {
+        getActiveEditor().settings.value.angleSnap = keys.shift.value
+      })
+    }
   }
 
   return { type, onInitialize }

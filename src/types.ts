@@ -10,6 +10,7 @@ import type { Textarea } from './composables/tools/useTextarea/useTextarea'
 import type { Move } from './composables/tools/useMove/useMove'
 import type { Ref } from 'vue'
 import type { KeyboardShortcuts } from './composables/tools/useKeyboardShortcuts/useKeyboardShortcuts'
+import type { Ellipse } from './composables/tools/useEllipse/useEllipse'
 
 /** These settings are editable by the user and will affect what tool to use and style etc. */
 export interface Settings {
@@ -21,6 +22,11 @@ export interface Settings {
 
   /** The color of new shapes. */
   color: string
+
+  /** Set angleSnap to true if you want the shapes to snap to the closest angle (with 12.5 degree increments). If you're using the 
+   * KeyboardShortcuts tool you can use shift to temporarily turn on angleSnap.
+   */
+  angleSnap: boolean
 }
 
 export interface SvgComponentProps {
@@ -135,6 +141,11 @@ export interface Tool<T extends BaseShape> {
   handles?: Handle<T>[]
 
   /**
+   * If this shape should support angleSnap, you need to specify which angles it should snap to. It should be an array of numbers between 0-359.
+   */
+  snapAngles?: number[]
+
+  /**
    * Here you can modify the svg that will be exported in the resulting file. Feel free to manipulate args.svg as you need.
    */
   beforeExport?: (args: ExportParameters) => void
@@ -150,7 +161,10 @@ export interface Handle<T> {
   position: (shape: T) => Position
 
   /** onMove takes a {x, y} Movement and returns the properties on the shape that should change, and by how much. */
-  onMove: (movement: Movement) => Partial<T>
+  onMove: (movement: Movement, shape: T) => Partial<T>
+
+  /** The opposite handle. This position will be used to calculate snapAngle on move. */
+  opposite?: string
 }
 
 type ExtractGeneric<Type> = Type extends Tool<infer S> ? S : never
@@ -240,7 +254,7 @@ export interface InitializeEvent {
   history: Ref<ImageHistory<Tool<any>[]>>
 }
 
-export type Shape = Freehand | Crop | Rectangle | Line | Arrow | Background | Textarea | Eraser | Move | KeyboardShortcuts
+export type Shape = Freehand | Crop | Rectangle | Ellipse | Line | Arrow | Background | Textarea | Eraser | Move | KeyboardShortcuts
 
 export type ToolType = Shape['type']
 

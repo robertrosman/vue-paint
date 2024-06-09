@@ -23,6 +23,8 @@ export function useEditor({ vpImage, tools, history, settings, width, height, em
   function getActiveTool() {
     return tools?.find((tool) => tool.type === (temporaryTool.value ?? settings.value.tool))
   }
+
+  const snapAngles = computed(() => settings.value.angleSnap ? getActiveTool()?.snapAngles : undefined)
   
   const drawEvent = computed<DrawEvent>(() => ({
     settings: settings.value,
@@ -68,6 +70,7 @@ export function useEditor({ vpImage, tools, history, settings, width, height, em
     target: vpImage,
     width,
     height,
+    snapAngles,
     onDrawStart() {
       temporaryTool.value = document.elementsFromPoint(absoluteX.value, absoluteY.value)?.[0]
       ?.getAttribute('class')?.split(' ')
