@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import VpToolbar from './VpToolbar.vue'
+import VpImage from './VpImage.vue'
 import { onMounted, ref, toRef } from 'vue'
 import type { DrawEvent, SaveParameters, Settings, Shape, Tool } from '../types'
-import VpToolbar from './VpToolbar.vue'
 import { defaultSettings } from '@/utils/createSettings'
 import { useEditor } from '@/composables/useEditor'
-import VpImage from './VpImage.vue'
 
 const emit = defineEmits<{
   save: [event: SaveParameters]
