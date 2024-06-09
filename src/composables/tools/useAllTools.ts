@@ -16,7 +16,18 @@ export interface Options extends UseMoveOptions {
 }
 
 export function useAllTools(options?: Options) {
-  const tools = [useFreehand(), useLine(), useArrow(), useRectangle(), useEllipse(), useTextarea(), useEraser(), useMove(options), useCrop(), useKeyboardShortcuts()]
+  const tools = [
+    useFreehand(), 
+    useLine(), 
+    useArrow(), 
+    useEllipse(), 
+    useRectangle(), 
+    useTextarea(), 
+    useEraser(), 
+    useMove(options), 
+    useCrop(), 
+    useKeyboardShortcuts()
+  ]
   if (options?.backgroundImage || options?.backgroundColor) {
     return { tools: [useBackground({ blob: options?.backgroundImage, color: options?.backgroundColor }), ...tools] }
   }
