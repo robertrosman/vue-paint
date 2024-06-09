@@ -9,8 +9,8 @@ export interface UseEditorOptions {
   tools: Tool<any>[]
   history: Ref<ImageHistory<Tool<any>[]>>
   settings: Ref<Settings>
-  width: number
-  height: number
+  width: Ref<number>
+  height: Ref<number>
   emit?: Function
 }
 
