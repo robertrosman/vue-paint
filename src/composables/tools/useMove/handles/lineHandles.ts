@@ -11,7 +11,8 @@ export const lineHandles: Handle<LineLike>[] = [
     {
         name: 'start',
         position: ({x1, y1}: LineLike) => ({x: x1, y: y1}),
-        onMove: ({x, y}: Movement) => ({x1: x, y1: y})
+        onMove: ({x, y}: Movement) => ({x1: x, y1: y}),
+        opposite: 'end'
     },
     {
         name: 'base',
@@ -21,6 +22,7 @@ export const lineHandles: Handle<LineLike>[] = [
     {
         name: 'end',
         position: ({x2, y2}: LineLike) => ({x: x2, y: y2}),
-        onMove: ({x, y}: Movement) => ({x2: x, y2: y})
+        onMove: ({x, y}: Movement) => ({x2: x, y2: y}),
+        opposite: 'start'
     },
 ]

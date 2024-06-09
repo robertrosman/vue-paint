@@ -1,4 +1,4 @@
-import type { Movement, Handle } from "@/types"
+import type { Handle } from "@/types"
 
 export interface EllipseLike {
   x: number
@@ -27,6 +27,7 @@ export const ellipseHandles: Handle<EllipseLike>[] = [
     },
     {
         name: 'top-right',
+        opposite: 'bottom-left',
         position: ({ x, y, height, width }) => ({ x: x + width / doubleDiagonalMultiplier, y: y - height / doubleDiagonalMultiplier }),
         onMove: ({ x, y }, { base }) => (base === 'center'
             ? { width: x * diagonalMultiplier * 2, height: -y * diagonalMultiplier  * 2}
@@ -43,6 +44,7 @@ export const ellipseHandles: Handle<EllipseLike>[] = [
     },
     {
         name: 'bottom-right',
+        opposite: 'top-left',
         position: ({ x, y, height, width }) => ({ x: x + width / doubleDiagonalMultiplier, y: y + height / doubleDiagonalMultiplier }),
         onMove: ({ x, y }, { base }) => (base === 'center'
             ? { width: x * diagonalMultiplier * 2, height: y * diagonalMultiplier  * 2}
@@ -59,6 +61,7 @@ export const ellipseHandles: Handle<EllipseLike>[] = [
     },
     {
         name: 'bottom-left',
+        opposite: 'top-right',
         position: ({ x, y, height, width }) => ({ x: x - width / doubleDiagonalMultiplier, y: y + height / doubleDiagonalMultiplier }),
         onMove: ({ x, y }, { base }) => (base === 'center'
             ? { width: -x * diagonalMultiplier * 2, height: y * diagonalMultiplier  * 2}
@@ -75,6 +78,7 @@ export const ellipseHandles: Handle<EllipseLike>[] = [
     },
     {
         name: 'top-left',
+        opposite: 'bottom-right',
         position: ({ x, y, height, width }) => ({ x: x - width / doubleDiagonalMultiplier, y: y - height / doubleDiagonalMultiplier }),
         onMove: ({ x, y }, { base }) => (base === 'center'
             ? { width: -x * diagonalMultiplier * 2, height: -y * diagonalMultiplier  * 2}

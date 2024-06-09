@@ -2,6 +2,7 @@ import type { ToolSvgComponentProps, DrawEvent, Tool, BaseShape } from '@/types'
 import { lineHandles } from '@/composables/tools/useMove/handles/lineHandles'
 import { createShapeSvgComponent } from '@/utils/createShapeSvgComponent'
 import { computed, h } from 'vue'
+import { lineSnapAngles } from '@/utils/snapAngles'
 
 export interface Arrow extends BaseShape {
   type: 'arrow'
@@ -90,5 +91,5 @@ export function useArrow(): Tool<Arrow> {
     }
   }
 
-  return { type, icon, onDraw, ShapeSvgComponent, ToolSvgComponent, handles: lineHandles }
+  return { type, icon, onDraw, ShapeSvgComponent, ToolSvgComponent, handles: lineHandles, snapAngles: lineSnapAngles }
 }

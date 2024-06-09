@@ -2,6 +2,7 @@ import type { BaseShape, DrawEvent, Tool } from '@/types'
 import { ellipseHandles } from '@/composables/tools/useMove/handles/ellipseHandles'
 import { createShapeSvgComponent } from '@/utils/createShapeSvgComponent'
 import { h } from 'vue'
+import { rectangleSnapAngles } from '@/utils/snapAngles'
 
 export interface Ellipse extends BaseShape {
   type: 'ellipse'
@@ -80,5 +81,5 @@ export function useEllipse({ base = 'edge'}: UseEllipseOptions = {}): Tool<Ellip
         }
     `
 
-  return { type, icon, onDraw, ShapeSvgComponent, svgStyle, handles: ellipseHandles }
+  return { type, icon, onDraw, ShapeSvgComponent, svgStyle, handles: ellipseHandles, snapAngles: rectangleSnapAngles }
 }

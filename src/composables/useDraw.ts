@@ -1,3 +1,4 @@
+import { snapToAngle } from '@/utils/snapToAngle'
 import { type Position, usePointer, useElementBounding, type MaybeElement } from '@vueuse/core'
 import { computed, reactive, ref, watchEffect, type Ref } from 'vue'
 
@@ -7,7 +8,8 @@ export interface UseDrawOptions {
   onDraw?: () => void
   onDrawEnd?: () => void
   width: number
-  height: number
+  height: number,
+  snapAngles?: Ref<number[] | undefined>
 }
 
 /** Without this variable you can start drawing in one editor and continue in another (with it's potentially other tool). */
@@ -19,7 +21,8 @@ export function useDraw({
   onDraw,
   onDrawEnd,
   width,
-  height
+  height,
+  snapAngles
 }: UseDrawOptions) {
   const { x: absoluteX, y: absoluteY, pressure } = usePointer()
   const {
@@ -40,10 +43,16 @@ export function useDraw({
     left: 0,
     top: 0
   })
-  const x = computed(() => Math.round(((absoluteX.value - left.value) * width) / scaledWidth.value))
-  const y = computed(() =>
-    Math.round(((absoluteY.value - top.value) * height) / scaledHeight.value)
-  )
+
+  const snapPosition = computed(() => snapToAngle({
+    snapAngles,
+    posStart,
+    x: Math.round(((absoluteX.value - left.value) * width) / scaledWidth.value),
+    y: Math.round(((absoluteY.value - top.value) * height) / scaledHeight.value)
+  }))
+  const x = computed(() => snapPosition.value.x)
+  const y = computed(() => snapPosition.value.y)
+
   const minX = computed(() => Math.max(0, Math.min(posStart.x, x.value)))
   const minY = computed(() => Math.max(0, Math.min(posStart.y, y.value)))
   const maxX = computed(() => Math.min(width, Math.max(posStart.x, x.value)))

@@ -2,6 +2,7 @@ import type { ToolSvgComponentProps, DrawEvent, Tool, ExportParameters, Shape, B
 import { computed, h, toRef, toRefs } from 'vue'
 import { rectangleHandles } from '../useMove/handles/rectangleHandles'
 import { useSimplifiedHistory } from '@/composables/useSimplifiedHistory'
+import { rectangleSnapAngles } from '@/utils/snapAngles'
 
 export interface Crop extends BaseShape {
   type: 'crop'
@@ -77,5 +78,5 @@ export function useCrop(): Tool<Crop> {
     }
   }
 
-  return { type, icon, onDraw, svgStyle, simplifyHistory, ToolSvgComponent, beforeExport, handles: rectangleHandles }
+  return { type, icon, onDraw, svgStyle, simplifyHistory, ToolSvgComponent, beforeExport, handles: rectangleHandles, snapAngles: rectangleSnapAngles }
 }

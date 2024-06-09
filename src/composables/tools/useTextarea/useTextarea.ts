@@ -3,6 +3,7 @@ import type { BaseShape, DrawEvent, ExportParameters, SvgStyleParameters, Tool }
 import { rectangleHandles } from '@/composables/tools/useMove/handles/rectangleHandles'
 import { createShapeSvgComponent } from '@/utils/createShapeSvgComponent'
 import { h, ref } from 'vue'
+import { rectangleSnapAngles } from '@/utils/snapAngles'
 
 export interface Textarea extends BaseShape {
   type: 'textarea'
@@ -176,5 +177,5 @@ export function useTextarea({
     }
   }
 
-  return { type, icon, onInitialize, onDraw, onDrawEnd, ShapeSvgComponent, svgStyle, handles: rectangleHandles, beforeExport }
+  return { type, icon, onInitialize, onDraw, onDrawEnd, ShapeSvgComponent, svgStyle, handles: rectangleHandles, snapAngles: rectangleSnapAngles, beforeExport }
 }

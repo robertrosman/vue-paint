@@ -2,6 +2,7 @@ import type { BaseShape, DrawEvent, Tool } from '@/types'
 import { lineHandles } from '@/composables/tools/useMove/handles/lineHandles'
 import { createShapeSvgComponent } from '@/utils/createShapeSvgComponent'
 import { h } from 'vue'
+import { lineSnapAngles } from '@/utils/snapAngles'
 
 export interface Line extends BaseShape {
   type: 'line'
@@ -50,5 +51,5 @@ export function useLine(): Tool<Line> {
         }
     `
 
-  return { type, icon, onDraw, ShapeSvgComponent, svgStyle, handles: lineHandles }
+  return { type, icon, onDraw, ShapeSvgComponent, svgStyle, handles: lineHandles, snapAngles: lineSnapAngles }
 }

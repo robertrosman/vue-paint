@@ -4,7 +4,8 @@ import { ref, type Ref } from "vue";
 export const defaultSettings: Settings = {
   tool: 'freehand',
   thickness: 5,
-  color: '#c82d2d'
+  color: '#c82d2d',
+  angleSnap: false
 }
 
 /** Use this function to create your settings ref. It will use the default settings as a base and merge in the settings you provide. */

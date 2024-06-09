@@ -1,5 +1,5 @@
 import type { Tool, BaseShape } from '@/types'
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 import { useActiveElement, useMagicKeys, whenever } from '@vueuse/core'
 import { logicAnd } from '@vueuse/math'
 import type { useEditor } from '@/composables/useEditor'
@@ -22,6 +22,9 @@ interface UseKeyboardShortcutsOptions {
    * const tools = [useKeyboardShortcuts({ shortcuts }), useAnotherTool(), useAThirdTool]
    */
   shortcuts?: Shortcuts
+
+  /** Do you want to turn angleSnap on temporarily with shift key? Defaults to true. */
+  angleSnapOnShift?: boolean
 }
 
 type Shortcuts = Record<string, (args: ReturnType<typeof useEditor>) => void>
@@ -45,7 +48,7 @@ export const defaultShortcuts: Shortcuts = {
 
 const registeredKeyCodes: string[] = []
 
-export function useKeyboardShortcuts({ shortcuts = defaultShortcuts }: UseKeyboardShortcutsOptions = {}): Tool<KeyboardShortcuts> {
+export function useKeyboardShortcuts({ shortcuts = defaultShortcuts, angleSnapOnShift = true }: UseKeyboardShortcutsOptions = {}): Tool<KeyboardShortcuts> {
   const type = 'keyboard-shortcuts'
 
   const activeElement = useActiveElement()
@@ -73,6 +76,12 @@ export function useKeyboardShortcuts({ shortcuts = defaultShortcuts }: UseKeyboa
       })
       registeredKeyCodes.push(keycode)
     })
+
+    if (angleSnapOnShift) {
+      watch(keys.shift, () => {
+        getActiveEditor().settings.value.angleSnap = keys.shift.value
+      })
+    }
   }
 
   return { type, onInitialize }
