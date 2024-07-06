@@ -1,5 +1,5 @@
 import { snapToAngle } from '@/utils/snapToAngle'
-import { type Position, usePointer, useElementBounding, type MaybeElement } from '@vueuse/core'
+import { type Position, usePointer, useMousePressed, useElementBounding, type MaybeElement } from '@vueuse/core'
 import { computed, reactive, ref, watchEffect, type Ref } from 'vue'
 
 export interface UseDrawOptions {
@@ -24,7 +24,10 @@ export function useDraw({
   height,
   snapAngles
 }: UseDrawOptions) {
-  const { x: absoluteX, y: absoluteY, pressure } = usePointer()
+  const { x: absoluteX, y: absoluteY, pressure: pointerPressure } = usePointer()
+
+  const { pressed, sourceType } = useMousePressed()
+
   const {
     top,
     left,
@@ -75,8 +78,15 @@ export function useDraw({
       absoluteY.value === lastPos.y &&
       (left.value !== lastPos.left || top.value !== lastPos.top)
 
+    let pressure = pointerPressure.value
+
+    // For iOS not sending pressure on touch
+    if(pointerPressure.value === 0 && pressed.value && sourceType.value === 'touch') {
+      pressure = 0.5
+    }
+
     if (
-      pressure.value &&
+      pressure &&
       !isDrawing.value &&
       isInside.value &&
       isMoving.value &&
@@ -91,11 +101,11 @@ export function useDraw({
       posEnd.x = x.value
       posEnd.y = y.value
       onDrawStart?.()
-    } else if (pressure.value && isDrawing.value) {
+    } else if (pressure && isDrawing.value) {
       posEnd.x = x.value
       posEnd.y = y.value
       onDraw?.()
-    } else if (!pressure.value && isDrawing.value) {
+    } else if (!pressure && isDrawing.value) {
       isDrawing.value = false
       isDrawingSomewhere = false
       onDrawEnd?.()
