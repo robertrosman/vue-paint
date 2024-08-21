@@ -1,3 +1,12 @@
+# [0.7.0](https://github.com/robertrosman/vue-paint/compare/v0.6.1...v0.7.0) (2024-08-21)
+
+
+### Features
+
+* draw on correct position when resizing editor ([844e96f](https://github.com/robertrosman/vue-paint/commit/844e96f1276d8496cf7c230d6c56b9a5a59aa049))
+
+
+
 ## [0.6.1](https://github.com/robertrosman/vue-paint/compare/v0.6.0...v0.6.1) (2024-06-09)
 
 
@@ -32,15 +41,6 @@
 
 
 ## [0.5.3](https://github.com/robertrosman/vue-paint/compare/v0.5.2...v0.5.3) (2024-06-06)
-
-
-
-## [0.5.2](https://github.com/robertrosman/vue-paint/compare/v0.5.1...v0.5.2) (2024-06-06)
-
-
-### Bug Fixes
-
-* set selection background to none ([0d08f77](https://github.com/robertrosman/vue-paint/commit/0d08f779cdcda20b25f50d387aed5f9698514b38))
 
 
 
