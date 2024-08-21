@@ -197,10 +197,10 @@ export interface DrawEvent {
   id: string
 
   /** The width of the image in pixels. Note that it might be scaled down by the browser, but this is the base all other values will relate to. */
-  width: number
+  width: Ref<number>
 
   /** The height of the image in pixels. Note that it might be scaled down by the browser, but this is the base all other values will relate to. */
-  height: number
+  height: Ref<number>
 
   /** The X position of the pointer/cursor relative to the image left edge. */
   x: number
