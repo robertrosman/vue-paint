@@ -1,3 +1,7 @@
+## [0.7.1](https://github.com/robertrosman/vue-paint/compare/v0.7.0...v0.7.1) (2024-08-21)
+
+
+
 # [0.7.0](https://github.com/robertrosman/vue-paint/compare/v0.6.1...v0.7.0) (2024-08-21)
 
 
@@ -37,10 +41,6 @@
 ### Bug Fixes
 
 * disable touch-action on editor ([8d1e0df](https://github.com/robertrosman/vue-paint/commit/8d1e0dfdd14632eb213c0c8b172517a4e737c392))
-
-
-
-## [0.5.3](https://github.com/robertrosman/vue-paint/compare/v0.5.2...v0.5.3) (2024-06-06)
 
 
 
