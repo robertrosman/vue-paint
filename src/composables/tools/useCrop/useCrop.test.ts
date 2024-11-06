@@ -18,8 +18,8 @@ describe('useCrop', () => {
       const { simplifyHistory } = useCrop()
       const history: Shape[] = [
         { type: 'textarea', id: 'textarea', x: 40, y: 450, width: 580, height: 70, fontSize: 6, color: '#ffffff', content: 'Use the tools, Luke!' },
-        { type: 'move', id: 'first-move', targets: ['textarea-top-left'], x: 110, y: -110 },
-        { type: 'move', id: 'second-move', targets: ['textarea-top-left'], x: -10, y: 10 },
+        { type: 'move', id: 'first-move', targets: ['textarea-top-left'], x: 110, y: -110, angleSnap: false },
+        { type: 'move', id: 'second-move', targets: ['textarea-top-left'], x: -10, y: 10, angleSnap: false },
       ]
       const simplified = simplifyHistory!(history, [useCrop()])
 

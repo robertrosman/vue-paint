@@ -10,6 +10,7 @@ describe('useEllipse', () => {
     settings = {
       tool: 'line',
       color: 'red',
+      angleSnap: false,
       thickness: 3
     }
   })
