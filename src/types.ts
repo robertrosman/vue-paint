@@ -160,8 +160,10 @@ export interface Handle<T> {
   /** This function should return the {x, y} position of the handle, based on values from the shape. */
   position: (shape: T) => Position
 
-  /** onMove takes a {x, y} Movement and returns the properties on the shape that should change, and by how much. */
-  onMove: (movement: Movement, shape: T) => Partial<T>
+  /** onMove takes a {x, y} Movement and returns the properties on the shape that should change, and by how much.
+   * Alternatively you can return a callback that is doing the shape transformation.
+  */
+  onMove: (movement: Movement, shape: T) => Partial<T> | ((shape: T) => Partial<T>)
 
   /** The opposite handle. This position will be used to calculate snapAngle on move. */
   opposite?: string

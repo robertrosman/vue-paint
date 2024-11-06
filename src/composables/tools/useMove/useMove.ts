@@ -91,8 +91,11 @@ export function useMove({
       }
 
       const snapMove = snapToAngle({ snapAngles, posStart, x: move.x, y: move.y })
-      const diff = handle?.onMove(snapMove, shape) ?? {}
-      const entries = Object.entries(diff).map(([key, value]) => 
+      const diffOrCallback = handle?.onMove(snapMove, shape) ?? {}
+      if (typeof diffOrCallback === 'function') {
+        return Object.assign({}, shape, diffOrCallback(shape))
+      }
+      const entries = Object.entries(diffOrCallback).map(([key, value]) => 
         [key, shape[key as keyof typeof shape] + value]
       )
 
