@@ -57,7 +57,7 @@ onMounted(() => {
   <div class="vue-paint vp-editor" :class="`active-tool-${settings.tool}`">
     <vp-image ref="vpImage" :tools :activeShape :history :width="widthRef" :height="heightRef" />
 
-    <slot name="toolbar" :setTool :undo :redo :save :reset :settings>
+    <slot name="toolbar" :set-tool :undo :redo :save :reset :settings>
       <vp-toolbar v-model:settings="settings" @set-tool="setTool" @undo="undo" @redo="redo" @save="save" @reset="reset"
         :tools />
     </slot>
