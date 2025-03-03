@@ -1,3 +1,7 @@
+## [0.7.2](https://github.com/robertrosman/vue-paint/compare/v0.7.1...v0.7.2) (2025-02-16)
+
+
+
 ## [0.7.1](https://github.com/robertrosman/vue-paint/compare/v0.7.0...v0.7.1) (2024-08-21)
 
 
@@ -32,15 +36,6 @@
 * add edge handles to rectangle ([0c00ec5](https://github.com/robertrosman/vue-paint/commit/0c00ec52d5d926e7cc722e3838bb912d161d83db))
 * add more slots to VpToolbar ([cc21117](https://github.com/robertrosman/vue-paint/commit/cc21117875863533c1e306ed0cf3abdd33b4392d))
 * add tool useEllipse ([049900c](https://github.com/robertrosman/vue-paint/commit/049900cc476ba3aaa98c0bae9585a1b8f4494d41))
-
-
-
-## [0.5.4](https://github.com/robertrosman/vue-paint/compare/v0.5.3...v0.5.4) (2024-06-06)
-
-
-### Bug Fixes
-
-* disable touch-action on editor ([8d1e0df](https://github.com/robertrosman/vue-paint/commit/8d1e0dfdd14632eb213c0c8b172517a4e737c392))
 
 
 
