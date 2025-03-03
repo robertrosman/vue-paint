@@ -8,6 +8,7 @@ let settings: Settings
 describe('useRectangle', () => {
   beforeEach(() => {
     settings = {
+      angleSnap: false,
       tool: 'line',
       color: 'red',
       thickness: 3
