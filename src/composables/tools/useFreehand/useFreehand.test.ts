@@ -10,7 +10,8 @@ describe('useFreehand', () => {
     settings = {
       tool: 'line',
       color: 'red',
-      thickness: 3
+      thickness: 3,
+      angleSnap: false
     }
   })
   test('should export type "freehand"', () => {
